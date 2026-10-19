@@ -223,7 +223,7 @@ function pasangSinkronisasi(slider, input, min, max, defaultVal, callbackUbah) {
 
   // Slider digeser
   slider.addEventListener('input', () => {
-    const val = parseInt(slider.value, 10);
+    const val = parseFloat(slider.value);
     input.value = val;
     callbackUbah(val);
     perbaruiTampilan();
@@ -232,11 +232,10 @@ function pasangSinkronisasi(slider, input, min, max, defaultVal, callbackUbah) {
   // Input teks diubah/diketik (menerima angka desimal/koma/titik)
   input.addEventListener('change', () => {
     const val = readNum(input.value, min, max, defaultVal);
-    const bulat = Math.round(val);
-    input.value = bulat;
-    slider.value = bulat;
+    input.value = val;
+    slider.value = val;
     updateSlider(slider);
-    callbackUbah(bulat);
+    callbackUbah(val);
     perbaruiTampilan();
   });
 
