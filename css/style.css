@@ -47,6 +47,13 @@
   --hero-to:     #EAF3FC;
   --box-formula: #E4F6FE;
 
+  /* Token komponen visual rangkaian (resistor & emas) */
+  --res-body:    #FDE68A;
+  --res-border:  #D97706;
+  --res-core:    #FEF3C7;
+  --gold:        #D4AF37;
+  --white:       #FFFFFF;
+
   /* Slider: persentase posisi thumb, diisi JS updateSlider() */
   --pct:        50%;
 }
@@ -316,6 +323,67 @@ body.modal-open {
 .input-angka:focus {
   outline: 3px solid var(--orange);
   outline-offset: 2px;
+}
+
+/* --- .input-angka-wrap : pembungkus input angka + satuan terintegrasi --- */
+.input-angka-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 68px;
+  padding: 6px 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(15, 36, 64, 0.04);
+}
+.input-angka-wrap:focus-within {
+  outline: 3px solid var(--orange);
+  outline-offset: 2px;
+}
+.input-angka-wrap input {
+  border: none;
+  background: transparent;
+  outline: none;
+  text-align: right;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--ink);
+  width: 32px;
+  padding: 0;
+}
+.input-angka-wrap span.satuan {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--ink);
+  user-select: none;
+}
+
+/* --- Tombol Putar (Play) bulat 48px di pita kontrol simulasi --- */
+.btn-play-round {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+  border-radius: 50%;
+  background: var(--blue);
+  color: #fff;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-btn);
+  transition: filter 0.15s, transform 0.15s;
+}
+.btn-play-round:hover {
+  filter: brightness(0.9);
+}
+.btn-play-round:focus-visible {
+  outline: 3px solid var(--orange);
+  outline-offset: 3px;
 }
 
 /* --- .tab : tombol navigasi subbab (sidebar materi) --- */
