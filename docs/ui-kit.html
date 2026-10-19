@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>UI Kit — media-ohm Fase 1</title>
+  <title>UI Kit — media-ohm Fase 2</title>
   <!-- Inter font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <!-- Tailwind CDN (utilitas layout) -->
@@ -11,7 +11,7 @@
   <!-- Design tokens & komponen proyek -->
   <link rel="stylesheet" href="../css/style.css">
   <style>
-    /* Gaya khusus halaman uji, tidak masuk ke produksi */
+    /* Gaya khusus halaman uji */
     .swatch { width: 80px; height: 64px; border-radius: 10px; border: 1px solid rgba(0,0,0,.1); }
     .swatch-label { font-size: .7rem; text-align: center; color: var(--ink); margin-top: 4px; word-break: break-all; }
     .section-title {
@@ -22,193 +22,231 @@
       background: var(--orange); color: #fff; text-align: center;
       padding: 8px; font-size: .85rem; font-weight: 600;
     }
+    .icon-box {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px 6px;
+      text-align: center;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      min-width: 90px;
+    }
+    .icon-name {
+      font-size: 0.72rem;
+      color: var(--ink);
+      font-weight: 500;
+    }
   </style>
 </head>
 <body>
 
 <!-- Banner peringatan: hanya alat kerja -->
 <div class="dev-banner">
-  ⚠️ Halaman ini adalah <strong>alat kerja pengembang (UI Kit)</strong> — bukan bagian dari media pembelajaran. Tidak untuk dibagikan ke siswa.
+  [PERHATIAN] Halaman ini adalah <strong>alat kerja pengembang (UI Kit Fase 2)</strong> — bukan bagian dari media pembelajaran.
 </div>
 
-<!-- Header tiruan (tanpa common.js #hdr) -->
-<div class="frame mx-auto max-w-4xl mt-6">
-  <header style="background:var(--navy); padding:12px 16px;"
-          class="flex items-center justify-between text-white rounded-t-2xl">
-    <span class="font-semibold text-base">⚡ Media Pembelajaran Hukum Ohm</span>
-    <span class="pill">Modul Interaktif</span>
-    <nav class="flex gap-3 text-sm font-medium">
-      <a href="../index.html" style="color:#fff;">🏠 Beranda</a>
-    </nav>
-  </header>
+<div class="max-w-4xl mx-auto p-4 space-y-6">
 
-  <!-- Konten UI Kit -->
-  <div class="p-6 space-y-4">
+  <!-- A. Galeri Semua Ikon -->
+  <div>
+    <p class="section-title">A. Galeri Ikon SVG (18 Ikon Lucide-Style)</p>
+    <div id="icon-gallery" class="grid grid-cols-3 sm:grid-cols-6 gap-3"></div>
+  </div>
 
-    <!-- 1. Palet warna -->
-    <p class="section-title">1. Palet Warna (Design Tokens)</p>
+  <!-- B. Empat Varian Header -->
+  <div>
+    <p class="section-title">B. Empat Varian Header (.app-header)</p>
+    <div class="space-y-4">
+      <div>
+        <p class="text-xs font-semibold text-gray-500 mb-1">1. Varian Beranda (data-header="beranda")</p>
+        <div class="frame border rounded-xl overflow-hidden shadow-sm">
+          <div class="app-header">
+            <div class="flex items-center gap-2">
+              <span class="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center">
+                <svg class="ic w-5 h-5"><use href="#i-zap"></use></svg>
+              </span>
+              <span class="font-bold text-base tracking-wide">Modul Interaktif</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <button type="button" class="hdr-btn-round" aria-label="Ke atas" onclick="window.scrollTo({top:0,behavior:'smooth'})"><svg class="ic w-5 h-5"><use href="#i-home"></use></svg></button>
+              <button type="button" class="hdr-btn-round" aria-label="Pengaturan" onclick="Modal.buka({judul:'Pengaturan',isi:'Fitur ini akan tersedia pada fase berikutnya.'})"><svg class="ic w-5 h-5"><use href="#i-settings"></use></svg></button>
+              <button type="button" class="hdr-btn-round" aria-label="Profil" onclick="Modal.buka({judul:'Profil Pengguna',isi:'Fitur ini akan tersedia pada fase berikutnya.'})"><svg class="ic w-5 h-5"><use href="#i-user"></use></svg></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <p class="text-xs font-semibold text-gray-500 mb-1">2. Varian Materi (data-header="materi")</p>
+        <div class="frame border rounded-xl overflow-hidden shadow-sm">
+          <div class="app-header">
+            <div class="w-24">
+              <a href="../index.html" class="font-medium text-sm inline-flex items-center gap-1 text-white no-underline hover:underline" aria-label="Kembali">
+                <svg class="ic w-5 h-5"><use href="#i-chevron-left"></use></svg> <span>Kembali</span>
+              </a>
+            </div>
+            <h1 class="font-semibold text-center flex-1 text-base sm:text-lg m-0 truncate px-2">Hukum Ohm</h1>
+            <div class="w-32 flex justify-end items-center gap-2">
+              <button type="button" class="hdr-btn-pill" aria-label="Dengarkan Audio">
+                <svg class="ic w-4 h-4"><use href="#i-volume-2"></use></svg> <span>Audio</span>
+              </button>
+              <a href="../index.html" class="hdr-btn-round" aria-label="Beranda"><svg class="ic w-5 h-5"><use href="#i-home"></use></svg></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <p class="text-xs font-semibold text-gray-500 mb-1">3. Varian Bantuan (data-header="bantuan")</p>
+        <div class="frame border rounded-xl overflow-hidden shadow-sm">
+          <div class="app-header">
+            <div class="w-24">
+              <a href="../index.html" class="font-medium text-sm inline-flex items-center gap-1 text-white no-underline hover:underline" aria-label="Kembali">
+                <svg class="ic w-5 h-5"><use href="#i-chevron-left"></use></svg> <span>Kembali</span>
+              </a>
+            </div>
+            <h1 class="font-semibold text-center flex-1 text-base sm:text-lg m-0 truncate px-2">Simulasi Hukum Ohm</h1>
+            <div class="w-24 flex justify-end items-center gap-2">
+              <button type="button" class="hdr-btn-round" aria-label="Bantuan" onclick="Modal.buka({judul:'Bantuan Simulasi',isi:'Geser slider V dan R untuk mengamati perubahan arus secara langsung.'})"><svg class="ic w-5 h-5"><use href="#i-help-circle"></use></svg></button>
+              <a href="../index.html" class="hdr-btn-round" aria-label="Beranda"><svg class="ic w-5 h-5"><use href="#i-home"></use></svg></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <p class="text-xs font-semibold text-gray-500 mb-1">4. Varian Kuis (data-header="kuis")</p>
+        <div class="frame border rounded-xl overflow-hidden shadow-sm">
+          <div class="app-header">
+            <div class="w-24">
+              <a href="../index.html" class="font-medium text-sm inline-flex items-center gap-1 text-white no-underline hover:underline" aria-label="Kembali">
+                <svg class="ic w-5 h-5"><use href="#i-chevron-left"></use></svg> <span>Kembali</span>
+              </a>
+            </div>
+            <h1 class="font-semibold text-center flex-1 text-base sm:text-lg m-0 truncate px-2">Latihan Hukum Ohm</h1>
+            <div class="w-24 flex justify-end items-center gap-2">
+              <span class="pill">4/10</span>
+              <a href="../index.html" class="hdr-btn-round" aria-label="Beranda"><svg class="ic w-5 h-5"><use href="#i-home"></use></svg></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- C. Uji Komponen Modal -->
+  <div>
+    <p class="section-title">C. Komponen Modal Generik (<dialog id="modal">)</p>
+    <div class="panel flex flex-wrap gap-3 items-center">
+      <button type="button" class="btn btn-primary" onclick="Modal.buka({judul:'Contoh Modal Informasi',isi:'Ini adalah modal interaktif generic menggunakan elemen bawaan dialog HTML5.'})">
+        Buka Modal Sederhana
+      </button>
+      <button type="button" class="btn btn-outline" onclick="Modal.buka({judul:'Konfirmasi Tindakan',isi:'Apakah Anda yakin ingin mengulang sesi latihan ini?',tombol:[{label:'Batal',kelas:'btn-outline',aksi:()=>Modal.tutup()},{label:'Ya, Ulangi',kelas:'btn-primary',aksi:()=>{alert('Dikonfirmasi!');Modal.tutup();}}]})">
+        Buka Modal dengan Tombol Kustom
+      </button>
+    </div>
+  </div>
+
+  <!-- D. Palet warna -->
+  <div>
+    <p class="section-title">D. Palet Warna (Design Tokens)</p>
     <div class="flex flex-wrap gap-4">
-      <!-- Setiap swatch menggunakan inline style background + nama token -->
-      <div>
-        <div class="swatch" style="background:var(--navy)"></div>
-        <p class="swatch-label">--navy<br>#15497E</p>
-      </div>
-      <div>
-        <div class="swatch" style="background:var(--blue)"></div>
-        <p class="swatch-label">--blue<br>#0062DD</p>
-      </div>
-      <div>
-        <div class="swatch" style="background:var(--blue-dark)"></div>
-        <p class="swatch-label">--blue-dark<br>#0355BB</p>
-      </div>
-      <div>
-        <div class="swatch" style="background:var(--blue-soft)"></div>
-        <p class="swatch-label">--blue-soft<br>#D9E8F9</p>
-      </div>
-      <div>
-        <div class="swatch" style="background:var(--green)"></div>
-        <p class="swatch-label">--green<br>#1CB375</p>
-      </div>
-      <div>
-        <div class="swatch" style="background:var(--orange)"></div>
-        <p class="swatch-label">--orange<br>#FD7D17</p>
-      </div>
-      <div>
-        <div class="swatch" style="background:var(--indigo)"></div>
-        <p class="swatch-label">--indigo / --purple<br>#4530C3</p>
-      </div>
-      <div>
-        <div class="swatch" style="background:var(--bg); border:1px solid var(--line)"></div>
-        <p class="swatch-label">--bg<br>#F3F7FC</p>
-      </div>
-      <div>
-        <div class="swatch" style="background:var(--ink)"></div>
-        <p class="swatch-label">--ink<br>#0F2440</p>
-      </div>
-      <div>
-        <div class="swatch" style="background:var(--line)"></div>
-        <p class="swatch-label">--line<br>#BFDCF6</p>
-      </div>
-      <div>
-        <div class="swatch" style="background:var(--box)"></div>
-        <p class="swatch-label">--box<br>#EEF4FF</p>
-      </div>
-      <div>
-        <div class="swatch" style="background:var(--track)"></div>
-        <p class="swatch-label">--track<br>#D5DEE9</p>
-      </div>
-      <div>
-        <div class="swatch" style="background:var(--ok-bg)"></div>
-        <p class="swatch-label">--ok-bg<br>#dcfce7</p>
-      </div>
-      <div>
-        <div class="swatch" style="background:var(--no-bg)"></div>
-        <p class="swatch-label">--no-bg<br>#fee2e2</p>
-      </div>
+      <div><div class="swatch" style="background:var(--navy)"></div><p class="swatch-label">--navy<br>#15497E</p></div>
+      <div><div class="swatch" style="background:var(--blue)"></div><p class="swatch-label">--blue<br>#0062DD</p></div>
+      <div><div class="swatch" style="background:var(--blue-dark)"></div><p class="swatch-label">--blue-dark<br>#0355BB</p></div>
+      <div><div class="swatch" style="background:var(--blue-soft)"></div><p class="swatch-label">--blue-soft<br>#D9E8F9</p></div>
+      <div><div class="swatch" style="background:var(--green)"></div><p class="swatch-label">--green<br>#1CB375</p></div>
+      <div><div class="swatch" style="background:var(--orange)"></div><p class="swatch-label">--orange<br>#FD7D17</p></div>
+      <div><div class="swatch" style="background:var(--indigo)"></div><p class="swatch-label">--indigo / --purple<br>#4530C3</p></div>
+      <div><div class="swatch" style="background:var(--bg); border:1px solid var(--line)"></div><p class="swatch-label">--bg<br>#F3F7FC</p></div>
+      <div><div class="swatch" style="background:var(--ink)"></div><p class="swatch-label">--ink<br>#0F2440</p></div>
+      <div><div class="swatch" style="background:var(--line)"></div><p class="swatch-label">--line<br>#BFDCF6</p></div>
+      <div><div class="swatch" style="background:var(--box)"></div><p class="swatch-label">--box<br>#EEF4FF</p></div>
+      <div><div class="swatch" style="background:var(--track)"></div><p class="swatch-label">--track<br>#D5DEE9</p></div>
+      <div><div class="swatch" style="background:var(--ok-bg)"></div><p class="swatch-label">--ok-bg<br>#dcfce7</p></div>
+      <div><div class="swatch" style="background:var(--no-bg)"></div><p class="swatch-label">--no-bg<br>#fee2e2</p></div>
     </div>
+  </div>
 
-    <!-- 2. Tombol -->
-    <p class="section-title">2. Tombol</p>
-    <div class="flex flex-wrap gap-3 items-center">
-      <button class="btn btn-primary">Mulai Belajar →</button>
-      <button class="btn btn-primary">▶ Play</button>
-      <button class="btn btn-outline">Reset</button>
-      <button class="btn">Outline Default</button>
-      <button class="btn btn-primary" disabled>Disabled</button>
-      <button class="btn" disabled>Disabled Outline</button>
-    </div>
-
-    <!-- 3. Slider + input-angka -->
-    <p class="section-title">3. Slider Kustom + Kotak Angka</p>
+  <!-- E. Slider + Box Hasil -->
+  <div>
+    <p class="section-title">E. Slider Kustom + Kotak Angka</p>
     <div class="panel space-y-4 max-w-md">
-      <!-- Slider A: Tegangan 12 dari 1–24 -->
       <div>
-        <label for="s1" class="font-semibold text-sm block mb-1">
-          Tegangan (V) — nilai awal 12, rentang 1–24
-        </label>
+        <label for="s1" class="font-semibold text-sm block mb-1">Tegangan (V) — nilai awal 12, rentang 1–24</label>
         <div class="flex items-center gap-3">
           <input id="s1" type="range" min="1" max="24" value="12" class="flex-1">
           <input id="s1n" class="input-angka" inputmode="numeric" value="12" aria-label="Nilai tegangan">
         </div>
       </div>
-      <!-- Slider B: Hambatan 6 dari 1–100 -->
       <div>
-        <label for="s2" class="font-semibold text-sm block mb-1">
-          Hambatan (Ω) — nilai awal 6, rentang 1–100
-        </label>
+        <label for="s2" class="font-semibold text-sm block mb-1">Hambatan (Ω) — nilai awal 6, rentang 1–100</label>
         <div class="flex items-center gap-3">
           <input id="s2" type="range" min="1" max="100" value="6" class="flex-1">
           <input id="s2n" class="input-angka" inputmode="numeric" value="6" aria-label="Nilai hambatan">
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- 4. box-hasil (seperti panel Hasil Layar 3) -->
-    <p class="section-title">4. Kotak Hasil (.box-hasil)</p>
-    <div class="grid grid-cols-3 gap-3 max-w-xs">
-      <div class="box-hasil">
-        <small>Tegangan</small>
-        <b>12 V</b>
+  <div>
+    <p class="section-title">F. Kotak Hasil (.box-hasil) & Feedback (.ok / .no)</p>
+    <div class="flex gap-4 items-center flex-wrap">
+      <div class="grid grid-cols-3 gap-2 w-64">
+        <div class="box-hasil"><small>Tegangan</small><b>12 V</b></div>
+        <div class="box-hasil"><small>Arus</small><b>2.00 A</b></div>
+        <div class="box-hasil"><small>Hambatan</small><b>6 Ω</b></div>
       </div>
-      <div class="box-hasil">
-        <small>Arus</small>
-        <b>2,00 A</b>
-      </div>
-      <div class="box-hasil">
-        <small>Hambatan</small>
-        <b>6 Ω</b>
+      <div class="flex flex-col gap-2">
+        <div class="ok p-2 px-3 text-sm font-medium flex items-center gap-2">
+          <svg class="ic w-4 h-4 text-green-700"><use href="#i-check-circle"></use></svg> Jawaban benar! Bagus sekali.
+        </div>
+        <div class="no p-2 px-3 text-sm font-medium flex items-center gap-2">
+          <svg class="ic w-4 h-4 text-red-700"><use href="#i-x-circle"></use></svg> Jawaban salah. Coba lagi.
+        </div>
       </div>
     </div>
+  </div>
 
-    <!-- 5. Umpan balik .ok / .no -->
-    <p class="section-title">5. Umpan Balik (.ok / .no)</p>
-    <div class="flex gap-3 flex-wrap">
-      <div class="ok p-3 text-sm font-medium">✅ Jawaban benar! Bagus sekali.</div>
-      <div class="no p-3 text-sm font-medium">❌ Jawaban salah. Coba lagi.</div>
-    </div>
+</div>
 
-    <!-- 6. Tab navigasi (.tab) -->
-    <p class="section-title">6. Tab Navigasi (.tab)</p>
-    <ul class="space-y-2 max-w-xs">
-      <li><button class="tab" aria-current="true">1. Definisi Hukum Ohm</button></li>
-      <li><button class="tab">2. Rumus I = V/R</button></li>
-      <li><button class="tab">3. Contoh Soal</button></li>
-    </ul>
-
-    <!-- 7. .pill di header -->
-    <p class="section-title">7. Pill Lencana (.pill)</p>
-    <div style="background:var(--navy); display:inline-flex; padding:8px 16px; border-radius:10px; gap:8px; align-items:center;">
-      <span style="color:#fff; font-size:.9rem;">Soal</span>
-      <span class="pill">4/10</span>
-    </div>
-
-  </div><!-- /p-6 -->
-</div><!-- /frame -->
-
-<!-- JS: sinkronkan slider dengan kotak angka di halaman ini -->
+<!-- Muat script pendukung -->
+<script defer src="../js/icons.js"></script>
+<script defer src="../js/common.js"></script>
 <script>
-  // Sinkronisasi slider di halaman uji (tanpa common.js agar mandiri)
-  // Fungsi updateSlider disalin lokal supaya halaman ini bisa berdiri sendiri
-  function updateSliderLocal(el) {
-    const min = parseFloat(el.min) || 0;
-    const max = parseFloat(el.max) || 100;
-    const val = parseFloat(el.value) || 0;
-    const pct = ((val - min) / (max - min)) * 100;
-    el.style.setProperty('--pct', pct.toFixed(2) + '%');
-  }
+  // Render daftar ikon setelah icons.js siap
+  document.addEventListener('DOMContentLoaded', () => {
+    const list = [
+      'zap', 'home', 'settings', 'user', 'chevron-left', 'volume-2',
+      'help-circle', 'play', 'pause', 'arrow-right', 'book-open', 'activity',
+      'clipboard-check', 'bar-chart-3', 'lightbulb', 'check-circle', 'x-circle', 'x'
+    ];
+    const gallery = document.getElementById('icon-gallery');
+    if (gallery && typeof ic === 'function') {
+      gallery.innerHTML = list.map(name => `
+        <div class="icon-box">
+          <div class="text-blue-600">${ic(name, 'w-6 h-6')}</div>
+          <span class="icon-name">${name}</span>
+        </div>
+      `).join('');
+    }
 
-  ['s1', 's2'].forEach(id => {
-    const sl = document.getElementById(id);
-    const nu = document.getElementById(id + 'n');
-    updateSliderLocal(sl);
-    sl.addEventListener('input', () => {
-      nu.value = sl.value;
-      updateSliderLocal(sl);
-    });
-    nu.addEventListener('change', () => {
-      const v = Math.min(parseFloat(sl.max), Math.max(parseFloat(sl.min), parseFloat(nu.value) || parseFloat(sl.value)));
-      sl.value = nu.value = Math.round(v);
-      updateSliderLocal(sl);
+    // Sinkronisasi slider contoh
+    ['s1', 's2'].forEach(id => {
+      const sl = document.getElementById(id);
+      const nu = document.getElementById(id + 'n');
+      if (sl && nu) {
+        if (typeof updateSlider === 'function') updateSlider(sl);
+        sl.addEventListener('input', () => { nu.value = sl.value; });
+        nu.addEventListener('change', () => {
+          const v = Math.min(parseFloat(sl.max), Math.max(parseFloat(sl.min), parseFloat(nu.value) || parseFloat(sl.value)));
+          sl.value = nu.value = Math.round(v);
+          if (typeof updateSlider === 'function') updateSlider(sl);
+        });
+      }
     });
   });
 </script>

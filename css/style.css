@@ -1,5 +1,5 @@
 /* ============================================================
-   css/style.css  —  Fase 1: Design Tokens & Fondasi Visual
+   css/style.css  —  Fase 1 & 2: Design Tokens, Komponen, Header & Frame
    Media Pembelajaran Hukum Ohm & Rangkaian Seri-Paralel
    ============================================================ */
 
@@ -34,6 +34,7 @@
   /* Bayangan */
   --shadow:     0 2px 10px rgba(21, 73, 126, .12);
   --shadow-btn: 0 4px 12px rgba(0, 98, 221, .28);
+  --shadow-modal: 0 10px 25px -5px rgba(21, 73, 126, 0.3), 0 8px 10px -6px rgba(21, 73, 126, 0.2);
 
   /* Token status—sinkron dengan kelas .ok dan .no */
   --ok-bg:      #dcfce7;
@@ -53,19 +54,118 @@ body {
   background: var(--bg);
   color: var(--ink);
   margin: 0;
+  padding: 0;
+}
+
+@media (min-width: 768px) {
+  body {
+    padding: 16px;
+  }
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+/* Icon class */
+.ic {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
 }
 
 /* ----------------------------------------------------------
-   3. KOMPONEN DASAR
+   3. KOMPONEN DASAR & BINGKAI APLIKASI
    ---------------------------------------------------------- */
 
-/* --- .frame : bingkai aplikasi keseluruhan (opsional) --- */
+/* --- .frame : bingkai aplikasi keseluruhan --- */
 .frame {
   background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: var(--r-card);
-  overflow: hidden;
-  box-shadow: var(--shadow);
+  border: none;
+  border-radius: 0;
+  overflow: clip; /* clip agar header sticky tetap bekerja */
+  box-shadow: none;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .frame {
+    border: 1px solid var(--line);
+    border-radius: var(--r-card);
+    box-shadow: var(--shadow);
+  }
+}
+
+.frame-sempit {
+  max-width: 880px;
+}
+
+.frame-lebar {
+  max-width: 1040px;
+}
+
+/* Header Aplikasi */
+.app-header {
+  height: 56px;
+  background: var(--navy);
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+
+@media (min-width: 768px) {
+  .frame > .app-header:first-child {
+    border-top-left-radius: calc(var(--r-card) - 1px);
+    border-top-right-radius: calc(var(--r-card) - 1px);
+  }
+}
+
+/* Tombol bulat di header */
+.hdr-btn-round {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s;
+  text-decoration: none;
+}
+.hdr-btn-round:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Tombol pill di header (misal Audio) */
+.hdr-btn-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.hdr-btn-pill:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+.hdr-btn-pill[aria-pressed="true"] {
+  background: rgba(255, 255, 255, 0.35);
 }
 
 /* --- .panel : kartu isi --- */
@@ -125,6 +225,9 @@ body {
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.02em;
+}
+.pill:empty {
+  display: none !important;
 }
 
 /* --- .box-hasil : kotak nilai di panel Hasil --- */
@@ -193,7 +296,74 @@ body {
 @media (prefers-reduced-motion: reduce) { .flow { animation: none; } }
 
 /* ----------------------------------------------------------
-   4. ALIAS KELAS LAMA → tidak memutus halaman yang ada
+   4. MODAL GENERIK (<dialog class="modal">)
+   ---------------------------------------------------------- */
+dialog.modal {
+  width: min(480px, calc(100% - 32px));
+  border: 0;
+  border-radius: var(--r-card);
+  padding: 0;
+  box-shadow: var(--shadow-modal);
+  background: #fff;
+  color: var(--ink);
+}
+
+dialog.modal::backdrop {
+  background: rgba(15, 36, 64, 0.5);
+  backdrop-filter: blur(1px);
+}
+
+.modal-header {
+  padding: 14px 18px;
+  background: var(--navy);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-header h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.85;
+  transition: opacity 0.15s;
+}
+.modal-close:hover {
+  opacity: 1;
+}
+
+.modal-body {
+  padding: 18px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.modal-footer {
+  padding: 12px 18px;
+  background: var(--bg);
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* ----------------------------------------------------------
+   5. ALIAS KELAS LAMA → tidak memutus halaman yang ada
    ---------------------------------------------------------- */
 /* .card → .panel */
 .card {
@@ -229,7 +399,7 @@ body {
 }
 
 /* ----------------------------------------------------------
-   5. FOKUS GLOBAL
+   6. FOKUS GLOBAL
    ---------------------------------------------------------- */
 :focus-visible {
   outline: 3px solid var(--orange);
@@ -237,7 +407,7 @@ body {
 }
 
 /* ----------------------------------------------------------
-   6. SLIDER KUSTOM
+   7. SLIDER KUSTOM
    Gradient kiri (terisi) = var(--blue), kanan (kosong) = var(--track)
    Posisi diatur oleh JS melalui CSS custom property --pct pada elemen
    ---------------------------------------------------------- */

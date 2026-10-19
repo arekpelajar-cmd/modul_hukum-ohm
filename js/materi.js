@@ -1,15 +1,23 @@
 // ===== Layar 2: materi, tab subbab, audio =====
 let idx = 0, bicara = false;
 const side = document.getElementById('side'), box = document.getElementById('konten'),
-      btnAudio = document.getElementById('audio'), btnNext = document.getElementById('lanjut');
+      btnAudio = document.getElementById('audio'), btnNext = document.getElementById('lanjut'),
+      audioLabel = document.getElementById('audio-label');
 
 function renderMath() { // KaTeX dengan fallback teks biasa bila CDN gagal
   document.querySelectorAll('[data-tex]').forEach(e => {
     if (window.katex) { try { katex.render(e.dataset.tex, e, { throwOnError: false }); } catch (_) {} }
   });
 }
-function resetAudioUI() { bicara = false; btnAudio.textContent = '🔊 Audio'; btnAudio.setAttribute('aria-pressed', 'false'); }
-function stopAudio() { if ('speechSynthesis' in window) speechSynthesis.cancel(); resetAudioUI(); }
+function resetAudioUI() {
+  bicara = false;
+  if (audioLabel) audioLabel.textContent = 'Audio';
+  if (btnAudio) btnAudio.setAttribute('aria-pressed', 'false');
+}
+function stopAudio() {
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  resetAudioUI();
+}
 function tampil(i) {
   stopAudio(); idx = i; const m = MATERI[i];
   box.innerHTML = `<h2 class="text-xl font-bold mb-2">${m.judul}</h2>` + m.html;
@@ -28,12 +36,26 @@ function tampil(i) {
 side.innerHTML = MATERI.map((m, k) => `<li><button class="tab" data-i="${k}">${k + 1}. ${m.judul}</button></li>`).join('');
 side.onclick = e => { const b = e.target.closest('button'); if (b) tampil(+b.dataset.i); };
 btnNext.onclick = () => { if (idx < MATERI.length - 1) tampil(idx + 1); else location.href = 'simulasi-ohm.html'; };
-btnAudio.onclick = () => { // toggle putar/berhenti
-  if (!('speechSynthesis' in window)) { alert('Browser kamu belum mendukung audio (Web Speech API). Coba Chrome atau Edge.'); return; }
-  if (bicara) { stopAudio(); return; }
-  const u = new SpeechSynthesisUtterance(MATERI[idx].audio); u.lang = 'id-ID';
-  u.onend = u.onerror = resetAudioUI;
-  bicara = true; btnAudio.textContent = '⏹ Berhenti'; btnAudio.setAttribute('aria-pressed', 'true'); speechSynthesis.speak(u);
-};
+
+if (btnAudio) {
+  btnAudio.onclick = () => { // toggle putar/berhenti
+    if (!('speechSynthesis' in window)) {
+      alert('Browser kamu belum mendukung audio (Web Speech API). Coba Chrome atau Edge.');
+      return;
+    }
+    if (bicara) {
+      stopAudio();
+      return;
+    }
+    const u = new SpeechSynthesisUtterance(MATERI[idx].audio);
+    u.lang = 'id-ID';
+    u.onend = u.onerror = resetAudioUI;
+    bicara = true;
+    if (audioLabel) audioLabel.textContent = 'Berhenti';
+    btnAudio.setAttribute('aria-pressed', 'true');
+    speechSynthesis.speak(u);
+  };
+}
+
 window.addEventListener('beforeunload', stopAudio);
 tampil(0);

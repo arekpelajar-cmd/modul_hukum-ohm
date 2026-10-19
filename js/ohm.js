@@ -23,7 +23,10 @@ function sinkron(slider, num, min, max, def, set) {
 }
 sinkron($('v'), $('vn'), 1, 24, 12, n => V = n);
 sinkron($('r'), $('rn'), 1, 100, 6, n => R = n);
-$('play').onclick = () => { jalan = !jalan; $('play').textContent = jalan ? '⏸ Pause' : '▶ Play'; };
+$('play').onclick = () => {
+  jalan = !jalan;
+  $('play').innerHTML = jalan ? `${ic('pause', 'w-4 h-4')} Pause` : `${ic('play', 'w-4 h-4')} Play`;
+};
 $('reset').onclick = () => {
   V = 12; R = 6;
   $('v').value = $('vn').value = 12;

@@ -49,7 +49,7 @@ $('hint').onclick = () => { // petunjuk kontekstual
   let h;
   if (tant && !tant.selesai) { const s = SKEN[tant.i]; h = s.k === 'I' ? `Ingat I = V/Rt dengan V = 12 V. Untuk ${fmt(s.val)} A, Rt harus ${fmt(SUMBER / s.val, 0)} Ω.` : s.mode === 'seri' ? `Seri: Rt = R1 + R2. Cari dua nilai yang jumlahnya ${s.val} Ω.` : `Paralel: Rt selalu lebih kecil dari R terkecil. Coba R1 = R2 = ${s.val * 2} Ω.`; }
   else h = mode === 'seri' ? 'Pada seri, arus sama di semua resistor; tegangan terbagi sebanding dengan R.' : 'Pada paralel, tegangan tiap cabang sama; arus terbagi, dan Rt lebih kecil dari R terkecil.';
-  $('info').textContent = '💡 ' + h;
+  $('info').innerHTML = `${ic('lightbulb', 'w-4 h-4 text-amber-500')} ${h}`;
 };
 // ---- Mode Tantangan ----
 function tampilTant() {
@@ -61,7 +61,7 @@ function tampilTant() {
   p.innerHTML = `<b>Skenario ${tant.i + 1}/5:</b> ${s.t}<br><button id="cekT" class="btn btn-primary mt-2">Periksa</button> <span id="fbT" role="status" class="ml-2 font-semibold"></span>`;
   $('cekT').onclick = () => {
     const c = hitung(), ok = Math.abs(c[s.k] - s.val) < 0.05; if (ok) tant.ok++;
-    $('fbT').textContent = ok ? '✅ Berhasil!' : `❌ Belum tepat (hasil: ${fmt(c[s.k])} ${s.u})`; $('cekT').disabled = true;
+    $('fbT').innerHTML = ok ? `${ic('check-circle', 'w-4 h-4 text-green-600')} Berhasil!` : `${ic('x-circle', 'w-4 h-4 text-red-600')} Belum tepat (hasil: ${fmt(c[s.k])} ${s.u})`; $('cekT').disabled = true;
     setTimeout(() => { tant.i++; if (tant.i >= SKEN.length) tant.selesai = true; tampilTant(); }, 1200);
   };
 }

@@ -17,8 +17,8 @@ function kirim() {
   app.querySelectorAll('input').forEach(r => r.disabled = true);
   document.getElementById('sub').classList.add('hidden');
   const last = i === q.length - 1;
-  document.getElementById('fb').innerHTML = `<div class="rounded-xl p-3 ${benar ? 'ok' : 'no'}"><p class="font-bold text-lg">${benar ? '✅ BENAR!' : '❌ SALAH'}</p><p class="mt-1"><b>Pembahasan:</b> ${s.bahas}</p>${benar ? '' : `<p>Jawaban benar: <b>${'ABCD'[s.benar]}. ${s.opsi[s.benar]}</b></p>`}</div>
-  <div class="box text-left mt-3">💡 <b>Ingat:</b> V = I × R; seri: Rt = R1 + R2; paralel: Rt = R1·R2/(R1+R2).</div>
+  document.getElementById('fb').innerHTML = `<div class="rounded-xl p-3 ${benar ? 'ok' : 'no'}"><p class="font-bold text-lg flex items-center gap-2">${benar ? `${ic('check-circle', 'w-6 h-6 text-green-700')} BENAR!` : `${ic('x-circle', 'w-6 h-6 text-red-700')} SALAH`}</p><p class="mt-1"><b>Pembahasan:</b> ${s.bahas}</p>${benar ? '' : `<p>Jawaban benar: <b>${'ABCD'[s.benar]}. ${s.opsi[s.benar]}</b></p>`}</div>
+  <div class="box text-left mt-3 flex items-start gap-2"><span>${ic('lightbulb', 'w-5 h-5 text-amber-500')}</span><div><b>Ingat:</b> V = I × R; seri: Rt = R1 + R2; paralel: Rt = R1·R2/(R1+R2).</div></div>
   <button id="nx" class="btn btn-primary mt-3">${last ? 'Lihat Hasil →' : 'Soal Berikutnya →'}</button>`;
   document.getElementById('nx').onclick = () => { if (last) hasil(); else { i++; soal(); } };
 }
