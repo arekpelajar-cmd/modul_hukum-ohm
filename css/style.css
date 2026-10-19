@@ -42,9 +42,10 @@
   --no-bg:      #fee2e2;
   --no-ink:     #7f1d1d;
 
-  /* Token latar hero */
+  /* Token latar hero & formula */
   --hero-from:   #FFFFFF;
   --hero-to:     #EAF3FC;
+  --box-formula: #E4F6FE;
 
   /* Slider: persentase posisi thumb, diisi JS updateSlider() */
   --pct:        50%;
@@ -322,21 +323,44 @@ body.modal-open {
   display: block;
   width: 100%;
   text-align: left;
-  padding: 10px 12px;
+  padding: 8px 12px;
   border-radius: 8px;
-  background: var(--blue-soft);
+  background: transparent;
+  color: var(--navy);
   font-weight: 500;
+  font-size: 0.85rem;
   border: 0;
   cursor: pointer;
   font-family: inherit;
   transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
 }
+.tab[aria-selected="true"],
 .tab[aria-current="true"] {
-  background: var(--blue);
+  background: var(--blue-dark);
   color: #fff;
+  font-weight: 600;
 }
-.tab:hover:not([aria-current="true"]) {
-  background: var(--line);
+.tab:hover:not([aria-selected="true"]):not([aria-current="true"]) {
+  background: rgba(3, 85, 187, 0.1);
+}
+
+.materi-sidebar {
+  background: var(--blue-soft);
+  border-radius: var(--r-card);
+  padding: 12px;
+}
+
+.box-formula {
+  background: var(--box-formula);
+  border-radius: 12px;
+  padding: 18px 24px;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ink);
+  font-style: italic;
+  box-shadow: inset 0 1px 3px rgba(21, 73, 126, 0.05);
 }
 
 /* --- .ok dan .no : umpan balik benar/salah --- */
