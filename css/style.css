@@ -1,17 +1,313 @@
-/* Variabel warna sesuai storyboard */
-:root{--navy:#1E4B8F;--blue:#1D6FE8;--orange:#F97316;--green:#16A34A;--purple:#6D28D9;--bg:#F3F7FC;--ink:#0F2440}
-body{font-family:'Poppins',system-ui,sans-serif;background:var(--bg);color:var(--ink);margin:0}
-.card{background:#fff;border-radius:16px;box-shadow:0 2px 10px rgba(30,75,143,.12);padding:16px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 18px;border-radius:10px;font-weight:600;border:2px solid var(--blue);color:var(--blue);background:#fff;cursor:pointer}
-.btn-primary{background:var(--blue);color:#fff}
-.btn:disabled{opacity:.45;cursor:not-allowed}
-.btn:hover:not(:disabled){filter:brightness(.95)}
-:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
-.tab{display:block;width:100%;text-align:left;padding:10px 12px;border-radius:8px;background:#fff;font-weight:500;border:0;cursor:pointer}
-.tab[aria-current="true"]{background:var(--blue);color:#fff}
-.val{border:1px solid #cbd5e1;border-radius:8px;padding:4px 8px;width:80px;text-align:center;background:#fff}
-.box{background:#eef4ff;border-radius:10px;padding:10px;text-align:center}
-.ok{background:#dcfce7;color:#14532d}.no{background:#fee2e2;color:#7f1d1d}
-.flow{stroke-dasharray:6 8;animation:flow 1s linear infinite}
-@keyframes flow{to{stroke-dashoffset:-14}}
-@media(prefers-reduced-motion:reduce){.flow{animation:none}}
+/* ============================================================
+   css/style.css  —  Fase 1: Design Tokens & Fondasi Visual
+   Media Pembelajaran Hukum Ohm & Rangkaian Seri-Paralel
+   ============================================================ */
+
+/* ----------------------------------------------------------
+   1. TOKEN WARNA & BENTUK
+   Sumber warna: docs/storyboard-notes.md (terukur dari storyboard)
+   ---------------------------------------------------------- */
+:root {
+  /* Warna utama */
+  --navy:       #15497E;
+  --blue:       #0062DD;
+  --blue-dark:  #0355BB;
+  --blue-soft:  #D9E8F9;
+  --green:      #1CB375;
+  --orange:     #FD7D17;
+  --indigo:     #4530C3;
+  --purple:     var(--indigo);   /* alias—dipakai di index nav Evaluasi */
+
+  /* Permukaan & tinta */
+  --bg:         #F3F7FC;
+  --ink:        #0F2440;
+  --line:       #BFDCF6;
+  --card:       #FFFFFF;
+  --box:        #EEF4FF;
+  --track:      #D5DEE9;
+
+  /* Radius */
+  --r-card:     16px;
+  --r-btn:      10px;
+  --r-pill:     999px;
+
+  /* Bayangan */
+  --shadow:     0 2px 10px rgba(21, 73, 126, .12);
+  --shadow-btn: 0 4px 12px rgba(0, 98, 221, .28);
+
+  /* Token status—sinkron dengan kelas .ok dan .no */
+  --ok-bg:      #dcfce7;
+  --ok-ink:     #14532d;
+  --no-bg:      #fee2e2;
+  --no-ink:     #7f1d1d;
+
+  /* Slider: persentase posisi thumb, diisi JS updateSlider() */
+  --pct:        50%;
+}
+
+/* ----------------------------------------------------------
+   2. DASAR BODY
+   ---------------------------------------------------------- */
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  margin: 0;
+}
+
+/* ----------------------------------------------------------
+   3. KOMPONEN DASAR
+   ---------------------------------------------------------- */
+
+/* --- .frame : bingkai aplikasi keseluruhan (opsional) --- */
+.frame {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+/* --- .panel : kartu isi --- */
+.panel {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+
+/* --- .btn dan variannya --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: var(--r-btn);
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border: 1.5px solid var(--blue);
+  background: #fff;
+  color: var(--blue);
+  text-decoration: none;
+  transition: filter 0.15s, opacity 0.15s;
+  line-height: 1;
+}
+
+.btn-primary {
+  background: var(--blue);
+  color: #fff;
+  border-color: var(--blue);
+  box-shadow: var(--shadow-btn);
+}
+
+.btn-outline {
+  background: #fff;
+  border: 1.5px solid var(--blue);
+  color: var(--blue);
+}
+
+.btn:hover:not(:disabled)    { filter: brightness(.92); }
+.btn-primary:hover:not(:disabled) { filter: brightness(.9); }
+.btn:disabled                { opacity: .45; cursor: not-allowed; }
+.btn:focus-visible           { outline: 3px solid var(--orange); outline-offset: 2px; }
+
+/* --- .pill : lencana bulat untuk header --- */
+.pill {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, .18);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* --- .box-hasil : kotak nilai di panel Hasil --- */
+.box-hasil {
+  background: var(--box);
+  border-radius: 10px;
+  padding: 8px 10px;
+  text-align: center;
+}
+.box-hasil small {
+  display: block;
+  color: rgba(15, 36, 64, .5); /* --ink 50% — label kecil abu */
+  font-size: 0.72rem;
+  margin-bottom: 2px;
+}
+.box-hasil b,
+.box-hasil strong {
+  font-size: 1rem;
+}
+
+/* --- .input-angka : kotak angka di samping slider --- */
+.input-angka {
+  width: 64px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  text-align: center;
+  background: #fff;
+  padding: 4px 6px;
+  font-family: inherit;
+  font-size: 0.9rem;
+}
+.input-angka:focus {
+  outline: 3px solid var(--orange);
+  outline-offset: 2px;
+}
+
+/* --- .tab : tombol navigasi subbab (sidebar materi) --- */
+.tab {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--blue-soft);
+  font-weight: 500;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s, color 0.15s;
+}
+.tab[aria-current="true"] {
+  background: var(--blue);
+  color: #fff;
+}
+.tab:hover:not([aria-current="true"]) {
+  background: var(--line);
+}
+
+/* --- .ok dan .no : umpan balik benar/salah --- */
+.ok { background: var(--ok-bg); color: var(--ok-ink); border-radius: 6px; }
+.no { background: var(--no-bg); color: var(--no-ink); border-radius: 6px; }
+
+/* --- .flow : animasi aliran arus (SVG stroke-dashoffset) --- */
+.flow { stroke-dasharray: 6 8; animation: flow 1s linear infinite; }
+@keyframes flow { to { stroke-dashoffset: -14; } }
+@media (prefers-reduced-motion: reduce) { .flow { animation: none; } }
+
+/* ----------------------------------------------------------
+   4. ALIAS KELAS LAMA → tidak memutus halaman yang ada
+   ---------------------------------------------------------- */
+/* .card → .panel */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+
+/* .box → .box-hasil */
+.box {
+  background: var(--box);
+  border-radius: 10px;
+  padding: 8px 10px;
+  text-align: center;
+}
+
+/* .val → .input-angka */
+.val {
+  width: 64px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  text-align: center;
+  background: #fff;
+  padding: 4px 6px;
+  font-family: inherit;
+  font-size: 0.9rem;
+}
+.val:focus {
+  outline: 3px solid var(--orange);
+  outline-offset: 2px;
+}
+
+/* ----------------------------------------------------------
+   5. FOKUS GLOBAL
+   ---------------------------------------------------------- */
+:focus-visible {
+  outline: 3px solid var(--orange);
+  outline-offset: 2px;
+}
+
+/* ----------------------------------------------------------
+   6. SLIDER KUSTOM
+   Gradient kiri (terisi) = var(--blue), kanan (kosong) = var(--track)
+   Posisi diatur oleh JS melalui CSS custom property --pct pada elemen
+   ---------------------------------------------------------- */
+input[type=range] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: var(--r-pill);
+  /* Gradient dua zona: kiri terisi biru, kanan abu */
+  background: linear-gradient(
+    to right,
+    var(--blue)  0%,
+    var(--blue)  var(--pct, 50%),
+    var(--track) var(--pct, 50%),
+    var(--track) 100%
+  );
+  cursor: pointer;
+  outline: none;
+}
+
+/* Track Webkit — sudah ditangani di atas via background */
+input[type=range]::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: var(--r-pill);
+}
+
+/* Thumb Webkit */
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--blue);
+  border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgba(0, 98, 221, .35);
+  margin-top: -5px;   /* tengahkan thumb di track 6px */
+  cursor: pointer;
+  transition: background 0.15s;
+}
+input[type=range]::-webkit-slider-thumb:hover {
+  background: var(--blue-dark);
+}
+
+/* Track Firefox — tidak mendukung gradient inline, pakai progress */
+input[type=range]::-moz-range-track {
+  height: 6px;
+  border-radius: var(--r-pill);
+  background: var(--track);
+}
+input[type=range]::-moz-range-progress {
+  height: 6px;
+  border-radius: var(--r-pill);
+  background: var(--blue);
+}
+
+/* Thumb Firefox */
+input[type=range]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--blue);
+  border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgba(0, 98, 221, .35);
+  cursor: pointer;
+}
+
+/* Fokus keyboard slider */
+input[type=range]:focus-visible {
+  outline: 3px solid var(--orange);
+  outline-offset: 4px;
+}

@@ -18,12 +18,20 @@ function ubah() {
 }
 function sinkron(slider, num, min, max, def, set) {
   slider.oninput = () => { set(+slider.value); num.value = slider.value; ubah(); };
-  num.onchange = () => { const n = Math.round(readNum(num.value, min, max, def)); set(n); slider.value = n; num.value = n; ubah(); };
+  // Setelah mengubah slider.value secara programatik, perbarui gradient track
+  num.onchange = () => { const n = Math.round(readNum(num.value, min, max, def)); set(n); slider.value = n; num.value = n; updateSlider(slider); ubah(); };
 }
 sinkron($('v'), $('vn'), 1, 24, 12, n => V = n);
 sinkron($('r'), $('rn'), 1, 100, 6, n => R = n);
 $('play').onclick = () => { jalan = !jalan; $('play').textContent = jalan ? '⏸ Pause' : '▶ Play'; };
-$('reset').onclick = () => { V = 12; R = 6; $('v').value = $('vn').value = 12; $('r').value = $('rn').value = 6; ubah(); };
+$('reset').onclick = () => {
+  V = 12; R = 6;
+  $('v').value = $('vn').value = 12;
+  $('r').value = $('rn').value = 6;
+  // Perbarui gradient track slider setelah nilai di-reset
+  updateSlider($('v')); updateSlider($('r'));
+  ubah();
+};
 $('cek').onclick = () => {
   const I = HITUNG(V, R), p = $('langkah'); p.classList.remove('hidden');
   p.innerHTML = `<b>Langkah hitung:</b><br>I = V / R<br>I = ${V} / ${R}<br><b>I = ${fmt(I)} A</b>`;

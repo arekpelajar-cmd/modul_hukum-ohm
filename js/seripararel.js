@@ -33,10 +33,17 @@ function setMode(m) { mode = m; ubah(); }
 $('bSeri').onclick = () => setMode('seri'); $('bPar').onclick = () => setMode('paralel');
 function sinkron(s, n, set) {
   s.oninput = () => { set(+s.value); n.value = s.value; ubah(); };
-  n.onchange = () => { const v = Math.round(readNum(n.value, 1, 100, 10)); set(v); s.value = n.value = v; ubah(); };
+  // Setelah mengubah slider.value secara programatik, perbarui gradient track
+  n.onchange = () => { const v = Math.round(readNum(n.value, 1, 100, 10)); set(v); s.value = n.value = v; updateSlider(s); ubah(); };
 }
 sinkron($('r1'), $('r1n'), v => R1 = v); sinkron($('r2'), $('r2n'), v => R2 = v);
-function setR(a, b) { R1 = a; R2 = b; $('r1').value = $('r1n').value = a; $('r2').value = $('r2n').value = b; }
+function setR(a, b) {
+  R1 = a; R2 = b;
+  $('r1').value = $('r1n').value = a;
+  $('r2').value = $('r2n').value = b;
+  // Perbarui gradient track setelah nilai diset programatik
+  updateSlider($('r1')); updateSlider($('r2'));
+}
 $('reset').onclick = () => { setR(10, 20); mode = 'seri'; ubah(); $('info').textContent = ''; };
 $('hint').onclick = () => { // petunjuk kontekstual
   let h;
