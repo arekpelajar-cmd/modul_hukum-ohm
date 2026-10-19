@@ -42,6 +42,10 @@
   --no-bg:      #fee2e2;
   --no-ink:     #7f1d1d;
 
+  /* Token latar hero */
+  --hero-from:   #FFFFFF;
+  --hero-to:     #EAF3FC;
+
   /* Slider: persentase posisi thumb, diisi JS updateSlider() */
   --pct:        50%;
 }
@@ -214,6 +218,55 @@ body.modal-open {
 .btn-primary:hover:not(:disabled) { filter: brightness(.9); }
 .btn:disabled                { opacity: .45; cursor: not-allowed; }
 .btn:focus-visible           { outline: 3px solid var(--orange); outline-offset: 2px; }
+
+/* --- Hero Section & Menu Beranda (Layar 1) --- */
+.hero-section {
+  background: linear-gradient(180deg, var(--hero-from) 0%, var(--hero-to) 100%);
+  border-radius: var(--r-card);
+}
+
+.btn-mulai {
+  height: 48px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-btn);
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  gap: 12px;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.menu-card {
+  aspect-ratio: 5 / 6;
+  min-height: 80px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 4px;
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 4px 10px rgba(15, 36, 64, 0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.menu-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(15, 36, 64, 0.15);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-mulai,
+  .menu-card {
+    transition: none;
+  }
+  .menu-card:hover {
+    transform: none;
+  }
+}
 
 /* --- .pill : lencana bulat untuk header --- */
 .pill {

@@ -31,6 +31,7 @@ const Store = {
     } catch (e) { /* abaikan */ }
   }
 };
+if (typeof window !== 'undefined') window.Store = Store;
 
 // Format 2 desimal dengan tanda pemisah DESIMAL ('.'); nilai tak hingga/tidak valid ditampilkan "∞"
 const fmt = (n, d = 2) =>
@@ -131,6 +132,7 @@ const Modal = {
     }
   }
 };
+if (typeof window !== 'undefined') window.Modal = Modal;
 
 // ---- Pembungkus Frame ----
 function setupFrame() {
@@ -176,6 +178,7 @@ function renderHeader() {
         <span class="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center">${iZap}</span>
         <span class="font-bold text-base tracking-wide">Modul Interaktif</span>
       </div>
+      <h1 class="sr-only">Modul Interaktif: Hukum Ohm dan Rangkaian Seri-Paralel</h1>
       <div class="flex items-center gap-2">
         <button type="button" id="hdr-home" class="hdr-btn-round" aria-label="Ke atas">${iHome}</button>
         <button type="button" id="hdr-settings" class="hdr-btn-round" aria-label="Pengaturan">${iSettings}</button>
@@ -185,14 +188,6 @@ function renderHeader() {
     const btnHome = document.getElementById('hdr-home');
     if (btnHome) {
       btnHome.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-    const btnSet = document.getElementById('hdr-settings');
-    if (btnSet) {
-      btnSet.onclick = () => Modal.buka({ judul: 'Pengaturan', isi: 'Fitur ini akan tersedia pada fase berikutnya.' });
-    }
-    const btnProf = document.getElementById('hdr-profile');
-    if (btnProf) {
-      btnProf.onclick = () => Modal.buka({ judul: 'Profil Pengguna', isi: 'Fitur ini akan tersedia pada fase berikutnya.' });
     }
   } else if (varian === 'materi') {
     el.innerHTML = `

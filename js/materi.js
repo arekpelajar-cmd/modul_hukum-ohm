@@ -37,24 +37,43 @@ side.innerHTML = MATERI.map((m, k) => `<li><button class="tab" data-i="${k}">${k
 side.onclick = e => { const b = e.target.closest('button'); if (b) tampil(+b.dataset.i); };
 btnNext.onclick = () => { if (idx < MATERI.length - 1) tampil(idx + 1); else location.href = 'simulasi-ohm.html'; };
 
-if (btnAudio) {
-  btnAudio.onclick = () => { // toggle putar/berhenti
-    if (!('speechSynthesis' in window)) {
-      alert('Browser kamu belum mendukung audio (Web Speech API). Coba Chrome atau Edge.');
-      return;
-    }
-    if (bicara) {
-      stopAudio();
-      return;
-    }
-    const u = new SpeechSynthesisUtterance(MATERI[idx].audio);
-    u.lang = 'id-ID';
-    u.onend = u.onerror = resetAudioUI;
-    bicara = true;
-    if (audioLabel) audioLabel.textContent = 'Berhenti';
-    btnAudio.setAttribute('aria-pressed', 'true');
-    speechSynthesis.speak(u);
-  };
+function initAudioHandler() {
+  const btn = document.getElementById('audio');
+  const lbl = document.getElementById('audio-label');
+  if (btn) {
+    btn.onclick = () => { // toggle putar/berhenti
+      if (!('speechSynthesis' in window)) {
+        alert('Browser kamu belum mendukung audio (Web Speech API). Coba Chrome atau Edge.');
+        return;
+      }
+      if (bicara) {
+        stopAudio();
+        return;
+      }
+      if (typeof Store !== 'undefined' && Store.get('suara', true) === false) {
+        if (typeof Modal !== 'undefined') {
+          Modal.buka({
+            judul: 'Suara dimatikan',
+            isi: 'Aktifkan kembali di Pengaturan pada halaman Beranda.'
+          });
+        }
+        return;
+      }
+      const u = new SpeechSynthesisUtterance(MATERI[idx].audio);
+      u.lang = 'id-ID';
+      u.onend = u.onerror = resetAudioUI;
+      bicara = true;
+      if (lbl) lbl.textContent = 'Berhenti';
+      btn.setAttribute('aria-pressed', 'true');
+      speechSynthesis.speak(u);
+    };
+  }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAudioHandler);
+} else {
+  initAudioHandler();
 }
 
 window.addEventListener('beforeunload', stopAudio);

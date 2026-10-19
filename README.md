@@ -143,5 +143,16 @@ git checkout main && git merge dev && git push origin main
 ## 11. Pengembangan Lanjut
 Mode gelap, daya (P = V·I), rangkaian campuran, ekspor skor, versi PWA offline.
 
-## 12. Lisensi
+## 12. Pengaturan dan Profil di Beranda
+- **Pengaturan** (ikon gerigi di header Beranda): Menyediakan sakelar suara materi (`suara`) dan opsi reset progres (`kuisBest`, `spBest`) tanpa menghapus identitas nama siswa.
+- **Profil** (ikon pengguna di header Beranda): Menyimpan nama siswa (`nama`) dan menampilkan ringkasan skor kuis terbaik serta pencapaian tantangan seri-paralel.
+
+## 13. Cara Memakai Overlay (Alat Bantu Pengembangan)
+Buka `docs/overlay.html` di browser (misalnya via Live Server atau file://):
+- URL default: `docs/overlay.html?page=../index.html&ref=ref/layar-1.png`.
+- Tersedia kontrol slider opacity, lebar referensi, posisi offset X/Y, dan tombol salin konfigurasi.
+- *Catatan*: Alat ini hanya digunakan untuk tahap pengembangan/verifikasi visual dan akan dihapus saat rilis.
+
+## 14. Lisensi
 MIT, lihat [LICENSE](LICENSE).
+

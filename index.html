@@ -1,17 +1,76 @@
 <!DOCTYPE html>
-<html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Media Pembelajaran Hukum Ohm</title><link rel="icon" href="assets/img/logo.svg"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"><script src="https://cdn.tailwindcss.com"></script><link rel="stylesheet" href="css/style.css"></head>
-<body data-title="Media Pembelajaran Hukum Ohm" data-header="beranda" data-width="sempit"><header id="hdr"></header>
-<main class="p-4">
-<section class="card text-center" style="background:linear-gradient(135deg,#e6f0ff,#fff)">
-<svg viewBox="0 0 260 120" class="mx-auto w-64" role="img" aria-label="Ilustrasi lampu, multimeter, dan resistor"><circle cx="50" cy="45" r="26" fill="#FDE047" stroke="#EAB308" stroke-width="3"/><rect x="40" y="70" width="20" height="14" rx="3" fill="#6B7280"/><rect x="120" y="15" width="70" height="90" rx="10" fill="#1E4B8F"/><rect x="130" y="25" width="50" height="22" rx="3" fill="#dbeafe"/><text x="155" y="42" font-size="13" text-anchor="middle">2.00</text><circle cx="155" cy="75" r="14" fill="#F97316"/><rect x="200" y="95" width="50" height="14" rx="6" fill="#D6A56A"/><rect x="212" y="95" width="5" height="14" fill="#DC2626"/><rect x="224" y="95" width="5" height="14" fill="#000"/><rect x="236" y="95" width="5" height="14" fill="#EAB308"/></svg>
-<h2 class="text-2xl sm:text-3xl font-bold mt-2">Hukum Ohm &amp; Rangkaian Seri-Paralel</h2>
-<p class="my-2">Mari belajar dan pahami konsep kelistrikan secara interaktif!</p>
-<a href="materi.html" class="btn btn-primary text-lg w-full sm:w-auto"><svg class="ic w-5 h-5" aria-hidden="true" focusable="false"><use href="#i-play"></use></svg> Mulai Belajar →</a></section>
-<nav aria-label="Menu utama" class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4 text-white text-center font-semibold">
-<a href="materi.html" class="rounded-xl p-4 flex flex-col items-center justify-center gap-1" style="background:var(--blue)"><svg class="ic w-6 h-6" aria-hidden="true" focusable="false"><use href="#i-book-open"></use></svg><span>Materi</span></a>
-<a href="simulasi-ohm.html" class="rounded-xl p-4 flex flex-col items-center justify-center gap-1" style="background:var(--green)"><svg class="ic w-6 h-6" aria-hidden="true" focusable="false"><use href="#i-activity"></use></svg><span>Simulasi</span></a>
-<a href="kuis.html" class="rounded-xl p-4 flex flex-col items-center justify-center gap-1" style="background:var(--orange)"><svg class="ic w-6 h-6" aria-hidden="true" focusable="false"><use href="#i-clipboard-check"></use></svg><span>Latihan</span></a>
-<a href="simulasi-sp.html" class="rounded-xl p-4 flex flex-col items-center justify-center gap-1" style="background:var(--purple)"><svg class="ic w-6 h-6" aria-hidden="true" focusable="false"><use href="#i-bar-chart-3"></use></svg><span>Evaluasi</span></a></nav></main>
-<script defer src="js/icons.js"></script>
-<script defer src="js/common.js"></script>
-</body></html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Hukum Ohm &amp; Rangkaian Seri-Paralel | Modul Interaktif</title>
+  <link rel="icon" href="assets/img/logo.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-title="Media Pembelajaran Hukum Ohm" data-header="beranda" data-width="sempit">
+  <header id="hdr"></header>
+
+  <main class="p-4 sm:p-6">
+    <section class="hero-section p-4 sm:p-6 md:p-8">
+      <div class="grid grid-cols-1 md:grid-cols-[38%_62%] gap-6 md:gap-8 items-center">
+        <!-- Kolom Kiri: Ilustrasi Hero -->
+        <div class="flex items-center justify-center">
+          <img src="assets/img/hero.png" alt="Ilustrasi bohlam, multimeter, dan resistor" class="w-full max-w-[240px] md:max-w-full h-auto object-contain drop-shadow-sm">
+        </div>
+
+        <!-- Kolom Kanan: Teks, Tombol, dan Menu -->
+        <div class="flex flex-col justify-center space-y-5">
+          <!-- Judul & Subjudul -->
+          <div>
+            <h2 class="font-extrabold text-[clamp(1.5rem,3vw,2rem)] leading-tight tracking-tight text-[var(--ink)]">
+              Hukum Ohm &amp;<br class="hidden md:block"> Rangkaian Seri-Paralel
+            </h2>
+            <p class="text-xs sm:text-sm text-gray-600 mt-2 max-w-[26ch] leading-relaxed">
+              Mari belajar dan pahami konsep kelistrikan secara interaktif!
+            </p>
+          </div>
+
+          <!-- Tombol Mulai Belajar -->
+          <div>
+            <a href="materi.html" class="btn btn-primary btn-mulai w-full md:w-3/4">
+              <span class="flex items-center gap-3">
+                <span class="w-7 h-7 rounded-full bg-white text-[var(--blue)] flex items-center justify-center shadow-sm">
+                  <svg class="ic w-4 h-4 translate-x-0.5" aria-hidden="true" focusable="false"><use href="#i-play"></use></svg>
+                </span>
+                <span class="font-bold text-sm sm:text-base">Mulai Belajar</span>
+              </span>
+              <svg class="ic w-5 h-5 text-white/90" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg>
+            </a>
+          </div>
+
+          <!-- Menu 4 Kotak -->
+          <nav aria-label="Menu utama" class="grid grid-cols-4 gap-2 sm:gap-3 pt-2">
+            <a href="materi.html" class="menu-card bg-[var(--blue)]">
+              <svg class="ic w-7 h-7" aria-hidden="true" focusable="false"><use href="#i-book-open"></use></svg>
+              <span class="font-bold text-[11px] sm:text-xs tracking-wide">Materi</span>
+            </a>
+            <a href="simulasi-ohm.html" class="menu-card bg-[var(--green)]">
+              <svg class="ic w-7 h-7" aria-hidden="true" focusable="false"><use href="#i-activity"></use></svg>
+              <span class="font-bold text-[11px] sm:text-xs tracking-wide">Simulasi</span>
+            </a>
+            <a href="kuis.html" class="menu-card bg-[var(--orange)]">
+              <svg class="ic w-7 h-7" aria-hidden="true" focusable="false"><use href="#i-clipboard-check"></use></svg>
+              <span class="font-bold text-[11px] sm:text-xs tracking-wide">Latihan</span>
+            </a>
+            <a href="simulasi-sp.html" class="menu-card bg-[var(--indigo)]">
+              <svg class="ic w-7 h-7" aria-hidden="true" focusable="false"><use href="#i-bar-chart-3"></use></svg>
+              <span class="font-bold text-[11px] sm:text-xs tracking-wide">Evaluasi</span>
+            </a>
+          </nav>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script defer src="js/icons.js"></script>
+  <script defer src="js/common.js"></script>
+  <script defer src="js/beranda.js"></script>
+</body>
+</html>
