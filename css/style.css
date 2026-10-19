@@ -1,0 +1,17 @@
+/* Variabel warna sesuai storyboard */
+:root{--navy:#1E4B8F;--blue:#1D6FE8;--orange:#F97316;--green:#16A34A;--purple:#6D28D9;--bg:#F3F7FC;--ink:#0F2440}
+body{font-family:'Poppins',system-ui,sans-serif;background:var(--bg);color:var(--ink);margin:0}
+.card{background:#fff;border-radius:16px;box-shadow:0 2px 10px rgba(30,75,143,.12);padding:16px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 18px;border-radius:10px;font-weight:600;border:2px solid var(--blue);color:var(--blue);background:#fff;cursor:pointer}
+.btn-primary{background:var(--blue);color:#fff}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn:hover:not(:disabled){filter:brightness(.95)}
+:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+.tab{display:block;width:100%;text-align:left;padding:10px 12px;border-radius:8px;background:#fff;font-weight:500;border:0;cursor:pointer}
+.tab[aria-current="true"]{background:var(--blue);color:#fff}
+.val{border:1px solid #cbd5e1;border-radius:8px;padding:4px 8px;width:80px;text-align:center;background:#fff}
+.box{background:#eef4ff;border-radius:10px;padding:10px;text-align:center}
+.ok{background:#dcfce7;color:#14532d}.no{background:#fee2e2;color:#7f1d1d}
+.flow{stroke-dasharray:6 8;animation:flow 1s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-14}}
+@media(prefers-reduced-motion:reduce){.flow{animation:none}}

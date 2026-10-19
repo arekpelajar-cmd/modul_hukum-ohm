@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Simulasi Hukum Ohm</title><link rel="icon" href="assets/img/logo.svg"><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"><script src="https://cdn.tailwindcss.com"></script><link rel="stylesheet" href="css/style.css"></head>
+<body data-title="Simulasi Hukum Ohm" data-back="materi.html"><header id="hdr"></header>
+<main class="max-w-4xl mx-auto p-4 grid md:grid-cols-2 gap-4">
+<section class="card"><svg viewBox="0 0 400 260" class="w-full" role="img" aria-label="Rangkaian baterai, resistor, dan amperemeter">
+<path d="M60,50H150M250,50H340V108M340,152V210H60V160M60,110V50" fill="none" stroke="#1E4B8F" stroke-width="4"/>
+<rect x="150" y="40" width="100" height="20" rx="8" fill="#D6A56A"/><rect id="g0" x="165" y="40" width="9" height="20"/><rect id="g1" x="182" y="40" width="9" height="20"/><rect id="g2" x="199" y="40" width="9" height="20"/><rect x="228" y="40" width="9" height="20" fill="#D4AF37"/>
+<text x="200" y="30" font-size="14" text-anchor="middle" font-weight="700">R</text>
+<rect x="42" y="110" width="36" height="50" rx="4" fill="#1F2937"/><rect x="50" y="104" width="20" height="8" fill="#6B7280"/><text x="85" y="140" font-size="13" font-weight="700" id="lblV">12 V</text>
+<circle cx="340" cy="130" r="22" fill="#fff" stroke="#1E4B8F" stroke-width="3"/><text x="340" y="136" font-size="18" text-anchor="middle" font-weight="700">A</text>
+<rect x="305" y="160" width="70" height="24" rx="6" fill="#eef4ff"/><text id="amp" x="340" y="177" font-size="13" text-anchor="middle" font-weight="700">2,00 A</text>
+<g id="dots"></g></svg></section>
+<section class="card space-y-3">
+<div><label for="v" class="font-semibold text-sm">Tegangan (V)</label><div class="flex items-center gap-3"><input id="v" type="range" min="1" max="24" value="12" class="flex-1"><input id="vn" class="val" inputmode="numeric" value="12" aria-label="Nilai tegangan"><output id="vOut" class="sr-only">12 V</output></div></div>
+<div><label for="r" class="font-semibold text-sm">Hambatan (Ω)</label><div class="flex items-center gap-3"><input id="r" type="range" min="1" max="100" value="6" class="flex-1"><input id="rn" class="val" inputmode="numeric" value="6" aria-label="Nilai hambatan"><output id="rOut" class="sr-only">6 Ω</output></div></div>
+<h2 class="font-bold">Hasil</h2><div class="grid grid-cols-3 gap-2 text-center text-sm"><div class="box">Tegangan<br><b id="hV">12 V</b></div><div class="box">Arus<br><b id="hI">2,00 A</b></div><div class="box">Hambatan<br><b id="hR">6 Ω</b></div></div>
+<div class="flex gap-2 flex-wrap"><button id="play" class="btn btn-primary">⏸ Pause</button><button id="reset" class="btn">Reset</button><button id="cek" class="btn btn-primary ml-auto">Cek</button></div>
+<div id="langkah" role="status" class="box text-left hidden"></div></section></main>
+<script defer src="js/common.js"></script><script defer src="js/ohm.js"></script>
+</body></html>

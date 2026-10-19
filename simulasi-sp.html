@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Simulasi Rangkaian Seri-Paralel</title><link rel="icon" href="assets/img/logo.svg"><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"><script src="https://cdn.tailwindcss.com"></script><link rel="stylesheet" href="css/style.css"></head>
+<body data-title="Simulasi Rangkaian Seri-Paralel" data-back="simulasi-ohm.html"><header id="hdr"></header>
+<main class="max-w-4xl mx-auto p-4 grid md:grid-cols-2 gap-4">
+<section class="card"><h2 class="font-semibold mb-2">Pilih Jenis Rangkaian</h2><div class="grid grid-cols-2 gap-2 mb-2"><button id="bSeri" class="btn btn-primary" aria-pressed="true">Seri</button><button id="bPar" class="btn" aria-pressed="false">Paralel</button></div>
+<div id="diagram"></div><p id="rumus" class="text-sm box"></p><button id="hint" class="btn mt-3">💡 Hint</button></section>
+<section class="card space-y-3"><h2 class="font-bold">Pengaturan Komponen (sumber 12 V)</h2>
+<div><label for="r1" class="font-semibold text-sm">R1</label><div class="flex gap-3 items-center"><input id="r1" type="range" min="1" max="100" value="10" class="flex-1"><input id="r1n" class="val" inputmode="numeric" value="10" aria-label="Nilai R1"><output id="r1o" class="sr-only"></output></div></div>
+<div><label for="r2" class="font-semibold text-sm">R2</label><div class="flex gap-3 items-center"><input id="r2" type="range" min="1" max="100" value="20" class="flex-1"><input id="r2n" class="val" inputmode="numeric" value="20" aria-label="Nilai R2"><output id="r2o" class="sr-only"></output></div></div>
+<h2 class="font-bold">Hasil Pengukuran</h2><div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs"><div class="box">Hambatan Total<br><b id="hRt" class="text-base"></b></div><div class="box">Arus<br><b id="hI" class="text-base"></b></div><div class="box">Tegangan (R1)<br><b id="hV1" class="text-base"></b></div><div class="box">Tegangan (R2)<br><b id="hV2" class="text-base"></b></div></div>
+<p id="cabang" class="text-sm font-medium"></p>
+<div class="flex gap-2 flex-wrap"><button id="reset" class="btn btn-primary">Reset</button><button id="btnT" class="btn">🎯 Mode Tantangan</button><button id="selesai" class="btn btn-primary ml-auto">Selesai</button></div>
+<div id="tant" class="box text-left hidden"></div><p id="info" role="status" class="text-sm"></p></section></main>
+<script defer src="js/common.js"></script><script defer src="js/seripararel.js"></script>
+</body></html>
