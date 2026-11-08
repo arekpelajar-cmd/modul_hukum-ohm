@@ -620,6 +620,18 @@ body.modal-open {
   border: 0;
 }
 
+.video-fallback {
+  margin: 0.75rem 0 0;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.video-fallback a {
+  color: var(--blue);
+  font-weight: 700;
+  text-underline-offset: 0.15em;
+}
+
 @media (max-width: 767px) {
   .hero-section {
     min-height: 0;
@@ -692,6 +704,19 @@ body.modal-open {
   width: 100%;
   max-width: 400px;
   height: auto;
+}
+
+.materi-circuit {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.materi-circuit-svg {
+  display: block;
+  width: 100%;
+  max-width: 540px;
+  height: auto;
+  margin-inline: auto;
 }
 
 .sp-mode-toggle .btn {

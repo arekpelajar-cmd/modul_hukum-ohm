@@ -51,8 +51,85 @@ function stopAudio() {
 // Template Konten per Subbab
 function renderContentHtml(m) {
   let innerHtml = '';
+  const renderSimulationLink = simulation => `
+    <aside class="p-4 rounded-xl border border-blue-100 bg-blue-50/60 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      <div>
+        <h3 class="heading-3">${simulation.judul}</h3>
+        <p class="text-sm text-gray-700 mt-1">${simulation.deskripsi}</p>
+      </div>
+      <a href="${simulation.href}" class="btn btn-primary shrink-0">
+        <span>Buka simulasi</span>
+        ${typeof ic === 'function' ? ic('arrow-right', 'w-4 h-4') : '→'}
+      </a>
+    </aside>
+  `;
+  const renderWorkedExample = example => `
+    <section class="p-4 rounded-xl border border-[var(--line)] bg-white space-y-3" aria-label="Contoh penyelesaian">
+      <h3 class="heading-3">${example.judul || 'Contoh hitung bertahap'}</h3>
+      <div class="text-sm space-y-1">
+        <p><strong class="text-[var(--navy)]">Diketahui:</strong> ${example.diketahui}</p>
+        <p><strong class="text-[var(--navy)]">Ditanya:</strong> ${example.ditanya}</p>
+      </div>
+      <ol class="space-y-2">
+        ${example.langkah.map((step, index) => `
+          <li class="p-3 rounded-lg bg-[var(--box)]">
+            <h4 class="font-bold text-sm text-[var(--navy)]">${index + 1}. ${step.label}</h4>
+            <div class="mt-1 text-center font-semibold text-sm sm:text-base">
+              <span data-tex="${step.rumus}" data-fallback="${step.teks}">${step.teks}</span>
+            </div>
+          </li>
+        `).join('')}
+      </ol>
+      <p class="text-sm font-semibold text-green-700">${example.kesimpulan}</p>
+    </section>
+  `;
+  const renderCircuitDiagram = (jenis, caption) => `
+    <figure class="materi-circuit p-3 rounded-xl border border-[var(--line)] bg-white">
+      ${buatDiagramRangkaianMateri(jenis)}
+      <figcaption class="text-xs sm:text-sm text-gray-600 text-center mt-2">${caption}</figcaption>
+    </figure>
+  `;
 
-  if (m.id === 'pengertian') {
+  if (m.id === 'arus-dc') {
+    innerHtml = `
+      <div class="space-y-4">
+        <div>
+          <h2 class="heading-2 mb-2">${m.judul}</h2>
+          <p class="text-sm sm:text-base text-gray-700 leading-relaxed">${m.paragraf}</p>
+        </div>
+        <section aria-labelledby="sumber-dc-heading" class="space-y-2">
+          <h3 id="sumber-dc-heading" class="heading-3">Contoh sumber tegangan DC</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            ${m.sumber.map(sumber => `
+              <article class="p-3 rounded-xl border border-[var(--line)] bg-white">
+                <h4 class="font-bold text-[var(--ink)]">${sumber.nama}</h4>
+                <p class="text-sm text-gray-700 mt-1">${sumber.contoh}</p>
+              </article>
+            `).join('')}
+          </div>
+        </section>
+        <aside class="p-3 rounded-xl border border-blue-100 bg-blue-50/60">
+          <h3 class="heading-3 mb-1">Arah arus dan gerak elektron</h3>
+          <p class="text-sm text-gray-700">${m.arahArus}</p>
+        </aside>
+        <section aria-labelledby="besaran-heading">
+          <h3 id="besaran-heading" class="heading-3 mb-2">Besaran listrik yang digunakan</h3>
+          <div class="materi-table-scroll rounded-lg border border-[var(--line)]">
+            <table class="w-full text-sm text-left bg-white">
+              <tbody>
+                ${m.simbol.map(s => `
+                  <tr class="border-b border-gray-100 last:border-0">
+                    <th scope="row" class="py-2 px-3 font-bold italic text-[var(--ink)] w-16">${s.s}</th>
+                    <td class="py-2 px-3 text-gray-700">${s.nama}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    `;
+  } else if (m.id === 'pengertian') {
     innerHtml = `
       <div class="space-y-4">
         <div>
@@ -67,14 +144,20 @@ function renderContentHtml(m) {
           </p>
           <div class="video-frame">
             <iframe
-              src="https://www.youtube-nocookie.com/embed/EloWnL1dqZw"
+              src="https://www.youtube.com/embed/EloWnL1dqZw?si=RwQpAKpYLf4RgVgE"
               title="Animasi Konsep Dasar dan Hukum Ohm dengan Analogi Air"
               loading="lazy"
               referrerpolicy="strict-origin-when-cross-origin"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen>
             </iframe>
           </div>
+          <p class="video-fallback">
+            Video tidak dapat diputar?
+            <a href="https://www.youtube.com/watch?v=EloWnL1dqZw" target="_blank" rel="noopener noreferrer">
+              Tonton langsung di YouTube
+            </a>
+          </p>
         </section>
 
         <div class="materi-inner-grid grid grid-cols-1 md:grid-cols-[57fr_43fr] gap-4 items-center pt-2">
@@ -99,7 +182,7 @@ function renderContentHtml(m) {
     innerHtml = `
       <div class="space-y-4">
         <div>
-          <h2 class="text-xl sm:text-2xl font-bold text-[var(--ink)] mb-2">Hukum Ohm</h2>
+          <h2 class="heading-2 mb-2">Rumus Hukum Ohm</h2>
           <p class="text-sm sm:text-base text-gray-700 leading-relaxed">${m.paragraf}</p>
         </div>
 
@@ -108,6 +191,15 @@ function renderContentHtml(m) {
           <div class="space-y-4">
             <div class="box-formula">
               <span class="katex-block" data-tex="${m.rumus}" data-fallback="${m.rumusTeks}">${m.rumusTeks}</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              ${m.bentukRumus.map(bentuk => `
+                <div class="p-3 rounded-lg border border-[var(--line)] bg-white text-center">
+                  <h3 class="text-xs font-bold text-gray-600 mb-2">${bentuk.label}</h3>
+                  <span class="font-semibold text-sm" data-tex="${bentuk.rumus}" data-fallback="${bentuk.teks}">${bentuk.teks}</span>
+                </div>
+              `).join('')}
             </div>
 
             <div class="materi-table-scroll rounded-lg border border-[var(--line)]">
@@ -130,37 +222,73 @@ function renderContentHtml(m) {
             ${buatDiagramMateri({ labelV: 'V', labelR: 'R', labelI: 'I' })}
           </div>
         </div>
+        ${renderSimulationLink(m.simulasi)}
+      </div>
+    `;
+  } else if (m.id === 'seri' || m.id === 'paralel' || m.id === 'gabungan') {
+    innerHtml = `
+      <div class="space-y-4">
+        <div>
+          <h2 class="heading-2 mb-2">${m.judul}</h2>
+          <p class="text-sm sm:text-base text-gray-700 leading-relaxed">${m.paragraf}</p>
+        </div>
+
+        ${renderCircuitDiagram(m.id, m.id === 'seri'
+    ? 'Skema seri: R1 2 Ω, R2 3 Ω, dan R3 5 Ω terhubung dalam satu jalur dengan sumber 10 V.'
+    : m.id === 'paralel'
+      ? 'Skema paralel: tiga cabang resistor terhubung pada sumber 12 V; nilai arus cabang ditunjukkan pada diagram.'
+      : 'Skema gabungan: R1 dan R2 tersusun seri dengan kelompok R3 dan R4 yang tersusun paralel.')}
+
+        <section class="p-4 rounded-xl border border-[var(--line)] bg-white">
+          <h3 class="heading-3 mb-2">${m.id === 'gabungan' ? 'Langkah analisis' : 'Ciri utama'}</h3>
+          ${m.langkahAnalisis
+    ? `<ol class="list-decimal pl-5 space-y-2 text-sm text-gray-700">${m.langkahAnalisis.map(item => `<li>${item}</li>`).join('')}</ol>`
+    : `<ul class="list-disc pl-5 space-y-2 text-sm text-gray-700">${m.ciri.map(item => `<li>${item}</li>`).join('')}</ul>`}
+        </section>
+
+        ${renderWorkedExample(m.contohBertahap)}
+        ${renderSimulationLink(m.simulasi)}
       </div>
     `;
   } else if (m.id === 'contoh') {
     innerHtml = `
       <div class="space-y-4">
         <div>
-          <h2 class="text-xl sm:text-2xl font-bold text-[var(--ink)] mb-2">Contoh Soal</h2>
+          <h2 class="heading-2 mb-2">${m.judul}</h2>
           <div class="p-3 bg-blue-50/60 rounded-xl border border-blue-100">
             <p class="text-sm sm:text-base font-medium text-gray-800">${m.paragraf}</p>
           </div>
         </div>
 
-        <div class="materi-inner-grid grid grid-cols-1 md:grid-cols-[57fr_43fr] gap-4 items-center pt-2">
-          <div class="space-y-3">
-            <div class="text-xs sm:text-sm space-y-1.5 p-3 rounded-xl bg-white border border-[var(--line)]">
-              <p><strong class="text-[var(--navy)]">Diketahui:</strong> ${m.contoh.diketahui}</p>
-              <p><strong class="text-[var(--navy)]">Ditanya:</strong> ${m.contoh.ditanya}</p>
-              <div class="pt-2 border-t border-gray-100">
-                <span class="font-bold text-[var(--navy)] block mb-1">Penyelesaian:</span>
-                <div class="p-2 bg-[var(--box-formula)] rounded-lg text-center font-bold text-base sm:text-lg">
-                  <span data-tex="${m.contoh.jawabKaTeX}" data-fallback="${m.contoh.jawabTeks}">${m.contoh.jawabTeks}</span>
-                </div>
-              </div>
-              <p class="pt-1.5 text-xs text-green-700 font-semibold">${m.contoh.kesimpulan}</p>
-            </div>
-          </div>
-
-          <div class="p-3 bg-white rounded-xl border border-[var(--line)] shadow-sm flex items-center justify-center">
-            ${buatDiagramMateri({ labelV: '20 V', labelR: '10 ohm', labelI: '2 A' })}
-          </div>
+        <div class="grid grid-cols-1 gap-4">
+          ${m.contohSoal.map(renderWorkedExample).join('')}
         </div>
+      </div>
+    `;
+  } else if (m.id === 'aplikasi') {
+    innerHtml = `
+      <div class="space-y-4">
+        <div>
+          <h2 class="heading-2 mb-2">${m.judul}</h2>
+          <p class="text-sm sm:text-base text-gray-700 leading-relaxed">${m.paragraf}</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          ${m.contohAplikasi.map(aplikasi => `
+            <article class="p-4 rounded-xl border border-[var(--line)] bg-white">
+              <h3 class="heading-3 mb-2">${aplikasi.judul}</h3>
+              <p class="text-sm text-gray-700 leading-relaxed">${aplikasi.isi}</p>
+            </article>
+          `).join('')}
+        </div>
+        <aside class="p-4 rounded-xl border border-amber-200 bg-amber-50">
+          <h3 class="heading-3 mb-1">Keselamatan kerja</h3>
+          <p class="text-sm text-gray-700">${m.keselamatan}</p>
+        </aside>
+        ${renderSimulationLink({
+          href: 'simulasi-ohm.html',
+          judul: 'Bandingkan prediksi dengan simulasi',
+          deskripsi: 'Masukkan nilai tegangan dan hambatan untuk memeriksa hasil hitungan.'
+        })}
       </div>
     `;
   } else if (m.id === 'latihan') {
@@ -268,9 +396,14 @@ function initTabs() {
   }
 
   const ikonTab = {
+    'arus-dc': 'zap',
     pengertian: 'lightbulb',
     rumus: 'zap',
+    seri: 'activity',
+    paralel: 'bar-chart-3',
+    gabungan: 'activity',
     contoh: 'book-open',
+    aplikasi: 'book-open',
     latihan: 'clipboard-check'
   };
   tablist.innerHTML = MATERI.map((m, k) => `

@@ -26,3 +26,7 @@
 | T22 | Simulasi | Aktifkan prefers-reduced-motion, uji Play dan Jeda | Titik tersembunyi saat berhenti; Play secara sengaja menjalankan arus; perubahan preferensi saat berjalan menghentikan animasi | |
 | T23 | Umum | Jalankan axe-core pada semua halaman | Tidak ada pelanggaran WCAG A/AA; color-contrast diperiksa terpisah | |
 | T24 | Umum | Periksa label input, SVG, link aset, dan sumber HTML | Semua input berlabel; SVG dekoratif tersembunyi; HTML tanpa emoji/hex | |
+| T25 | Materi | Buka tab Listrik DC, Seri, Paralel, Gabungan, dan Aplikasi | Tiap tab menampilkan konsep, contoh, dan isi yang sesuai tanpa reload | |
+| T26 | Materi | Buka diagram Seri, Paralel, dan Gabungan pada layar lebar serta 320 px | Skema cocok dengan nilai contoh, memiliki nama/deskripsi untuk pembaca layar, dan tidak menimbulkan scroll horizontal; rumus KaTeX atau fallback serta konservasi arus/tegangan tetap benar | |
+| T27 | Materi | Buka tautan simulasi dari Rumus, Seri, Paralel, Gabungan, dan Aplikasi | Setiap tautan menuju simulator terkait; hash lama `#pengertian`, `#rumus`, `#contoh`, dan `#latihan` tetap berfungsi | |
+| T28 | Materi | Buka Contoh Soal dan tinjau seluruh penyelesaian | Contoh Hukum Ohm, seri, dan paralel tampil dengan rumus KaTeX/fallback serta hasil dan satuan yang benar | |
