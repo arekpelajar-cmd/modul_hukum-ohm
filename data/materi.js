@@ -30,62 +30,63 @@ function buatDiagramMateri({ labelV = 'V', labelR = 'R', labelI = 'I' } = {}) {
 const MATERI = [
   {
     id: 'pengertian',
-    judul: 'Pengertian',
+    judul: 'Hukum Ohm',
+    tab: 'Pengertian',
     paragraf: 'Hukum Ohm menjelaskan hubungan antara tegangan (V), arus (I), dan hambatan (R) dalam suatu rangkaian listrik.',
     analogi: [
-      { istilah: 'Tegangan (V)', peran: 'Dorongan listrik yang menggerakkan muatan.' },
-      { istilah: 'Arus (I)', peran: 'Aliran muatan listrik yang mengalir tiap detik.' },
-      { istilah: 'Hambatan (R)', peran: 'Penghambat yang menahan laju aliran arus listrik.' }
+      { istilah: 'Tegangan', peran: 'Dorongan listrik.' },
+      { istilah: 'Arus', peran: 'Aliran muatan listrik.' },
+      { istilah: 'Hambatan', peran: 'Penghambat aliran listrik.' }
     ],
-    audio: 'Hukum Ohm menjelaskan hubungan antara tegangan, arus, dan hambatan dalam suatu rangkaian listrik. Tegangan adalah dorongan listrik. Arus adalah aliran muatan listrik. Dan hambatan adalah penghambat aliran arus.'
+    audio: 'Hukum Ohm menjelaskan hubungan antara tegangan, arus, dan hambatan dalam rangkaian listrik. Tegangan adalah dorongan. Arus adalah aliran. Hambatan adalah penghambat.'
   },
   {
     id: 'rumus',
     judul: 'Rumus',
     paragraf: 'Kuat arus yang mengalir melalui penghantar berbanding lurus dengan tegangan dan berbanding terbalik dengan hambatan kawat penghantar.',
     rumus: 'V = I \\times R',
-    rumusTeks: 'V = I × R',
+    rumusTeks: 'V = I x R',
     simbol: [
-      { s: 'V', tanda: '=', nama: 'Tegangan (Volt)' },
-      { s: 'I', tanda: '=', nama: 'Arus (Ampere)' },
-      { s: 'R', tanda: '=', nama: 'Hambatan (Ohm, Ω)' }
+      { s: 'V', nama: 'Tegangan (Volt)' },
+      { s: 'I', nama: 'Arus (Ampere)' },
+      { s: 'R', nama: 'Hambatan (Ohm)' }
     ],
-    audio: 'Rumus Hukum Ohm adalah V sama dengan I kali R. V adalah tegangan dalam satuan volt. I adalah arus dalam satuan ampere. Dan R adalah hambatan dalam satuan ohm.'
+    audio: 'Rumus Hukum Ohm: V sama dengan I kali R. V adalah tegangan dalam volt. I adalah arus dalam ampere. R adalah hambatan dalam ohm.'
   },
   {
     id: 'contoh',
     judul: 'Contoh Soal',
-    paragraf: 'Sebuah resistor 10 Ω diberi tegangan 20 V. Berapakah kuat arus listrik yang mengalir pada rangkaian tersebut?',
+    paragraf: 'Sebuah resistor 10 ohm diberi tegangan 20 V. Berapakah arus?',
     contoh: {
       diketahui: 'V = 20 V, R = 10 Ω',
-      ditanya: 'I = ... ?',
+      ditanya: 'Arus (I) = ... ?',
       jawabKaTeX: 'I = \\frac{V}{R} = \\frac{20}{10} = 2\\text{ A}',
       jawabTeks: 'I = V / R = 20 / 10 = 2 A',
-      kesimpulan: 'Jadi, kuat arus yang mengalir pada resistor adalah 2 Ampere.'
+      kesimpulan: 'Jadi, arus yang mengalir adalah 2 A.'
     },
-    audio: 'Contoh soal. Sebuah resistor 10 ohm diberi tegangan 20 volt. Berapakah arus listriknya? Diketahui V sama dengan 20 volt, R sama dengan 10 ohm. Jawab: I sama dengan V dibagi R, yaitu 20 dibagi 10 sama dengan 2 ampere.'
+    audio: 'Contoh soal. Resistor 10 ohm diberi tegangan 20 volt. Berapakah arus? Diketahui tegangan 20 volt dan hambatan 10 ohm. Jawab: I sama dengan V dibagi R, yaitu 20 dibagi 10 sama dengan 2 ampere.'
   },
   {
     id: 'latihan',
     judul: 'Latihan',
-    paragraf: 'Pahami penerapan Hukum Ohm secara nyata dengan mencoba mengatur nilai tegangan dan hambatan di simulasi, atau uji pemahamanmu lewat kuis latihan interaktif!',
+    paragraf: 'Pilih simulasi untuk mencoba, atau kerjakan kuis untuk berlatih.',
     ajakan: [
       {
         href: 'simulasi-ohm.html',
         judul: 'Coba di Simulasi',
-        deskripsi: 'Eksplorasi interaktif gerak aliran elektron dan perhitungan amperemeter secara langsung.',
+        deskripsi: 'Atur tegangan dan hambatan, lalu amati perubahan arus.',
         ikon: 'activity',
         kelas: 'btn-primary'
       },
       {
         href: 'kuis.html',
         judul: 'Kerjakan Kuis',
-        deskripsi: 'Uji pemahaman teoritis dan perhitungan dasar kelistrikanmu dengan soal interaktif.',
+        deskripsi: 'Uji pemahaman Hukum Ohm dengan soal interaktif.',
         ikon: 'clipboard-check',
         kelas: 'btn-outline'
       }
     ],
-    audio: 'Latihan pemahaman. Kamu dapat langsung mencoba mengatur tegangan dan hambatan di Simulasi Hukum Ohm, atau menguji kemampuanmu dengan mengerjakan kuis interaktif.'
+    audio: 'Pilih Coba di Simulasi untuk mencoba Hukum Ohm, atau Kerjakan Kuis untuk berlatih.'
   }
 ];
 

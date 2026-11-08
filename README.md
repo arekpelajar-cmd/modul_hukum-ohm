@@ -9,7 +9,7 @@ Media pembelajaran web interaktif untuk siswa SMK Teknik Elektro/Elektronika, be
 - **Layar 2 Materi**: 4 subbab tanpa reload, rumus KaTeX, diagram SVG, audio (Web Speech API), tombol Lanjut.
 - **Layar 3 Simulasi Ohm**: slider V (1–24) dan R (1–100), arus realtime, animasi titik arus, gelang warna resistor, Play/Pause, Reset, Cek.
 - **Layar 4 Kuis**: 10 soal diacak, umpan balik + pembahasan, lulus ≥ 80%, skor terbaik di localStorage.
-- **Layar 5 Seri-Paralel**: toggle seri/paralel, R1/R2, hasil lengkap, Hint, Reset, Selesai, Mode Tantangan 5 skenario (lulus ≥ 4).
+- **Layar 5 Seri-Paralel**: toggle seri/paralel, R1/R2, hasil lengkap, Hint, Reset, serta modal Selesai dengan Ringkasan dan Tantangan 5 skenario (lulus ≥ 4).
 
 ## 2. Struktur Folder
 ```
@@ -85,7 +85,7 @@ Butuh internet saat pertama dibuka (CDN Tailwind, KaTeX, Google Fonts).
 - **Tujuan**: responsif, aksesibel, cepat. **File**: semua. **Estimasi**: 3 jam.
 - [ ] Uji lebar 360–1280 px
 - [ ] Label, aria, kontras, fokus keyboard
-- [ ] Hormati `prefers-reduced-motion`
+- [ ] Animasi tidak berjalan otomatis; klik Play menjadi persetujuan eksplisit untuk memutarnya, termasuk saat `prefers-reduced-motion` aktif
 - **DoD**: tidak ada scroll horizontal; seluruh fitur bisa dipakai dengan keyboard.
 
 ### Fase 7: Pengujian
@@ -155,4 +155,3 @@ Buka `docs/overlay.html` di browser (misalnya via Live Server atau file://):
 
 ## 14. Lisensi
 MIT, lihat [LICENSE](LICENSE).
-

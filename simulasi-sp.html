@@ -1,16 +1,82 @@
 <!DOCTYPE html>
-<html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Simulasi Rangkaian Seri-Paralel</title><link rel="icon" href="assets/img/logo.svg"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"><script src="https://cdn.tailwindcss.com"></script><link rel="stylesheet" href="css/style.css"></head>
-<body data-title="Simulasi Rangkaian Seri-Paralel" data-back="simulasi-ohm.html" data-header="bantuan" data-width="lebar" data-help="Pilih model rangkaian Seri atau Paralel untuk membandingkan karakteristiknya. Atur nilai hambatan R1 dan R2 melalui slider atau kotak input angka. Perhatikan bagaimana arus dan tegangan terdistribusi pada masing-masing resistor serta coba Mode Tantangan untuk menguji pemahamanmu."><header id="hdr"></header>
-<main class="p-4 grid md:grid-cols-2 gap-4">
-<section class="card"><h2 class="font-semibold mb-2">Pilih Jenis Rangkaian</h2><div class="grid grid-cols-2 gap-2 mb-2"><button id="bSeri" class="btn btn-primary" aria-pressed="true">Seri</button><button id="bPar" class="btn" aria-pressed="false">Paralel</button></div>
-<div id="diagram"></div><p id="rumus" class="text-sm box"></p><button id="hint" class="btn mt-3"><svg class="ic w-4 h-4" aria-hidden="true" focusable="false"><use href="#i-lightbulb"></use></svg> Hint</button></section>
-<section class="card space-y-3"><h2 class="font-bold">Pengaturan Komponen (sumber 12 V)</h2>
-<div><label for="r1" class="font-semibold text-sm">R1</label><div class="flex gap-3 items-center"><input id="r1" type="range" min="1" max="100" value="10" class="flex-1"><input id="r1n" class="val" inputmode="numeric" value="10" aria-label="Nilai R1"><output id="r1o" class="sr-only"></output></div></div>
-<div><label for="r2" class="font-semibold text-sm">R2</label><div class="flex gap-3 items-center"><input id="r2" type="range" min="1" max="100" value="20" class="flex-1"><input id="r2n" class="val" inputmode="numeric" value="20" aria-label="Nilai R2"><output id="r2o" class="sr-only"></output></div></div>
-<h2 class="font-bold">Hasil Pengukuran</h2><div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs"><div class="box">Hambatan Total<br><b id="hRt" class="text-base"></b></div><div class="box">Arus<br><b id="hI" class="text-base"></b></div><div class="box">Tegangan (R1)<br><b id="hV1" class="text-base"></b></div><div class="box">Tegangan (R2)<br><b id="hV2" class="text-base"></b></div></div>
-<p id="cabang" class="text-sm font-medium"></p>
-<div class="flex gap-2 flex-wrap"><button id="reset" class="btn btn-primary">Reset</button><button id="btnT" class="btn"><svg class="ic w-4 h-4" aria-hidden="true" focusable="false"><use href="#i-activity"></use></svg> Mode Tantangan</button><button id="selesai" class="btn btn-primary ml-auto">Selesai</button></div>
-<div id="tant" class="box text-left hidden"></div><p id="info" role="status" class="text-sm"></p></section></main>
-<script defer src="js/icons.js"></script>
-<script defer src="js/common.js"></script><script defer src="js/seripararel.js"></script>
-</body></html>
+<html lang="id" data-kontras="normal" data-huruf="normal">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Simulasi Rangkaian Seri-Paralel</title>
+  <script src="js/aksesibilitas-awal.js"></script>
+  <link rel="icon" href="assets/img/logo.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-title="Simulasi Rangkaian Seri-Paralel" data-back="simulasi-ohm.html" data-header="bantuan" data-width="lebar" data-help="Atur R1 dan R2, lalu bandingkan hasil rangkaian seri dan paralel.">
+  <a class="skip-link" href="#konten">Lewati ke konten utama</a>
+  <header id="hdr"></header>
+
+  <main id="konten" tabindex="-1" class="p-4">
+    <div id="tantangan-pita" class="sp-challenge-ribbon hidden mb-3" role="status" aria-live="polite"></div>
+
+    <div class="sp-layout grid grid-cols-1 md:grid-cols-[44fr_56fr] gap-3">
+      <section class="panel sp-panel flex flex-col" aria-labelledby="judul-mode">
+        <h2 id="judul-mode" class="font-semibold mb-3">Pilih Jenis Rangkaian</h2>
+        <div class="sp-mode-toggle grid grid-cols-2 gap-2 mb-3" role="radiogroup" aria-label="Jenis rangkaian">
+          <button type="button" id="bSeri" class="btn btn-primary" role="radio" aria-checked="true">Seri</button>
+          <button type="button" id="bPar" class="btn" role="radio" aria-checked="false">Paralel</button>
+        </div>
+        <div id="diagram" class="sp-diagram flex-1 flex items-center justify-center"></div>
+        <div class="pt-3 mt-3 border-t border-[var(--line)]">
+          <button type="button" id="hint" class="btn btn-outline">
+            <span aria-hidden="true">            <svg class="ic w-4 h-4" aria-hidden="true" focusable="false"><use href="#i-lightbulb"></use></svg></span>
+            Hint
+          </button>
+        </div>
+      </section>
+
+      <section class="panel sp-panel flex flex-col gap-4" aria-labelledby="judul-pengaturan">
+        <div>
+          <h2 id="judul-pengaturan" class="font-bold mb-3">Pengaturan Komponen</h2>
+          <div class="space-y-3">
+            <div class="sp-control-row">
+              <label for="r1n" class="font-semibold text-sm">R1</label>
+              <input id="r1" type="range" min="1" max="100" step="1" value="10" aria-label="Slider R1">
+              <div class="input-angka-wrap">
+                <input id="r1n" class="sp-value-input" type="text" inputmode="numeric" value="10" aria-label="Nilai R1">
+                <span class="satuan">Ω</span>
+              </div>
+            </div>
+            <div class="sp-control-row">
+              <label for="r2n" class="font-semibold text-sm">R2</label>
+              <input id="r2" type="range" min="1" max="100" step="1" value="20" aria-label="Slider R2">
+              <div class="input-angka-wrap">
+                <input id="r2n" class="sp-value-input" type="text" inputmode="numeric" value="20" aria-label="Nilai R2">
+                <span class="satuan">Ω</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="font-bold mb-2">Hasil Pengukuran</h2>
+          <div id="hasil-live" class="sp-results grid grid-cols-2 sm:grid-cols-4 gap-2 text-center" aria-live="off">
+            <div class="box-hasil sp-total"><small>Hambatan Total</small><b id="hRt"></b></div>
+            <div class="box-hasil"><small>Arus</small><b id="hI"></b></div>
+            <div class="box-hasil"><small>Tegangan (R1)</small><b id="hV1"></b></div>
+            <div class="box-hasil"><small>Tegangan (R2)</small><b id="hV2"></b></div>
+          </div>
+          <p id="hasil-announcer" class="sr-only" role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="sp-actions flex gap-2 justify-end mt-auto pt-2">
+          <button type="button" id="reset" class="btn btn-primary">Reset</button>
+          <button type="button" id="selesai" class="btn btn-primary">Selesai</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script defer src="js/icons.js"></script>
+  <script defer src="js/common.js"></script>
+  <script defer src="js/seripararel.js"></script>
+</body>
+</html>

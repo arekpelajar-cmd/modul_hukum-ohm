@@ -86,10 +86,8 @@ function perbaruiTampilan() {
   // Debounce pembaruan aria-live region agar pembaca layar tidak kebanjiran saat slider digeser
   clearTimeout(timerDebounce);
   timerDebounce = setTimeout(() => {
-    const live = $('hasil-live');
-    if (live) {
-      live.setAttribute('aria-label', `Hasil saat ini: Tegangan ${V} Volt, Arus ${fmt(I)} Ampere, Hambatan ${R} Ohm.`);
-    }
+    const live = $('hasil-announcer');
+    if (live) live.textContent = `Hasil saat ini: Tegangan ${V} Volt, Arus ${fmt(I)} Ampere, Hambatan ${R} Ohm.`;
   }, 300);
 }
 
@@ -98,12 +96,16 @@ const JUMLAH_TITIK = 6;
 let pathLoop = null;
 let totalPanjang = 0;
 const titikElements = [];
+const preferReducedMotion = window.matchMedia
+  ? window.matchMedia('(prefers-reduced-motion: reduce)')
+  : { matches: false };
 
 function siapkanTitikAnimasi() {
   pathLoop = $('loop');
   const groupDots = $('dots');
   if (!groupDots || !pathLoop) return;
 
+  groupDots.style.visibility = 'hidden';
   groupDots.innerHTML = '';
   titikElements.length = 0;
 
@@ -177,35 +179,25 @@ function animasiFrame(t) {
   animId = requestAnimationFrame(animasiFrame);
 }
 
-// Cek prefers-reduced-motion
-function cekReducedMotion() {
-  return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-}
-
 // Kontrol Play / Pause
 function setStatusAnimasi(mulai) {
   const btnPlay = $('play');
-  const isReduced = cekReducedMotion();
-
-  if (isReduced) {
-    jalan = false;
-    if (animId) cancelAnimationFrame(animId);
-    animId = null;
-    if (btnPlay) {
-      btnPlay.innerHTML = typeof ic === 'function' ? ic('play', 'w-6 h-6') : 'Play';
-      btnPlay.setAttribute('aria-label', 'Animasi dimatikan (prefers-reduced-motion aktif)');
-    }
-    return;
-  }
+  const groupDots = $('dots');
 
   jalan = mulai;
+  if (groupDots) {
+    groupDots.style.visibility = jalan ? 'visible' : 'hidden';
+  }
+  if (animId) cancelAnimationFrame(animId);
+  animId = null;
   if (jalan) {
+    // Play adalah aksi eksplisit pengguna; pilihan Kurangi gerakan tetap berlaku saat preferensi berubah.
     tSebelumnya = performance.now();
-    if (animId) cancelAnimationFrame(animId);
     animId = requestAnimationFrame(animasiFrame);
     if (btnPlay) {
       btnPlay.innerHTML = typeof ic === 'function' ? ic('pause', 'w-6 h-6') : 'Pause';
       btnPlay.setAttribute('aria-label', 'Jeda animasi');
+      btnPlay.setAttribute('aria-pressed', 'true');
     }
   } else {
     if (animId) cancelAnimationFrame(animId);
@@ -213,6 +205,7 @@ function setStatusAnimasi(mulai) {
     if (btnPlay) {
       btnPlay.innerHTML = typeof ic === 'function' ? ic('play', 'w-6 h-6') : 'Play';
       btnPlay.setAttribute('aria-label', 'Mulai animasi aliran arus');
+      btnPlay.setAttribute('aria-pressed', 'false');
     }
   }
 }
@@ -323,6 +316,15 @@ document.addEventListener('visibilitychange', () => {
 // Inisialisasi saat DOM siap
 function initSimulasiOhm() {
   siapkanTitikAnimasi();
+
+  const hentikanJikaKurangiGerakan = () => {
+    if (preferReducedMotion.matches && jalan) setStatusAnimasi(false);
+  };
+  if (typeof preferReducedMotion.addEventListener === 'function') {
+    preferReducedMotion.addEventListener('change', hentikanJikaKurangiGerakan);
+  } else if (typeof preferReducedMotion.addListener === 'function') {
+    preferReducedMotion.addListener(hentikanJikaKurangiGerakan);
+  }
 
   const sliderV = $('v');
   const inputV = $('vn');

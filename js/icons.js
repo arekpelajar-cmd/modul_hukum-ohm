@@ -109,10 +109,12 @@ function initIconSprite() {
   wrapper.id = 'svg-icon-sprite';
   wrapper.innerHTML = SPRITE_SVG;
   if (document.body) {
-    document.body.insertBefore(wrapper, document.body.firstChild);
+    const skipLink = document.body.querySelector('.skip-link');
+    document.body.insertBefore(wrapper, skipLink ? skipLink.nextSibling : document.body.firstChild);
   } else {
     document.addEventListener('DOMContentLoaded', () => {
-      document.body.insertBefore(wrapper, document.body.firstChild);
+      const skipLink = document.body.querySelector('.skip-link');
+      document.body.insertBefore(wrapper, skipLink ? skipLink.nextSibling : document.body.firstChild);
     });
   }
 }

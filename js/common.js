@@ -33,6 +33,13 @@ const Store = {
 };
 if (typeof window !== 'undefined') window.Store = Store;
 
+function terapkanPreferensiAksesibilitas() {
+  const html = document.documentElement;
+  html.dataset.kontras = Store.get('kontras', false) ? 'tinggi' : 'normal';
+  html.dataset.huruf = Store.get('hurufBesar', false) ? 'besar' : 'normal';
+}
+terapkanPreferensiAksesibilitas();
+
 // Format 2 desimal dengan tanda pemisah DESIMAL ('.'); nilai tak hingga/tidak valid ditampilkan "∞"
 const fmt = (n, d = 2) =>
   (Number.isFinite(n) ? n.toFixed(d).replace('.', DESIMAL) : '∞');
@@ -244,6 +251,7 @@ function renderHeader() {
 
 // Inisialisasi Frame dan Header
 function initAppChrome() {
+  terapkanPreferensiAksesibilitas();
   setupFrame();
   renderHeader();
 }

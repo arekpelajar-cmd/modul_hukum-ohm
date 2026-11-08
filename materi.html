@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-kontras="normal" data-huruf="normal">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Materi Hukum Ohm | Modul Interaktif</title>
+  <script src="js/aksesibilitas-awal.js"></script>
   <link rel="icon" href="assets/img/logo.svg">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
@@ -13,10 +14,11 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body data-title="Hukum Ohm" data-back="index.html" data-header="materi" data-width="sempit">
+  <a class="skip-link" href="#konten">Lewati ke konten utama</a>
   <header id="hdr"></header>
 
-  <main class="p-4 sm:p-6">
-    <div class="grid grid-cols-1 md:grid-cols-[22%_78%] gap-4 sm:gap-6 items-start">
+  <main id="konten" tabindex="-1" class="p-4 sm:p-6">
+    <div class="materi-layout grid grid-cols-1 md:grid-cols-[22fr_78fr] gap-4 sm:gap-6">
       <!-- Sidebar Subbab (Navigasi Tab) -->
       <nav aria-label="Subbab Materi" class="materi-sidebar">
         <button type="button" id="materi-menu-toggle" class="materi-menu-toggle" aria-expanded="false" aria-controls="tablist-materi">
@@ -29,12 +31,12 @@
       </nav>
 
       <!-- Kartu Konten Utama -->
-      <section class="panel space-y-4">
+      <section class="panel materi-content space-y-4">
         <!-- Region Live untuk Aksesibilitas Pembaca Layar -->
         <div id="materi-announcer" class="sr-only" aria-live="polite"></div>
 
         <!-- Kontainer Isi Konten Dinamis -->
-        <div id="konten" class="space-y-4 min-h-[340px]">
+        <div id="materi-konten" class="space-y-4 min-h-[340px]">
           <!-- Konten dirender oleh js/materi.js -->
         </div>
 

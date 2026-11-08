@@ -1,19 +1,21 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-kontras="normal" data-huruf="normal">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Simulasi Hukum Ohm | Modul Interaktif</title>
+  <script src="js/aksesibilitas-awal.js"></script>
   <link rel="icon" href="assets/img/logo.svg">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body data-title="Simulasi Hukum Ohm" data-back="materi.html" data-header="bantuan" data-width="sempit" data-help="Geser slider Tegangan (V) atau Hambatan (R) untuk melihat perubahan arus (I) secara langsung pada rangkaian listrik. Tekan tombol Play untuk melihat pergerakan aliran arus listrik. Tekan tombol Cek untuk melihat uraian langkah perhitungan matematis I = V / R.">
+  <a class="skip-link" href="#konten">Lewati ke konten utama</a>
   <header id="hdr"></header>
 
-  <main class="p-4 sm:p-5">
-    <div class="grid grid-cols-1 md:grid-cols-[49%_51%] gap-4 sm:gap-5 items-stretch">
+  <main id="konten" tabindex="-1" class="p-4 sm:p-5">
+    <div class="ohm-layout grid grid-cols-1 md:grid-cols-[49%_51%] gap-4 sm:gap-5 items-stretch">
       <!-- Kolom Kiri: Rangkaian SVG & Pita Kontrol Play/Reset -->
       <section class="panel flex flex-col justify-between p-4 sm:p-5" aria-label="Visualisasi Rangkaian">
         <!-- SVG Rangkaian Hukum Ohm -->
@@ -92,7 +94,7 @@
 
         <!-- Pita Kontrol di Bawah SVG: Tombol Putar (Play/Pause) & Reset -->
         <div class="pt-4 mt-2 border-t border-[var(--line)] flex items-center gap-3">
-          <button type="button" id="play" class="btn-play-round" aria-label="Mulai animasi aliran arus">
+          <button type="button" id="play" class="btn-play-round" aria-label="Mulai animasi aliran arus" aria-pressed="false">
             <svg class="ic w-6 h-6" aria-hidden="true" focusable="false"><use href="#i-play"></use></svg>
           </button>
           <button type="button" id="reset" class="btn btn-outline">
@@ -138,7 +140,7 @@
           <!-- Bagian Hasil Perhitungan -->
           <div>
             <h2 class="text-lg font-bold text-[var(--ink)] mb-3">Hasil</h2>
-            <div id="hasil-live" class="grid grid-cols-3 gap-2 sm:gap-3" aria-live="polite">
+            <div id="hasil-live" class="grid grid-cols-3 gap-2 sm:gap-3" aria-live="off">
               <div class="box-hasil">
                 <small>Tegangan</small>
                 <b id="hV">12 V</b>
@@ -152,6 +154,7 @@
                 <b id="hR">6 &Omega;</b>
               </div>
             </div>
+            <p id="hasil-announcer" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
           </div>
         </div>
 

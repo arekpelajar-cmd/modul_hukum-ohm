@@ -22,18 +22,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function bukaModalPengaturan() {
     let suaraAktif = Store.get('suara', true);
+    let kontrasAktif = Store.get('kontras', false);
+    let hurufBesarAktif = Store.get('hurufBesar', false);
 
     function getIsiHtml() {
       return `
         <div class="space-y-5">
           <div class="flex items-center justify-between p-3 rounded-xl bg-blue-50/50 border border-blue-100">
             <div>
-              <span class="font-semibold text-sm block">Suara Materi</span>
-              <span class="text-xs text-gray-500">Membaca teks materi secara otomatis</span>
+              <span class="font-semibold text-sm block" id="setting-label-suara">Suara Materi</span>
+              <span class="text-xs text-gray-500" id="setting-desc-suara">Membaca teks materi secara otomatis</span>
             </div>
-            <button type="button" role="switch" id="btn-suara-toggle" aria-checked="${suaraAktif ? 'true' : 'false'}"
-              class="w-12 h-6 flex items-center rounded-full p-1 cursor-pointer transition-colors ${suaraAktif ? 'bg-blue-600 justify-end' : 'bg-gray-300 justify-start'}">
-              <span class="bg-white w-4 h-4 rounded-full shadow-md transform transition-transform"></span>
+            <button type="button" role="switch" id="btn-suara-toggle" aria-labelledby="setting-label-suara" aria-describedby="setting-desc-suara" aria-checked="${suaraAktif ? 'true' : 'false'}" class="setting-switch">
+              <span aria-hidden="true"></span>
+            </button>
+          </div>
+
+          <div class="flex items-center justify-between p-3 rounded-xl bg-blue-50/50 border border-blue-100">
+            <div>
+              <span class="font-semibold text-sm block" id="setting-label-kontras">Kontras tinggi</span>
+              <span class="text-xs text-gray-500" id="setting-desc-kontras">Perjelas teks dan garis antarmuka</span>
+            </div>
+            <button type="button" role="switch" id="btn-kontras-toggle" aria-labelledby="setting-label-kontras" aria-describedby="setting-desc-kontras" aria-checked="${kontrasAktif ? 'true' : 'false'}" class="setting-switch">
+              <span aria-hidden="true"></span>
+            </button>
+          </div>
+
+          <div class="flex items-center justify-between p-3 rounded-xl bg-blue-50/50 border border-blue-100">
+            <div>
+              <span class="font-semibold text-sm block" id="setting-label-huruf">Huruf besar</span>
+              <span class="text-xs text-gray-500" id="setting-desc-huruf">Perbesar teks di seluruh halaman</span>
+            </div>
+            <button type="button" role="switch" id="btn-huruf-toggle" aria-labelledby="setting-label-huruf" aria-describedby="setting-desc-huruf" aria-checked="${hurufBesarAktif ? 'true' : 'false'}" class="setting-switch">
+              <span aria-hidden="true"></span>
             </button>
           </div>
 
@@ -41,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <span class="font-semibold text-sm block mb-1">Penyimpanan &amp; Progres</span>
             <p class="text-xs text-gray-500 mb-3">Hapus nilai latihan dan tantangan yang tersimpan di perangkat ini.</p>
             <div id="reset-area">
-              <button type="button" id="btn-trigger-reset" class="btn btn-outline text-xs py-2 px-3">
+              <button type="button" id="btn-trigger-reset" class="btn btn-outline">
                 ${typeof ic === 'function' ? ic('x-circle', 'w-4 h-4 text-red-500') : ''} Reset Progres
               </button>
             </div>
@@ -60,21 +81,26 @@ document.addEventListener('DOMContentLoaded', () => {
     pasangListenerPengaturan();
   }
 
+  function pasangSakelar(id, aktif, simpan, terapkan) {
+    const tombol = document.getElementById(id);
+    if (!tombol) return;
+    tombol.setAttribute('aria-checked', aktif ? 'true' : 'false');
+    tombol.onclick = () => {
+      aktif = !aktif;
+      Store.set(simpan, aktif);
+      tombol.setAttribute('aria-checked', aktif ? 'true' : 'false');
+      if (terapkan) terapkan(aktif);
+    };
+  }
+
   function pasangListenerPengaturan() {
-    const btnToggle = document.getElementById('btn-suara-toggle');
-    if (btnToggle) {
-      btnToggle.onclick = () => {
-        let suaraAktif = Store.get('suara', true);
-        suaraAktif = !suaraAktif;
-        Store.set('suara', suaraAktif);
-        btnToggle.setAttribute('aria-checked', suaraAktif ? 'true' : 'false');
-        if (suaraAktif) {
-          btnToggle.className = 'w-12 h-6 flex items-center rounded-full p-1 cursor-pointer transition-colors bg-blue-600 justify-end';
-        } else {
-          btnToggle.className = 'w-12 h-6 flex items-center rounded-full p-1 cursor-pointer transition-colors bg-gray-300 justify-start';
-        }
-      };
-    }
+    pasangSakelar('btn-suara-toggle', Store.get('suara', true), 'suara');
+    pasangSakelar('btn-kontras-toggle', Store.get('kontras', false), 'kontras', aktif => {
+      document.documentElement.dataset.kontras = aktif ? 'tinggi' : 'normal';
+    });
+    pasangSakelar('btn-huruf-toggle', Store.get('hurufBesar', false), 'hurufBesar', aktif => {
+      document.documentElement.dataset.huruf = aktif ? 'besar' : 'normal';
+    });
 
     const btnTriggerReset = document.getElementById('btn-trigger-reset');
     const resetArea = document.getElementById('reset-area');
@@ -84,8 +110,8 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="p-3 bg-red-50 rounded-lg border border-red-200 text-xs">
             <p class="text-red-800 font-medium mb-2">Hapus skor kuis dan hasil tantangan? Tindakan ini tidak dapat dibatalkan.</p>
             <div class="flex gap-2">
-              <button type="button" id="btn-batal-reset" class="btn btn-outline text-xs py-1 px-3">Batal</button>
-              <button type="button" id="btn-konfirmasi-reset" class="btn btn-primary text-xs py-1 px-3" style="background:#dc2626; border-color:#dc2626;">Ya, Hapus</button>
+              <button type="button" id="btn-batal-reset" class="btn btn-outline">Batal</button>
+              <button type="button" id="btn-konfirmasi-reset" class="btn btn-danger">Ya, Hapus</button>
             </div>
           </div>
         `;
@@ -102,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
           Store.hapus('kuisBest');
           Store.hapus('spBest');
           resetArea.innerHTML = `
-            <div role="status" class="text-xs text-green-700 font-semibold p-2 bg-green-50 rounded border border-green-200">
+            <div role="status" class="text-sm text-green-700 font-semibold p-2 bg-green-50 rounded border border-green-200">
               ${typeof ic === 'function' ? ic('check-circle', 'w-4 h-4 text-green-600') : ''} Progres direset.
             </div>
           `;

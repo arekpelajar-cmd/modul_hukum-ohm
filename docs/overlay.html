@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +12,11 @@
       --bg: #f3f7fc;
       --ink: #0f2440;
     }
-    * { box-sizing: border-box; }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       padding: 0;
@@ -19,6 +24,7 @@
       background: #334155;
       color: var(--ink);
     }
+
     header.toolbar {
       background: #1e293b;
       color: #fff;
@@ -31,21 +37,25 @@
       position: sticky;
       top: 0;
       z-index: 9999;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     }
+
     .ctrl-group {
       display: flex;
       align-items: center;
       gap: 6px;
     }
+
     .ctrl-group label {
       color: #94a3b8;
       font-weight: 500;
     }
+
     .ctrl-group input[type="range"] {
       width: 90px;
       cursor: pointer;
     }
+
     .ctrl-group input[type="number"] {
       width: 64px;
       padding: 3px 6px;
@@ -55,6 +65,7 @@
       color: #fff;
       text-align: center;
     }
+
     button.tool-btn {
       background: var(--blue);
       color: #fff;
@@ -65,31 +76,37 @@
       font-weight: 600;
       font-size: 0.8rem;
     }
+
     button.tool-btn:hover {
       filter: brightness(1.1);
     }
+
     button.tool-btn.secondary {
       background: #475569;
     }
+
     .viewport-container {
       display: flex;
       justify-content: center;
       padding: 24px 16px;
       overflow: auto;
     }
+
     .stage {
       position: relative;
       background: #fff;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
       border-radius: 8px;
       overflow: hidden;
     }
+
     iframe#app-frame {
       border: none;
       display: block;
       width: 912px;
       height: 640px;
     }
+
     img#overlay-img {
       position: absolute;
       top: 16px;
@@ -101,17 +118,20 @@
       z-index: 50;
       transition: opacity 0.1s ease;
     }
+
     #msg-copied {
       color: #4ade80;
       font-weight: bold;
       display: none;
     }
+
     .notice {
       color: #cbd5e1;
       font-size: 0.75rem;
     }
   </style>
 </head>
+
 <body>
 
   <header class="toolbar">
@@ -220,4 +240,5 @@
     update();
   </script>
 </body>
+
 </html>

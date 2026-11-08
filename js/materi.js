@@ -5,7 +5,7 @@ let bicara = false;
 
 // Elemen DOM
 const tablist = document.getElementById('tablist-materi');
-const box = document.getElementById('konten');
+const box = document.getElementById('materi-konten');
 const announcer = document.getElementById('materi-announcer');
 const btnNext = document.getElementById('lanjut');
 const btnAudio = () => document.getElementById('audio');
@@ -56,11 +56,28 @@ function renderContentHtml(m) {
     innerHtml = `
       <div class="space-y-4">
         <div>
-          <h2 class="text-xl sm:text-2xl font-bold text-[var(--ink)] mb-2">Hukum Ohm</h2>
+          <h2 class="text-xl sm:text-2xl font-bold text-[var(--ink)] mb-2">${m.judul}</h2>
           <p class="text-sm sm:text-base text-gray-700 leading-relaxed">${m.paragraf}</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-[57%_43%] gap-4 items-center pt-2">
+        <section class="video-pembelajaran" aria-labelledby="video-ohm-heading">
+          <h3 id="video-ohm-heading" class="heading-3">Tonton Animasi Konsep Dasar &amp; Hukum Ohm</h3>
+          <p class="video-pengantar">
+            Mari tonton animasi analogi aliran air berikut untuk mempermudah pemahaman tentang Volt, Ampere, dan Ohm sebelum kita masuk ke rumus hitungan.
+          </p>
+          <div class="video-frame">
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/EloWnL1dqZw"
+              title="Animasi Konsep Dasar dan Hukum Ohm dengan Analogi Air"
+              loading="lazy"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+          </div>
+        </section>
+
+        <div class="materi-inner-grid grid grid-cols-1 md:grid-cols-[57fr_43fr] gap-4 items-center pt-2">
           <div class="space-y-2">
             <span class="text-xs font-bold uppercase tracking-wider text-[var(--navy)] block mb-1">Analogi Konsep:</span>
             ${m.analogi.map(item => `
@@ -86,20 +103,20 @@ function renderContentHtml(m) {
           <p class="text-sm sm:text-base text-gray-700 leading-relaxed">${m.paragraf}</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-[57%_43%] gap-4 items-center pt-2">
+        <div class="materi-inner-grid grid grid-cols-1 md:grid-cols-[57fr_43fr] gap-4 items-center pt-2">
           <!-- Kolom Kiri: Kotak Rumus KaTeX & Tabel Simbol -->
           <div class="space-y-4">
             <div class="box-formula">
               <span class="katex-block" data-tex="${m.rumus}" data-fallback="${m.rumusTeks}">${m.rumusTeks}</span>
             </div>
 
-            <div class="overflow-hidden rounded-lg border border-[var(--line)]">
+            <div class="materi-table-scroll rounded-lg border border-[var(--line)]">
               <table class="w-full text-xs sm:text-sm text-left bg-white">
                 <tbody>
                   ${m.simbol.map(s => `
                     <tr class="border-b border-gray-100 last:border-0 hover:bg-blue-50/30">
                       <td class="py-2 px-3 font-bold italic text-[var(--ink)] w-10 text-center">${s.s}</td>
-                      <td class="py-2 px-1 text-gray-400 w-6 text-center">${s.tanda}</td>
+                      <td class="py-2 px-1 text-gray-400 w-6 text-center">=</td>
                       <td class="py-2 px-3 text-gray-700">${s.nama}</td>
                     </tr>
                   `).join('')}
@@ -125,7 +142,7 @@ function renderContentHtml(m) {
           </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-[57%_43%] gap-4 items-center pt-2">
+        <div class="materi-inner-grid grid grid-cols-1 md:grid-cols-[57fr_43fr] gap-4 items-center pt-2">
           <div class="space-y-3">
             <div class="text-xs sm:text-sm space-y-1.5 p-3 rounded-xl bg-white border border-[var(--line)]">
               <p><strong class="text-[var(--navy)]">Diketahui:</strong> ${m.contoh.diketahui}</p>
@@ -141,7 +158,7 @@ function renderContentHtml(m) {
           </div>
 
           <div class="p-3 bg-white rounded-xl border border-[var(--line)] shadow-sm flex items-center justify-center">
-            ${buatDiagramMateri({ labelV: '20 V', labelR: '10 Ω', labelI: '2 A' })}
+            ${buatDiagramMateri({ labelV: '20 V', labelR: '10 ohm', labelI: '2 A' })}
           </div>
         </div>
       </div>
@@ -257,7 +274,7 @@ function initTabs() {
     latihan: 'clipboard-check'
   };
   tablist.innerHTML = MATERI.map((m, k) => `
-    <button type="button" role="tab" id="tab-${m.id}" aria-controls="konten" data-i="${k}" class="tab" aria-selected="false" aria-current="false">
+    <button type="button" role="tab" id="tab-${m.id}" aria-controls="materi-konten" data-i="${k}" class="tab" aria-selected="false" aria-current="false">
       <span class="tab-order">${String(k + 1).padStart(2, '0')}</span>
       <span class="tab-icon">${typeof ic === 'function' ? ic(ikonTab[m.id] || 'book-open', 'w-5 h-5') : ''}</span>
       <span class="tab-label">${m.tab || m.judul}</span>
