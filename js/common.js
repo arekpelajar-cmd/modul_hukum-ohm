@@ -178,7 +178,6 @@ function renderHeader() {
         <span class="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center">${iZap}</span>
         <span class="font-bold text-base tracking-wide">Modul Interaktif</span>
       </div>
-      <h1 class="sr-only">Modul Interaktif: Hukum Ohm dan Rangkaian Seri-Paralel</h1>
       <div class="flex items-center gap-2">
         <button type="button" id="hdr-home" class="hdr-btn-round" aria-label="Ke atas">${iHome}</button>
         <button type="button" id="hdr-settings" class="hdr-btn-round" aria-label="Pengaturan">${iSettings}</button>

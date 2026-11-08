@@ -191,6 +191,7 @@ function tampil(i, { pushHash = true } = {}) {
     const isAktif = k === i;
     tab.setAttribute('aria-selected', isAktif ? 'true' : 'false');
     tab.setAttribute('aria-current', isAktif ? 'true' : 'false');
+    tab.classList.toggle('active', isAktif);
     tab.tabIndex = isAktif ? 0 : -1;
   });
 
@@ -219,9 +220,47 @@ function tampil(i, { pushHash = true } = {}) {
 function initTabs() {
   if (!tablist) return;
 
+  const nav = tablist.closest('.materi-sidebar');
+  const toggle = document.getElementById('materi-menu-toggle');
+  const isMobile = () => window.matchMedia('(max-width: 767px)').matches;
+  const setMenuExpanded = expanded => {
+    if (!toggle) return;
+    toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    tablist.hidden = isMobile() && !expanded;
+    nav.classList.toggle('is-open', isMobile() && expanded);
+  };
+  const updateOrientation = () => {
+    const vertical = !window.matchMedia || window.matchMedia('(min-width: 768px)').matches;
+    tablist.setAttribute('aria-orientation', 'vertical');
+    if (toggle) {
+      toggle.hidden = vertical;
+      if (vertical) {
+        tablist.hidden = false;
+        nav.classList.remove('is-open');
+      } else {
+        setMenuExpanded(toggle.getAttribute('aria-expanded') === 'true');
+      }
+    }
+  };
+  updateOrientation();
+  window.addEventListener('resize', updateOrientation);
+  if (toggle) {
+    toggle.onclick = () => {
+      setMenuExpanded(toggle.getAttribute('aria-expanded') !== 'true');
+    };
+  }
+
+  const ikonTab = {
+    pengertian: 'lightbulb',
+    rumus: 'zap',
+    contoh: 'book-open',
+    latihan: 'clipboard-check'
+  };
   tablist.innerHTML = MATERI.map((m, k) => `
     <button type="button" role="tab" id="tab-${m.id}" aria-controls="konten" data-i="${k}" class="tab" aria-selected="false" aria-current="false">
-      ${k + 1}. ${m.judul}
+      <span class="tab-order">${String(k + 1).padStart(2, '0')}</span>
+      <span class="tab-icon">${typeof ic === 'function' ? ic(ikonTab[m.id] || 'book-open', 'w-5 h-5') : ''}</span>
+      <span class="tab-label">${m.tab || m.judul}</span>
     </button>
   `).join('');
 
@@ -229,6 +268,10 @@ function initTabs() {
     const b = e.target.closest('button[role="tab"]');
     if (b) {
       tampil(+b.dataset.i);
+      if (isMobile() && toggle) {
+        setMenuExpanded(false);
+        toggle.focus();
+      }
     }
   };
 

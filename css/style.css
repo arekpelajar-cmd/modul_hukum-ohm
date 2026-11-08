@@ -231,11 +231,62 @@ body.modal-open {
 .hero-section {
   background: linear-gradient(180deg, var(--hero-from) 0%, var(--hero-to) 100%);
   border-radius: var(--r-card);
+  min-height: 480px;
+  display: flex;
+  align-items: center;
+}
+
+.heading-1,
+.heading-2,
+.heading-3 {
+  color: var(--ink);
+  margin: 0;
+}
+
+.heading-1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+}
+
+.heading-2 {
+  font-size: clamp(1.375rem, 2.5vw, 1.75rem);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.heading-3 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.home-hero-grid {
+  width: 100%;
+}
+
+.home-hero-illustration {
+  max-width: 320px;
+}
+
+.home-hero-title {
+  max-width: 19ch;
+}
+
+.home-hero-description {
+  max-width: 48ch;
+  color: var(--muted);
+  font-size: clamp(0.95rem, 1.5vw, 1.125rem);
+  line-height: 1.65;
 }
 
 .btn-mulai {
   height: 48px;
   border-radius: 12px;
+  background: #F6C445;
+  border-color: #D49B12;
+  color: var(--ink);
   box-shadow: var(--shadow-btn);
   display: inline-flex;
   align-items: center;
@@ -243,6 +294,10 @@ body.modal-open {
   padding: 0 16px;
   gap: 12px;
   transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.btn-mulai > .ic {
+  color: var(--ink);
 }
 
 .menu-card {
@@ -388,35 +443,121 @@ body.modal-open {
 
 /* --- .tab : tombol navigasi subbab (sidebar materi) --- */
 .tab {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   width: 100%;
   text-align: left;
-  padding: 8px 12px;
+  min-height: 48px;
+  padding: 8px 10px;
   border-radius: 8px;
   background: transparent;
-  color: var(--navy);
+  color: #fff;
   font-weight: 500;
   font-size: 0.85rem;
   border: 0;
+  border-left: 4px solid transparent;
   cursor: pointer;
   font-family: inherit;
-  transition: background 0.15s, color 0.15s;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
   white-space: nowrap;
 }
+
+.tab.active,
 .tab[aria-selected="true"],
 .tab[aria-current="true"] {
-  background: var(--blue-dark);
-  color: #fff;
+  background: #F6C445;
+  border-left-color: #D49B12;
+  color: var(--ink);
   font-weight: 600;
 }
-.tab:hover:not([aria-selected="true"]):not([aria-current="true"]) {
-  background: rgba(3, 85, 187, 0.1);
+
+.tab:hover:not(.active):not([aria-selected="true"]):not([aria-current="true"]) {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.tab-order {
+  color: inherit;
+  font-size: 0.7rem;
+  font-weight: 700;
+  opacity: 0.75;
+}
+
+.tab-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tab-label {
+  white-space: normal;
 }
 
 .materi-sidebar {
-  background: var(--blue-soft);
+  background: var(--navy);
   border-radius: var(--r-card);
   padding: 12px;
+}
+
+.materi-sidebar [role="tablist"] {
+  width: 100%;
+  min-width: 0;
+}
+
+.materi-menu-toggle {
+  display: none;
+}
+
+.materi-menu-toggle[hidden],
+.materi-sidebar [role="tablist"][hidden] {
+  display: none !important;
+}
+
+@media (max-width: 767px) {
+  .hero-section {
+    min-height: 0;
+  }
+
+  .materi-sidebar {
+    padding: 8px;
+  }
+
+  .materi-menu-toggle {
+    display: flex;
+    width: 100%;
+    min-height: 44px;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    background: transparent;
+    color: #fff;
+    font: inherit;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .menu-toggle-icon {
+    width: 18px;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+    box-shadow: 0 -6px currentColor, 0 6px currentColor;
+  }
+
+  .materi-sidebar [role="tablist"] {
+    width: 100%;
+    min-width: 0;
+    flex-direction: column;
+    margin-top: 8px;
+  }
+
+  .materi-sidebar .tab {
+    min-height: 44px;
+    font-size: 0.875rem;
+  }
 }
 
 .box-formula {

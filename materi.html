@@ -18,7 +18,11 @@
   <main class="p-4 sm:p-6">
     <div class="grid grid-cols-1 md:grid-cols-[22%_78%] gap-4 sm:gap-6 items-start">
       <!-- Sidebar Subbab (Navigasi Tab) -->
-      <nav aria-label="Subbab Materi" class="materi-sidebar overflow-x-auto md:overflow-visible">
+      <nav aria-label="Subbab Materi" class="materi-sidebar">
+        <button type="button" id="materi-menu-toggle" class="materi-menu-toggle" aria-expanded="false" aria-controls="tablist-materi">
+          <span class="menu-toggle-icon" aria-hidden="true"></span>
+          <span>Pilih subbab materi</span>
+        </button>
         <div role="tablist" aria-orientation="vertical" id="tablist-materi" class="flex flex-row md:flex-col gap-1.5 min-w-max md:min-w-0">
           <!-- Tombol tab diinjeksi via JS -->
         </div>
