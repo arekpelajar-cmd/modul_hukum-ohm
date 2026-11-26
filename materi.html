@@ -18,17 +18,20 @@
   <header id="hdr"></header>
 
   <main id="konten" tabindex="-1" class="p-4 sm:p-6">
-    <div class="materi-layout grid grid-cols-1 md:grid-cols-[22fr_78fr] gap-4 sm:gap-6">
+    <div class="materi-layout grid gap-4 sm:gap-6">
       <!-- Sidebar Subbab (Navigasi Tab) -->
-      <nav aria-label="Subbab Materi" class="materi-sidebar">
-        <button type="button" id="materi-menu-toggle" class="materi-menu-toggle" aria-expanded="false" aria-controls="tablist-materi">
-          <span class="menu-toggle-icon" aria-hidden="true"></span>
-          <span>Pilih subbab materi</span>
-        </button>
-        <div role="tablist" aria-orientation="vertical" id="tablist-materi" class="flex flex-row md:flex-col gap-1.5 min-w-max md:min-w-0">
-          <!-- Tombol tab diinjeksi via JS -->
-        </div>
-      </nav>
+      <div class="materi-sidebar">
+        <nav aria-label="Subbab Materi">
+          <button type="button" id="materi-menu-toggle" class="materi-menu-toggle" aria-expanded="false" aria-controls="tablist-materi">
+            <span class="menu-toggle-icon" aria-hidden="true"></span>
+            <span>Pilih subbab materi</span>
+          </button>
+          <div role="tablist" aria-orientation="vertical" id="tablist-materi" class="flex flex-row md:flex-col gap-1.5 min-w-max md:min-w-0">
+            <!-- Tombol tab diinjeksi via JS -->
+          </div>
+        </nav>
+
+      </div>
 
       <!-- Kartu Konten Utama -->
       <section class="panel materi-content space-y-4">
@@ -40,67 +43,8 @@
           <!-- Konten dirender oleh js/materi.js -->
         </div>
 
-        <aside class="modul-reference-card" aria-labelledby="modul-reference-title">
-          <div class="modul-reference-heading">
-            <h2 id="modul-reference-title">Modul Pembelajaran Lengkap (PDF) &amp; Referensi</h2>
-            <p>Perdalam materi dan unduh lembar kerja melalui modul lengkap.</p>
-          </div>
-          <div class="modul-reference-grid">
-            <figure class="modul-reference-qr">
-              <div class="modul-reference-qr-frame">
-                <img
-                  id="modul-reference-qr-image"
-                  src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&amp;data=https%3A%2F%2Fdrive.google.com%2Fdrive%2Ffolders%2F1ImAPMH-64fawi8lheTiS-LM-HPnm9WvY"
-                  data-fallback="assets/img/qr-modul-hukum-ohm.svg"
-                  alt="QR Code Modul Lengkap Hukum Ohm"
-                  width="180"
-                  height="180"
-                  loading="lazy"
-                >
-              </div>
-              <figcaption>Pindai QR Code menggunakan kamera ponsel untuk mengunduh modul lengkap.</figcaption>
-              <p id="modul-reference-qr-fallback-note" class="modul-qr-fallback-note" hidden>
-                QR Code tidak dapat dimuat. Gunakan tombol akses modul.
-              </p>
-            </figure>
-
-            <div class="modul-reference-details">
-              <h3>Modul Lengkap Hukum Ohm &amp; Rangkaian Seri-Paralel</h3>
-              <p>
-                Mencakup Listrik DC, Hukum Ohm, Rangkaian Seri, Rangkaian Paralel, dan Lembar Kerja.
-              </p>
-              <h4>Referensi pendukung</h4>
-              <ul>
-                <li>
-                  <a href="https://openstax.org/books/college-physics-2e/pages/20-2-ohms-law-resistance-and-simple-circuits" target="_blank" rel="noopener noreferrer">
-                    OpenStax, <em>College Physics 2e</em>, bagian 20.2: Hukum Ohm.
-                  </a>
-                </li>
-                <li>
-                  <a href="https://openstax.org/books/college-physics-2e/pages/21-1-resistors-in-series-and-parallel" target="_blank" rel="noopener noreferrer">
-                    OpenStax, <em>College Physics 2e</em>, bagian 21.1: Resistor Seri dan Paralel.
-                  </a>
-                </li>
-              </ul>
-              <div class="modul-reference-actions">
-                <a
-                  class="btn btn-primary"
-                  id="buka-modul-lengkap"
-                  href="https://drive.google.com/drive/folders/1ImAPMH-64fawi8lheTiS-LM-HPnm9WvY"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >Buka / Unduh Modul (PDF)</a>
-                <button type="button" class="btn btn-outline" id="salin-tautan-modul">
-                  Salin Tautan Modul
-                </button>
-              </div>
-              <p id="status-salin-tautan-modul" class="modul-copy-status" role="status" aria-live="polite" aria-atomic="true"></p>
-            </div>
-          </div>
-        </aside>
-
         <!-- Footer Tombol Navigasi Lanjut -->
-        <div class="pt-4 border-t border-gray-100 flex justify-end">
+        <div class="materi-navigation pt-4 border-t border-gray-100 flex justify-end">
           <button type="button" id="lanjut" class="btn btn-primary">
             <span>Lanjut</span>
             <svg class="ic w-4 h-4" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg>

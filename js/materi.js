@@ -435,6 +435,63 @@ function renderContentHtml(m) {
         </div>
       </div>
     `;
+  } else if (m.id === 'referensi') {
+    const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&amp;data=${encodeURIComponent(m.modulUrl)}`;
+    innerHtml = `
+      <section class="modul-reference-card" aria-labelledby="modul-reference-title">
+        <div class="modul-reference-heading">
+          <h2 id="modul-reference-title">Modul Pembelajaran Lengkap (PDF) &amp; Referensi</h2>
+          <p>${m.paragraf}</p>
+        </div>
+        <div class="modul-reference-grid">
+          <figure class="modul-reference-qr">
+            <div class="modul-reference-qr-frame">
+              <img
+                id="modul-reference-qr-image"
+                src="${qrCodeUrl}"
+                data-fallback="assets/img/qr-modul-hukum-ohm.svg"
+                alt="QR Code Modul Lengkap Hukum Ohm"
+                width="180"
+                height="180"
+                loading="lazy"
+              >
+            </div>
+            <figcaption>Pindai QR Code menggunakan kamera ponsel untuk mengunduh modul lengkap.</figcaption>
+            <p id="modul-reference-qr-fallback-note" class="modul-qr-fallback-note" hidden>
+              QR Code tidak dapat dimuat. Gunakan tombol akses modul.
+            </p>
+          </figure>
+
+          <div class="modul-reference-details">
+            <h3>Modul Lengkap Hukum Ohm &amp; Rangkaian Seri-Paralel</h3>
+            <p>Mencakup Listrik DC, Hukum Ohm, Rangkaian Seri, Rangkaian Paralel, dan Lembar Kerja.</p>
+            <h4>Referensi pendukung</h4>
+            <ul>
+              ${m.referensi.map(reference => `
+                <li>
+                  <a href="${reference.href}" target="_blank" rel="noopener noreferrer">
+                    ${reference.judul}, <em>${reference.buku}</em>, ${reference.bagian}
+                  </a>
+                </li>
+              `).join('')}
+            </ul>
+            <div class="modul-reference-actions">
+              <a
+                class="btn btn-primary"
+                id="buka-modul-lengkap"
+                href="${m.modulUrl}"
+                target="_blank"
+                rel="noopener noreferrer"
+              >Buka / Unduh Modul (PDF)</a>
+              <button type="button" class="btn btn-outline" id="salin-tautan-modul">
+                Salin Tautan Modul
+              </button>
+            </div>
+            <p id="status-salin-tautan-modul" class="modul-copy-status" role="status" aria-live="polite" aria-atomic="true"></p>
+          </div>
+        </div>
+      </section>
+    `;
   }
 
   return innerHtml;
@@ -525,7 +582,8 @@ function initTabs() {
     gabungan: 'activity',
     contoh: 'book-open',
     aplikasi: 'book-open',
-    latihan: 'clipboard-check'
+    latihan: 'clipboard-check',
+    referensi: 'book-open'
   };
   tablist.innerHTML = MATERI.map((m, k) => `
     <button type="button" role="tab" id="tab-${m.id}" aria-controls="materi-konten" data-i="${k}" class="tab" aria-selected="false" aria-current="false">
@@ -620,31 +678,10 @@ function initAudioHandler() {
 }
 
 function initModuleReferenceActions() {
-  const copyButton = document.getElementById('salin-tautan-modul');
-  const copyStatus = document.getElementById('status-salin-tautan-modul');
-  const moduleLink = document.getElementById('buka-modul-lengkap');
-  const qrImage = document.getElementById('modul-reference-qr-image');
-  const qrFallbackNote = document.getElementById('modul-reference-qr-fallback-note');
-
-  if (qrImage) {
-    let usingFallback = false;
-    const showQrFallback = () => {
-      if (!usingFallback && qrImage.dataset.fallback) {
-        usingFallback = true;
-        qrImage.src = qrImage.dataset.fallback;
-        return;
-      }
-      qrImage.hidden = true;
-      if (qrFallbackNote) qrFallbackNote.hidden = false;
-    };
-    qrImage.addEventListener('error', showQrFallback);
-    if (qrImage.complete && qrImage.naturalWidth === 0) showQrFallback();
-  }
-
-  if (!copyButton || !copyStatus || !moduleLink) return;
-
+  if (!box || box.dataset.moduleReferenceActionsInitialized === 'true') return;
+  box.dataset.moduleReferenceActionsInitialized = 'true';
   let clearStatusTimeout;
-  const showCopyStatus = (message, state) => {
+  const showCopyStatus = (copyStatus, message, state) => {
     copyStatus.dataset.state = state;
     copyStatus.textContent = message;
     window.clearTimeout(clearStatusTimeout);
@@ -653,6 +690,7 @@ function initModuleReferenceActions() {
       delete copyStatus.dataset.state;
     }, 3500);
   };
+
   const copyWithLegacyApi = text => {
     if (typeof document.execCommand !== 'function') {
       throw new Error('Clipboard tidak tersedia.');
@@ -675,21 +713,44 @@ function initModuleReferenceActions() {
     if (!copied) throw new Error('Browser menolak penyalinan tautan.');
   };
 
-  copyButton.addEventListener('click', async () => {
+  box.addEventListener('error', event => {
+    const qrImage = event.target;
+    if (!(qrImage instanceof HTMLImageElement) || qrImage.id !== 'modul-reference-qr-image') return;
+
+    if (qrImage.dataset.fallbackUsed !== 'true' && qrImage.dataset.fallback) {
+      qrImage.dataset.fallbackUsed = 'true';
+      qrImage.src = qrImage.dataset.fallback;
+      return;
+    }
+
+    qrImage.hidden = true;
+    const qrFallbackNote = qrImage.closest('.modul-reference-card')
+      ?.querySelector('#modul-reference-qr-fallback-note');
+    if (qrFallbackNote) qrFallbackNote.hidden = false;
+  }, true);
+
+  box.addEventListener('click', event => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+
+    const copyButton = target.closest('#salin-tautan-modul');
+    if (!copyButton) return;
+
+    const card = copyButton.closest('.modul-reference-card');
+    const copyStatus = card?.querySelector('#status-salin-tautan-modul');
+    const moduleLink = card?.querySelector('#buka-modul-lengkap');
+    if (!copyStatus || !moduleLink) return;
+
     const url = moduleLink.href;
     try {
-      if (navigator.clipboard?.writeText) {
-        try {
-          await navigator.clipboard.writeText(url);
-        } catch {
-          copyWithLegacyApi(url);
-        }
-      } else {
-        copyWithLegacyApi(url);
-      }
-      showCopyStatus('Tautan berhasil disalin!', 'success');
+      const copyPromise = navigator.clipboard?.writeText
+        ? navigator.clipboard.writeText(url).catch(() => copyWithLegacyApi(url))
+        : Promise.resolve(copyWithLegacyApi(url));
+      copyPromise
+        .then(() => showCopyStatus(copyStatus, 'Tautan berhasil disalin!', 'success'))
+        .catch(() => showCopyStatus(copyStatus, 'Gagal menyalin tautan. Silakan buka tautan modul secara langsung.', 'error'));
     } catch {
-      showCopyStatus('Gagal menyalin tautan. Silakan buka tautan modul secara langsung.', 'error');
+      showCopyStatus(copyStatus, 'Gagal menyalin tautan. Silakan buka tautan modul secara langsung.', 'error');
     }
   });
 }

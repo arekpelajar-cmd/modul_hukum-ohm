@@ -549,6 +549,28 @@ const MATERI = [
       }
     ],
     audio: 'Silakan pilih Simulasi Hukum Ohm untuk menguji hubungan matematis secara visual, atau pilih Evaluasi dan Kuis untuk mengukur tingkat pemahaman Anda.'
+  },
+  {
+    id: 'referensi',
+    judul: 'Referensi & Modul Lengkap',
+    tab: 'Referensi & Modul Lengkap',
+    paragraf: 'Buka modul pembelajaran lengkap dalam format PDF untuk mempelajari Listrik DC, Hukum Ohm, Rangkaian Seri, Rangkaian Paralel, dan mengerjakan Lembar Kerja.',
+    modulUrl: 'https://drive.google.com/drive/folders/1ImAPMH-64fawi8lheTiS-LM-HPnm9WvY',
+    referensi: [
+      {
+        judul: 'OpenStax',
+        buku: 'College Physics 2e',
+        bagian: 'bagian 20.2: Hukum Ohm.',
+        href: 'https://openstax.org/books/college-physics-2e/pages/20-2-ohms-law-resistance-and-simple-circuits'
+      },
+      {
+        judul: 'OpenStax',
+        buku: 'College Physics 2e',
+        bagian: 'bagian 21.1: Resistor Seri dan Paralel.',
+        href: 'https://openstax.org/books/college-physics-2e/pages/21-1-resistors-in-series-and-parallel'
+      }
+    ],
+    audio: 'Bagian referensi menyediakan modul lengkap Hukum Ohm dan Rangkaian Seri-Paralel serta sumber bacaan OpenStax.'
   }
 ];
 

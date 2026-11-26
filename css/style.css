@@ -591,6 +591,7 @@ body.modal-open {
 }
 
 .materi-sidebar {
+  min-width: 0;
   background: var(--navy);
   border-radius: var(--r-card);
   padding: 12px;
@@ -609,13 +610,19 @@ body.modal-open {
   min-width: 0;
 }
 
+.materi-layout {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .modul-reference-card {
+  min-width: 0;
   padding: clamp(1rem, 2.5vw, 1.5rem);
-  border: 1px solid var(--line);
-  border-radius: var(--r-card);
-  background: linear-gradient(135deg, #f8fbff, #edf5ff);
+  border: 1px solid #d5e5f5;
+  border-radius: 1rem;
+  background: linear-gradient(145deg, #ffffff 0%, #f5faff 100%);
   color: var(--ink);
-  box-shadow: 0 6px 18px rgba(21, 73, 126, 0.08);
+  box-shadow: 0 8px 24px rgba(15, 36, 64, 0.09);
+  overflow-wrap: anywhere;
 }
 
 .modul-reference-heading {
@@ -625,22 +632,24 @@ body.modal-open {
 .modul-reference-heading h2 {
   margin: 0;
   color: var(--navy);
-  font-size: clamp(1.15rem, 2vw, 1.45rem);
+  font-size: clamp(1.25rem, 2.5vw, 1.65rem);
   line-height: 1.3;
 }
 
 .modul-reference-heading p,
 .modul-reference-details p {
-  margin: 0.5rem 0 0;
-  color: var(--muted);
+  margin: 0.6rem 0 0;
+  color: var(--ink);
+  font-size: 0.95rem;
   line-height: 1.6;
 }
 
 .modul-reference-grid {
   display: grid;
+  min-width: 0;
   grid-template-columns: minmax(0, 1fr);
+  align-items: start;
   gap: 1.5rem;
-  align-items: center;
 }
 
 .modul-reference-qr {
@@ -652,31 +661,34 @@ body.modal-open {
 
 .modul-reference-qr-frame {
   display: grid;
-  width: min(100%, 220px);
+  width: min(100%, 198px);
   aspect-ratio: 1;
   place-items: center;
-  padding: 0.75rem;
-  border: 1px solid var(--line);
-  border-radius: 1rem;
+  padding: 8px;
+  border: 1px solid #d5e5f5;
+  border-radius: 12px;
   background: #ffffff;
-  box-shadow: 0 4px 14px rgba(15, 36, 64, 0.1);
 }
 
 .modul-reference-qr-frame img {
   display: block;
   width: 180px;
   max-width: 100%;
-  height: auto;
+  height: 180px;
   aspect-ratio: 1;
   image-rendering: pixelated;
 }
 
 .modul-reference-qr figcaption {
-  max-width: 28ch;
-  color: var(--muted);
-  font-size: 0.875rem;
+  max-width: 34ch;
+  color: var(--ink);
+  font-size: 0.85rem;
   line-height: 1.5;
   text-align: center;
+}
+
+.modul-reference-details {
+  min-width: 0;
 }
 
 .modul-reference-details h3 {
@@ -687,26 +699,28 @@ body.modal-open {
 }
 
 .modul-reference-details h4 {
-  margin: 1rem 0 0.35rem;
+  margin: 1rem 0 0.4rem;
   color: var(--ink);
   font-size: 0.95rem;
 }
 
 .modul-reference-details ul {
-  margin: 0;
+  margin: 0.25rem 0 0;
   padding-left: 1.25rem;
   color: var(--ink);
-  line-height: 1.55;
+  font-size: 0.9rem;
+  line-height: 1.6;
 }
 
 .modul-reference-details li + li {
-  margin-top: 0.4rem;
+  margin-top: 0.45rem;
 }
 
 .modul-reference-details a:not(.btn) {
   color: var(--blue-dark);
   text-decoration: underline;
   text-underline-offset: 0.15em;
+  overflow-wrap: anywhere;
 }
 
 .modul-reference-actions {
@@ -717,16 +731,22 @@ body.modal-open {
 }
 
 .modul-reference-actions .btn {
+  flex: 1 1 220px;
+  min-width: 0;
   min-height: 44px;
   justify-content: center;
+  padding: 0.65rem 1rem;
+  font-size: 0.9rem;
   text-align: center;
+  white-space: normal;
 }
 
 .modul-copy-status {
-  min-height: 1.5em;
+  min-height: 1.4em;
   margin: 0.5rem 0 0;
   font-size: 0.9rem;
   font-weight: 600;
+  line-height: 1.4;
 }
 
 .modul-copy-status:empty {
@@ -744,8 +764,15 @@ body.modal-open {
 
 .modul-qr-fallback-note {
   margin: 0;
-  font-size: 0.875rem;
+  font-size: 0.85rem;
+  line-height: 1.4;
   text-align: center;
+}
+
+@media (min-width: 768px) {
+  .modul-reference-grid {
+    grid-template-columns: minmax(198px, 0.42fr) minmax(0, 1fr);
+  }
 }
 
 .home-reference-footer {
@@ -1780,13 +1807,10 @@ html[data-kontras='tinggi'] :is(.modul-reference-card, .home-reference-footer) a
     grid-template-columns: 42% 58%;
   }
   .materi-layout {
-    grid-template-columns: 22fr 78fr;
+    grid-template-columns: minmax(240px, 280px) minmax(0, 1fr);
   }
   .materi-inner-grid {
     grid-template-columns: 57fr 43fr;
-  }
-  .modul-reference-grid {
-    grid-template-columns: minmax(180px, 0.8fr) minmax(0, 1.8fr);
   }
   .materi-sidebar {
     overflow: visible;
@@ -1810,6 +1834,11 @@ html[data-kontras='tinggi'] :is(.modul-reference-card, .home-reference-footer) a
 @media (max-width: 767px) {
   body {
     padding: 0;
+  }
+
+  #konten .materi-content .materi-navigation {
+    justify-content: flex-start;
+    margin-bottom: 5rem;
   }
 
   .frame {
@@ -1931,13 +1960,6 @@ html[data-kontras='tinggi'] :is(.modul-reference-card, .home-reference-footer) a
 @media (hover: none) {
   .menu-card:hover {
     transform: none;
-  }
-}
-
-@media (max-width: 479px) {
-  .modul-reference-actions {
-    display: grid;
-    grid-template-columns: 1fr;
   }
 }
 
