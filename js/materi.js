@@ -619,10 +619,86 @@ function initAudioHandler() {
   }
 }
 
+function initModuleReferenceActions() {
+  const copyButton = document.getElementById('salin-tautan-modul');
+  const copyStatus = document.getElementById('status-salin-tautan-modul');
+  const moduleLink = document.getElementById('buka-modul-lengkap');
+  const qrImage = document.getElementById('modul-reference-qr-image');
+  const qrFallbackNote = document.getElementById('modul-reference-qr-fallback-note');
+
+  if (qrImage) {
+    let usingFallback = false;
+    const showQrFallback = () => {
+      if (!usingFallback && qrImage.dataset.fallback) {
+        usingFallback = true;
+        qrImage.src = qrImage.dataset.fallback;
+        return;
+      }
+      qrImage.hidden = true;
+      if (qrFallbackNote) qrFallbackNote.hidden = false;
+    };
+    qrImage.addEventListener('error', showQrFallback);
+    if (qrImage.complete && qrImage.naturalWidth === 0) showQrFallback();
+  }
+
+  if (!copyButton || !copyStatus || !moduleLink) return;
+
+  let clearStatusTimeout;
+  const showCopyStatus = (message, state) => {
+    copyStatus.dataset.state = state;
+    copyStatus.textContent = message;
+    window.clearTimeout(clearStatusTimeout);
+    clearStatusTimeout = window.setTimeout(() => {
+      copyStatus.textContent = '';
+      delete copyStatus.dataset.state;
+    }, 3500);
+  };
+  const copyWithLegacyApi = text => {
+    if (typeof document.execCommand !== 'function') {
+      throw new Error('Clipboard tidak tersedia.');
+    }
+
+    const temporaryInput = document.createElement('textarea');
+    temporaryInput.value = text;
+    temporaryInput.setAttribute('readonly', '');
+    temporaryInput.style.position = 'fixed';
+    temporaryInput.style.opacity = '0';
+    document.body.appendChild(temporaryInput);
+    temporaryInput.select();
+
+    let copied = false;
+    try {
+      copied = document.execCommand('copy');
+    } finally {
+      temporaryInput.remove();
+    }
+    if (!copied) throw new Error('Browser menolak penyalinan tautan.');
+  };
+
+  copyButton.addEventListener('click', async () => {
+    const url = moduleLink.href;
+    try {
+      if (navigator.clipboard?.writeText) {
+        try {
+          await navigator.clipboard.writeText(url);
+        } catch {
+          copyWithLegacyApi(url);
+        }
+      } else {
+        copyWithLegacyApi(url);
+      }
+      showCopyStatus('Tautan berhasil disalin!', 'success');
+    } catch {
+      showCopyStatus('Gagal menyalin tautan. Silakan buka tautan modul secara langsung.', 'error');
+    }
+  });
+}
+
 // Inisialisasi Halaman
 function initMateriPage() {
   initTabs();
   initAudioHandler();
+  initModuleReferenceActions();
 
   // Hormati URL Hash (misal #pengertian, #rumus, #contoh, #latihan)
   let initialIdx = 0;
