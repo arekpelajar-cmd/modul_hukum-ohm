@@ -1,62 +1,146 @@
 // ===== Layar 5: Simulasi Rangkaian Seri-Paralel =====
-const $ = id => document.getElementById(id);
+const $ = (id) => document.getElementById(id);
 const SUMBER = 12;
 let mode = 'seri';
 let R1 = 10;
 let R2 = 20;
+let R3 = 30;
+let JUMLAH_BEBAN = 2;
 let tant = null;
 let timerTantangan = null;
 let timerAnnouncer = null;
 
 const SKEN = [
-  { t: 'Seri: buat hambatan total 50 Ω', mode: 'seri', k: 'Rt', val: 50, u: 'Ω' },
-  { t: 'Seri: buat arus 0,30 A', mode: 'seri', k: 'I', val: 0.30, u: 'A' },
-  { t: 'Paralel: buat hambatan total 6 Ω', mode: 'paralel', k: 'Rt', val: 6, u: 'Ω' },
-  { t: 'Paralel: buat arus total 2,40 A', mode: 'paralel', k: 'I', val: 2.40, u: 'A' },
-  { t: 'Seri: buat tegangan R2 sebesar 8 V', mode: 'seri', k: 'V2', val: 8, u: 'V' }
+  {
+    t: 'Rangkaian seri: atur hambatan listrik total menjadi 50 Ω',
+    mode: 'seri',
+    k: 'Rt',
+    val: 50,
+    u: 'Ω',
+  },
+  {
+    t: 'Rangkaian seri: atur kuat arus listrik menjadi 0,30 A',
+    mode: 'seri',
+    k: 'I',
+    val: 0.3,
+    u: 'A',
+  },
+  {
+    t: 'Rangkaian paralel: atur hambatan listrik total menjadi 6 Ω',
+    mode: 'paralel',
+    k: 'Rt',
+    val: 6,
+    u: 'Ω',
+  },
+  {
+    t: 'Rangkaian paralel: atur kuat arus listrik total menjadi 2,40 A',
+    mode: 'paralel',
+    k: 'I',
+    val: 2.4,
+    u: 'A',
+  },
+  {
+    t: 'Rangkaian seri: atur tegangan listrik pada R2 menjadi 8 V',
+    mode: 'seri',
+    k: 'V2',
+    val: 8,
+    u: 'V',
+  },
 ];
 
-function hitung(r1 = R1, r2 = R2, jenis = mode, tegangan = SUMBER) {
+function hitung(
+  r1 = R1,
+  r2 = R2,
+  jenis = mode,
+  tegangan = SUMBER,
+  jumlahBeban = JUMLAH_BEBAN,
+  r3 = R3,
+) {
+  const resistansi = jumlahBeban === 3 ? [r1, r2, r3] : [r1, r2];
+
   if (jenis === 'seri') {
-    const Rt = r1 + r2;
+    const Rt = resistansi.reduce((total, nilai) => total + nilai, 0);
     const I = tegangan / Rt;
-    return { Rt, I, V1: I * r1, V2: I * r2 };
+    const teganganBeban = resistansi.map((nilai) => I * nilai);
+    return {
+      Rt,
+      I,
+      V1: teganganBeban[0],
+      V2: teganganBeban[1],
+      V3: teganganBeban[2],
+      resistansi,
+      teganganBeban,
+      arusBeban: resistansi.map(() => I),
+    };
   }
 
-  const Rt = r1 * r2 / (r1 + r2);
-  const I1 = tegangan / r1;
-  const I2 = tegangan / r2;
-  return { Rt, I: I1 + I2, V1: tegangan, V2: tegangan, I1, I2 };
+  const Rt = 1 / resistansi.reduce((total, nilai) => total + 1 / nilai, 0);
+  const arusBeban = resistansi.map((nilai) => tegangan / nilai);
+  return {
+    Rt,
+    I: arusBeban.reduce((total, nilai) => total + nilai, 0),
+    V1: tegangan,
+    V2: tegangan,
+    V3: tegangan,
+    I1: arusBeban[0],
+    I2: arusBeban[1],
+    I3: arusBeban[2],
+    resistansi,
+    teganganBeban: resistansi.map(() => tegangan),
+    arusBeban,
+  };
 }
 
-const fmtNilai = n => Math.abs(n - Math.round(n)) < 1e-9 ? String(Math.round(n)) : fmt(n);
-const zigzag = (x, y) =>
-  `<polyline points="${x},${y} ${x + 10},${y - 8} ${x + 25},${y + 8} ${x + 40},${y - 8} ${x + 55},${y + 8} ${x + 70},${y - 8} ${x + 80},${y}" fill="none" stroke="var(--orange)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`;
+const fmtNilai = (n) => (Math.abs(n - Math.round(n)) < 1e-9 ? String(Math.round(n)) : fmt(n));
 
 function gambar() {
-  const baterai = `
-    <line x1="52" y1="105" x2="88" y2="105" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/>
-    <line x1="59" y1="130" x2="81" y2="130" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/>
-    <text x="13" y="123" font-size="13" font-weight="700" fill="var(--ink)">12 V</text>`;
+  const resistansi = JUMLAH_BEBAN === 3 ? [R1, R2, R3] : [R1, R2];
+  const judul = `${mode === 'seri' ? 'Rangkaian seri' : 'Rangkaian paralel'} dengan ${JUMLAH_BEBAN} hambatan listrik: ${resistansi.map((nilai, index) => `R${index + 1} ${nilai} ohm`).join(', ')}, sumber ${SUMBER} volt`;
+  const baterai =
+    '<image href="assets/img/battery.svg" x="22" y="94" width="46" height="84" aria-label="Baterai sumber 12 V"/>';
+  const gambarResistor = (x, y, lebar, index, nilai) => `
+    <image href="assets/img/resistor.svg" x="${x}" y="${y}" width="${lebar}" height="${lebar / 4}" aria-hidden="true"/>
+    <text x="${x + lebar / 2}" y="${y - 7}" font-size="13" font-weight="700" fill="var(--ink)" text-anchor="middle">R${index + 1} = ${nilai} Ω</text>`;
 
   if (mode === 'seri') {
+    const lebar = 100;
+    const mulai = 80;
+    const akhir = 450;
+    const jarak = (akhir - mulai - lebar * resistansi.length) / (resistansi.length + 1);
+    const komponen = resistansi
+      .map((nilai, index) => {
+        const x = mulai + jarak + index * (lebar + jarak);
+        return gambarResistor(x, 53, lebar, index, nilai);
+      })
+      .join('');
     return `
-      <svg viewBox="0 0 400 230" class="sp-svg" role="img" aria-label="Diagram rangkaian seri">
-        <title>Rangkaian seri, R1 ${R1} ohm dan R2 ${R2} ohm, sumber 12 volt</title>
-        <path d="M70 52V100 M70 135V188 H340 V52 H300 M220 52H190 M110 52H70" fill="none" stroke="var(--navy)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-        ${zigzag(110, 52)}${zigzag(220, 52)}${baterai}
-        <text x="150" y="25" font-size="13" font-weight="700" fill="var(--ink)" text-anchor="middle">R1 ${R1} Ω</text>
-        <text x="260" y="25" font-size="13" font-weight="700" fill="var(--ink)" text-anchor="middle">R2 ${R2} Ω</text>
+      <svg viewBox="0 0 520 250" class="sp-svg" role="img" aria-label="${judul}">
+        <title>${judul}</title>
+        <path d="M45 66 H475 V210 H45 M45 66 V94 M45 178 V210" fill="none" stroke="var(--navy)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        ${baterai}
+        <text x="45" y="199" font-size="12" font-weight="700" fill="var(--ink)" text-anchor="middle">${SUMBER} V</text>
+        ${komponen}
       </svg>`;
   }
 
+  const posisiCabang = resistansi.length === 3 ? [140, 260, 380] : [190, 350];
+  const ujungRel = posisiCabang[posisiCabang.length - 1];
+  const cabang = resistansi
+    .map((nilai, index) => {
+      const x = posisiCabang[index];
+      return `
+      <path d="M${x} 60 V205" fill="none" stroke="var(--navy)" stroke-width="3" stroke-linecap="round"/>
+      <image href="assets/img/resistor.svg" x="${x - 55}" y="119" width="110" height="27.5" transform="rotate(90 ${x} 132.75)" aria-hidden="true"/>
+      <text x="${x}" y="230" font-size="13" font-weight="700" fill="var(--ink)" text-anchor="middle">R${index + 1} = ${nilai} Ω</text>`;
+    })
+    .join('');
   return `
-    <svg viewBox="0 0 400 230" class="sp-svg" role="img" aria-label="Diagram rangkaian paralel">
-      <title>Rangkaian paralel, R1 ${R1} ohm dan R2 ${R2} ohm, sumber 12 volt</title>
-      <path d="M70 62V100 M70 135V188 M70 62H120 M200 62H340 V188 H200 M120 188H70" fill="none" stroke="var(--navy)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-      ${zigzag(120, 62)}${zigzag(120, 188)}${baterai}
-      <text x="160" y="38" font-size="13" font-weight="700" fill="var(--ink)" text-anchor="middle">R1 ${R1} Ω</text>
-      <text x="160" y="218" font-size="13" font-weight="700" fill="var(--ink)" text-anchor="middle">R2 ${R2} Ω</text>
+    <svg viewBox="0 0 520 250" class="sp-svg" role="img" aria-label="${judul}">
+      <title>${judul}</title>
+      <path d="M45 60 H${ujungRel} M45 205 H${ujungRel} M45 60 V94 M45 178 V205" fill="none" stroke="var(--navy)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      ${baterai}
+      <text x="45" y="230" font-size="12" font-weight="700" fill="var(--ink)" text-anchor="middle">${SUMBER} V</text>
+      ${cabang}
     </svg>`;
 }
 
@@ -71,24 +155,50 @@ function updateModeButtons() {
   paralel.classList.toggle('btn-primary', mode === 'paralel');
 }
 
+function perbaruiProses(hasil) {
+  const variabel = hasil.resistansi.map((_, index) => `R${['₁', '₂', '₃'][index]}`);
+  const formula =
+    mode === 'seri'
+      ? `Rₜ = ${variabel.join(' + ')}`
+      : `1/Rₜ = ${variabel.map((nilai) => `1/${nilai}`).join(' + ')}`;
+  const substitusi =
+    mode === 'seri'
+      ? `Rₜ = ${hasil.resistansi.map((nilai) => `${nilai} Ω`).join(' + ')} = ${fmtNilai(hasil.Rt)} Ω`
+      : `1/Rₜ = ${hasil.resistansi.map((nilai) => `1/(${nilai} Ω)`).join(' + ')}; Rₜ = ${fmtNilai(hasil.Rt)} Ω`;
+  const result = `Rₜ = ${fmtNilai(hasil.Rt)} Ω; Iₜ = ${SUMBER} V / ${fmtNilai(hasil.Rt)} Ω = ${fmt(hasil.I)} A`;
+  $('sp-process-formula').textContent = formula;
+  $('sp-process-substitution').textContent = substitusi;
+  $('sp-process-result').textContent = result;
+}
+
 function ubah() {
   const hasil = hitung();
   $('diagram').innerHTML = gambar();
   $('hRt').textContent = `${fmtNilai(hasil.Rt)} Ω`;
   $('hI').textContent = `${fmt(hasil.I)} A`;
-  $('hV1').textContent = `${fmtNilai(hasil.V1)} V`;
-  $('hV2').textContent = `${fmtNilai(hasil.V2)} V`;
+  $('hV1').textContent = `${fmtNilai(hasil.teganganBeban[0])} V`;
+  $('hV2').textContent = `${fmtNilai(hasil.teganganBeban[1])} V`;
+  $('hV3').textContent = JUMLAH_BEBAN === 3 ? `${fmtNilai(hasil.teganganBeban[2])} V` : '';
+  $('hasil-v3').hidden = JUMLAH_BEBAN !== 3;
+  perbaruiProses(hasil);
   updateModeButtons();
 
   clearTimeout(timerAnnouncer);
   timerAnnouncer = setTimeout(() => {
     $('hasil-announcer').textContent =
-      `Hambatan total ${fmtNilai(hasil.Rt)} ohm, arus ${fmt(hasil.I)} ampere, tegangan R1 ${fmtNilai(hasil.V1)} volt, tegangan R2 ${fmtNilai(hasil.V2)} volt.`;
+      `Hambatan listrik total ${fmtNilai(hasil.Rt)} ohm, kuat arus listrik total ${fmt(hasil.I)} ampere, tegangan listrik pada R1 ${fmtNilai(hasil.V1)} volt, tegangan listrik pada R2 ${fmtNilai(hasil.V2)} volt.`;
   }, 250);
 }
 
 function setMode(jenis) {
   mode = jenis;
+  ubah();
+}
+
+function setJumlahBeban(jumlah) {
+  JUMLAH_BEBAN = Number(jumlah) === 3 ? 3 : 2;
+  $('jumlah-beban').value = String(JUMLAH_BEBAN);
+  $('r3-row').hidden = JUMLAH_BEBAN !== 3;
   ubah();
 }
 
@@ -111,7 +221,7 @@ function sinkron(slider, input, nilaiDefault, setNilai) {
     ubah();
   });
 
-  input.addEventListener('keydown', event => {
+  input.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') input.blur();
   });
 }
@@ -130,46 +240,60 @@ function tutupModal() {
 }
 
 function bukaPetunjuk() {
-  const dasar = mode === 'seri'
-    ? 'Arus yang sama mengalir pada R1 dan R2; tegangan terbagi sebanding dengan hambatan.'
-    : 'Tegangan pada tiap cabang sama dengan sumber; cabang dengan hambatan lebih kecil dialiri arus lebih besar.';
+  const dasar =
+    mode === 'seri'
+      ? 'Kuat arus listrik yang sama mengalir pada setiap hambatan dalam rangkaian seri; tegangan listrik terbagi sebanding dengan hambatan listrik.'
+      : 'Tegangan listrik pada setiap cabang rangkaian paralel sama dengan tegangan sumber; cabang dengan hambatan listrik lebih kecil dialiri kuat arus listrik lebih besar.';
   const skenario = tant && !tant.selesai ? SKEN[tant.i] : null;
-  const tambahan = skenario ? `
+  const tambahan = skenario
+    ? `
     <div class="mt-3 p-3 rounded-lg bg-[var(--box)]">
       <b>Petunjuk skenario ${tant.i + 1}:</b> ${hintSkenario(skenario)}
-    </div>` : '';
+    </div>`
+    : '';
   Modal.buka({
     judul: 'Petunjuk',
     isi: `<p>${dasar}</p>${tambahan}`,
-    tombol: [{ label: 'Tutup', kelas: 'btn-primary', aksi: tutupModal }]
+    tombol: [{ label: 'Tutup', kelas: 'btn-primary', aksi: tutupModal }],
   });
 }
 
 function hintSkenario(s) {
-  if (s.k === 'Rt' && s.mode === 'seri') return 'Hambatan total seri adalah jumlah R1 dan R2.';
-  if (s.k === 'I' && s.mode === 'seri') return 'Gunakan I = V/Rt. Untuk arus 0,30 A, Rt sekitar 40 Ω.';
-  if (s.k === 'Rt' && s.mode === 'paralel') return 'Dua hambatan 12 Ω yang dipasang paralel menghasilkan Rt = 6 Ω.';
-  if (s.k === 'I' && s.mode === 'paralel') return 'Arus total adalah jumlah arus cabang. Coba R1 dan R2 masing-masing 10 Ω.';
-  return 'Pada seri, V2 = 12 × R2/(R1 + R2). Coba R1 = 10 Ω dan R2 = 20 Ω.';
+  if (s.k === 'Rt' && s.mode === 'seri')
+    return 'Hambatan listrik total rangkaian seri adalah jumlah hambatan listrik R1 dan R2.';
+  if (s.k === 'I' && s.mode === 'seri')
+    return 'Gunakan I = V/Rt. Untuk kuat arus listrik 0,30 A, hambatan listrik total sekitar 40 Ω.';
+  if (s.k === 'Rt' && s.mode === 'paralel')
+    return 'Dua hambatan listrik 12 Ω yang dipasang dalam rangkaian paralel menghasilkan hambatan total 6 Ω.';
+  if (s.k === 'I' && s.mode === 'paralel')
+    return 'Kuat arus listrik total adalah jumlah kuat arus listrik setiap cabang. Coba R1 dan R2 masing-masing 10 Ω.';
+  return 'Pada rangkaian seri, V2 = 12 × R2/(R1 + R2). Coba R1 = 10 Ω dan R2 = 20 Ω.';
 }
 
 function ringkasanHtml() {
   const c = hitung();
   const rows = [
-    ['Mode', mode === 'seri' ? 'Seri' : 'Paralel'],
-    ['R1', `${R1} Ω`],
-    ['R2', `${R2} Ω`],
-    ['Hambatan total (Rt)', `${fmtNilai(c.Rt)} Ω`],
-    ['Arus total (I)', `${fmt(c.I)} A`],
-    ['Tegangan R1 (V1)', `${fmtNilai(c.V1)} V`],
-    ['Tegangan R2 (V2)', `${fmtNilai(c.V2)} V`]
+    ['Jenis rangkaian', mode === 'seri' ? 'Rangkaian Seri' : 'Rangkaian Paralel'],
+    ...c.resistansi.map((nilai, index) => [`Hambatan listrik R${index + 1}`, `${nilai} Ω`]),
+    ['Hambatan listrik total (Rt)', `${fmtNilai(c.Rt)} Ω`],
+    ['Kuat arus listrik total (I)', `${fmt(c.I)} A`],
+    ...c.teganganBeban.map((nilai, index) => [
+      `Tegangan listrik pada R${index + 1}`,
+      `${fmtNilai(nilai)} V`,
+    ]),
   ];
   if (mode === 'paralel') {
-    rows.push(['Arus cabang I1', `${fmt(c.I1)} A`], ['Arus cabang I2', `${fmt(c.I2)} A`]);
+    rows.push(
+      ...c.arusBeban.map((nilai, index) => [
+        `Kuat arus listrik cabang I${index + 1}`,
+        `${fmt(nilai)} A`,
+      ]),
+    );
   }
-  const tafsir = mode === 'seri'
-    ? 'Arus sama, tegangan terbagi.'
-    : 'Tegangan sama, arus terbagi.';
+  const tafsir =
+    mode === 'seri'
+      ? 'Kuat arus listrik sama, tegangan listrik terbagi.'
+      : 'Tegangan listrik sama, kuat arus listrik terbagi.';
   return `
     <dl class="sp-summary grid grid-cols-2 gap-2">
       ${rows.map(([label, value]) => `<div class="box-hasil text-left"><dt class="text-xs">${label}</dt><dd class="font-bold m-0">${value}</dd></div>`).join('')}
@@ -180,13 +304,13 @@ function ringkasanHtml() {
 function skenarioHtml() {
   return `
     <ol class="list-decimal list-inside space-y-1 mb-4">
-      ${SKEN.map(s => `<li>${s.t}</li>`).join('')}
+      ${SKEN.map((s) => `<li>${s.t}</li>`).join('')}
     </ol>
     <button type="button" id="mulai-tantangan-modal" class="btn btn-primary">Mulai Tantangan</button>`;
 }
 
 function renderTabSelesai(tab) {
-  document.querySelectorAll('#modal [role="tab"]').forEach(button => {
+  document.querySelectorAll('#modal [role="tab"]').forEach((button) => {
     const aktif = button.dataset.tab === tab;
     button.setAttribute('aria-selected', aktif ? 'true' : 'false');
     button.tabIndex = aktif ? 0 : -1;
@@ -197,10 +321,11 @@ function renderTabSelesai(tab) {
   panel.setAttribute('aria-labelledby', `tab-selesai-${tab}`);
   panel.setAttribute('tabindex', '0');
   const mulai = $('mulai-tantangan-modal');
-  if (mulai) mulai.onclick = () => {
-    tutupModal();
-    mulaiTantangan();
-  };
+  if (mulai)
+    mulai.onclick = () => {
+      tutupModal();
+      mulaiTantangan();
+    };
 }
 
 function bukaSelesai() {
@@ -212,16 +337,17 @@ function bukaSelesai() {
         <button type="button" id="tab-selesai-tantangan" class="btn" role="tab" data-tab="tantangan" aria-controls="modal-tab-content" aria-selected="false" tabindex="-1">Tantangan</button>
       </div>
       <div id="modal-tab-content" class="mt-4" role="tabpanel" tabindex="0"></div>`,
-    tombol: [{ label: 'Tutup', kelas: 'btn-outline', aksi: tutupModal }]
+    tombol: [{ label: 'Tutup', kelas: 'btn-outline', aksi: tutupModal }],
   });
-  document.querySelectorAll('#modal [role="tab"]').forEach(button => {
+  document.querySelectorAll('#modal [role="tab"]').forEach((button) => {
     button.onclick = () => renderTabSelesai(button.dataset.tab);
-    button.onkeydown = event => {
+    button.onkeydown = (event) => {
       if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
       event.preventDefault();
       const tabs = Array.from(document.querySelectorAll('#modal [role="tab"]'));
       const index = tabs.indexOf(button);
-      const target = tabs[(index + (event.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+      const target =
+        tabs[(index + (event.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
       target.focus();
       renderTabSelesai(target.dataset.tab);
     };
@@ -252,6 +378,7 @@ function renderPita(feedback = '', terkunci = false) {
 
 function mulaiTantangan() {
   clearTimeout(timerTantangan);
+  setJumlahBeban(2);
   tant = { i: 0, benar: 0, selesai: false };
   siapkanSkenario();
 }
@@ -294,7 +421,7 @@ function lanjutTantangan() {
 function selesaiTantangan() {
   if (!tant) return;
   const benar = tant.benar;
-  const persen = Math.round(benar / SKEN.length * 100);
+  const persen = Math.round((benar / SKEN.length) * 100);
   const lulus = persen >= 80;
   tant.selesai = true;
   tant = null;
@@ -310,11 +437,15 @@ function selesaiTantangan() {
       </div>`,
     tombol: [
       { label: 'Tutup', kelas: 'btn-outline', aksi: tutupModal },
-      { label: 'Ulangi', kelas: 'btn-primary', aksi: () => {
-        tutupModal();
-        mulaiTantangan();
-      } }
-    ]
+      {
+        label: 'Ulangi',
+        kelas: 'btn-primary',
+        aksi: () => {
+          tutupModal();
+          mulaiTantangan();
+        },
+      },
+    ],
   });
 }
 
@@ -322,6 +453,12 @@ function reset() {
   clearTimeout(timerTantangan);
   tant = null;
   setResistor(10, 20);
+  R3 = 30;
+  $('r3').value = $('r3n').value = R3;
+  updateSlider($('r3'));
+  JUMLAH_BEBAN = 2;
+  $('jumlah-beban').value = '2';
+  $('r3-row').hidden = true;
   mode = 'seri';
   renderPita();
   ubah();
@@ -330,7 +467,7 @@ function reset() {
 $('bSeri').onclick = () => setMode('seri');
 $('bPar').onclick = () => setMode('paralel');
 [$('bSeri'), $('bPar')].forEach((button, index) => {
-  button.onkeydown = event => {
+  button.onkeydown = (event) => {
     if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
     event.preventDefault();
     const target = index === 0 ? $('bPar') : $('bSeri');
@@ -338,17 +475,27 @@ $('bPar').onclick = () => setMode('paralel');
     target.click();
   };
 });
-sinkron($('r1'), $('r1n'), 10, nilai => { R1 = nilai; });
-sinkron($('r2'), $('r2n'), 20, nilai => { R2 = nilai; });
+sinkron($('r1'), $('r1n'), 10, (nilai) => {
+  R1 = nilai;
+});
+sinkron($('r2'), $('r2n'), 20, (nilai) => {
+  R2 = nilai;
+});
+sinkron($('r3'), $('r3n'), 30, (nilai) => {
+  R3 = nilai;
+});
+$('jumlah-beban').addEventListener('change', (event) => setJumlahBeban(event.target.value));
 $('hint').onclick = bukaPetunjuk;
 $('reset').onclick = reset;
 $('selesai').onclick = bukaSelesai;
 updateSlider($('r1'));
 updateSlider($('r2'));
+updateSlider($('r3'));
 ubah();
 
 if (typeof window !== 'undefined') {
   window.hitungRangkaian = hitung;
+  window.setJumlahBebanRangkaian = setJumlahBeban;
   window.resetRangkaian = reset;
   window.mulaiTantanganRangkaian = mulaiTantangan;
 }

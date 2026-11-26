@@ -1,82 +1,225 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id" data-kontras="normal" data-huruf="normal">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Simulasi Rangkaian Seri-Paralel</title>
-  <script src="js/aksesibilitas-awal.js"></script>
-  <link rel="icon" href="assets/img/logo.svg">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body data-title="Simulasi Rangkaian Seri-Paralel" data-back="simulasi-ohm.html" data-header="bantuan" data-width="lebar" data-help="Atur R1 dan R2, lalu bandingkan hasil rangkaian seri dan paralel.">
-  <a class="skip-link" href="#konten">Lewati ke konten utama</a>
-  <header id="hdr"></header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Simulasi Rangkaian Seri dan Paralel</title>
+    <script src="js/aksesibilitas-awal.js"></script>
+    <link rel="icon" href="assets/img/logo.svg" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body
+    data-title="Simulasi Rangkaian Seri dan Paralel"
+    data-back="simulasi-ohm.html"
+    data-header="bantuan"
+    data-width="lebar"
+    data-help="Atur hambatan listrik R1 dan R2, lalu bandingkan kuat arus listrik, tegangan listrik, dan hambatan listrik pada rangkaian seri dan paralel."
+  >
+    <a class="skip-link" href="#konten">Lewati ke konten utama</a>
+    <header id="hdr"></header>
 
-  <main id="konten" tabindex="-1" class="p-4">
-    <div id="tantangan-pita" class="sp-challenge-ribbon hidden mb-3" role="status" aria-live="polite"></div>
+    <main id="konten" tabindex="-1" class="p-4">
+      <div
+        id="tantangan-pita"
+        class="sp-challenge-ribbon hidden mb-3"
+        role="status"
+        aria-live="polite"
+      ></div>
 
-    <div class="sp-layout grid grid-cols-1 md:grid-cols-[44fr_56fr] gap-3">
-      <section class="panel sp-panel flex flex-col" aria-labelledby="judul-mode">
-        <h2 id="judul-mode" class="font-semibold mb-3">Pilih Jenis Rangkaian</h2>
-        <div class="sp-mode-toggle grid grid-cols-2 gap-2 mb-3" role="radiogroup" aria-label="Jenis rangkaian">
-          <button type="button" id="bSeri" class="btn btn-primary" role="radio" aria-checked="true">Seri</button>
-          <button type="button" id="bPar" class="btn" role="radio" aria-checked="false">Paralel</button>
-        </div>
-        <div id="diagram" class="sp-diagram flex-1 flex items-center justify-center"></div>
-        <div class="pt-3 mt-3 border-t border-[var(--line)]">
-          <button type="button" id="hint" class="btn btn-outline">
-            <span aria-hidden="true">            <svg class="ic w-4 h-4" aria-hidden="true" focusable="false"><use href="#i-lightbulb"></use></svg></span>
-            Hint
-          </button>
-        </div>
-      </section>
+      <div class="sp-layout grid grid-cols-1 md:grid-cols-[44fr_56fr] gap-3">
+        <section class="panel sp-panel flex flex-col" aria-labelledby="judul-mode">
+          <h2 id="judul-mode" class="font-semibold mb-3">Pilih Jenis Rangkaian</h2>
+          <div
+            class="sp-mode-toggle grid grid-cols-2 gap-2 mb-3"
+            role="radiogroup"
+            aria-label="Jenis rangkaian"
+          >
+            <button
+              type="button"
+              id="bSeri"
+              class="btn btn-primary"
+              role="radio"
+              aria-checked="true"
+            >
+              Rangkaian Seri
+            </button>
+            <button type="button" id="bPar" class="btn" role="radio" aria-checked="false">
+              Rangkaian Paralel
+            </button>
+          </div>
+          <div id="diagram" class="sp-diagram flex-1 flex items-center justify-center"></div>
+          <div class="pt-3 mt-3 border-t border-[var(--line)]">
+            <button type="button" id="hint" class="btn btn-outline">
+              <span aria-hidden="true">
+                <svg class="ic w-4 h-4" aria-hidden="true" focusable="false">
+                  <use href="#i-lightbulb"></use></svg
+              ></span>
+              Petunjuk
+            </button>
+          </div>
+        </section>
 
-      <section class="panel sp-panel flex flex-col gap-4" aria-labelledby="judul-pengaturan">
-        <div>
-          <h2 id="judul-pengaturan" class="font-bold mb-3">Pengaturan Komponen</h2>
-          <div class="space-y-3">
-            <div class="sp-control-row">
-              <label for="r1n" class="font-semibold text-sm">R1</label>
-              <input id="r1" type="range" min="1" max="100" step="1" value="10" aria-label="Slider R1">
-              <div class="input-angka-wrap">
-                <input id="r1n" class="sp-value-input" type="text" inputmode="numeric" value="10" aria-label="Nilai R1">
-                <span class="satuan">Ω</span>
+        <section class="panel sp-panel flex flex-col gap-4" aria-labelledby="judul-pengaturan">
+          <div>
+            <h2 id="judul-pengaturan" class="font-bold mb-3">Pengaturan Komponen</h2>
+            <div class="space-y-3">
+              <div class="sp-load-count">
+                <label for="jumlah-beban" class="font-semibold text-sm">Jumlah beban</label>
+                <select
+                  id="jumlah-beban"
+                  class="btn btn-outline"
+                  aria-label="Pilih jumlah hambatan listrik"
+                >
+                  <option value="2" selected>2 hambatan listrik</option>
+                  <option value="3">3 hambatan listrik</option>
+                </select>
               </div>
-            </div>
-            <div class="sp-control-row">
-              <label for="r2n" class="font-semibold text-sm">R2</label>
-              <input id="r2" type="range" min="1" max="100" step="1" value="20" aria-label="Slider R2">
-              <div class="input-angka-wrap">
-                <input id="r2n" class="sp-value-input" type="text" inputmode="numeric" value="20" aria-label="Nilai R2">
-                <span class="satuan">Ω</span>
+              <div class="sp-control-row">
+                <label for="r1n" class="font-semibold text-sm">R1</label>
+                <input
+                  id="r1"
+                  type="range"
+                  min="1"
+                  max="100"
+                  step="1"
+                  value="10"
+                  aria-label="Slider R1"
+                />
+                <div class="input-angka-wrap">
+                  <input
+                    id="r1n"
+                    class="sp-value-input"
+                    type="text"
+                    inputmode="numeric"
+                    value="10"
+                    aria-label="Nilai R1"
+                  />
+                  <span class="satuan">Ω</span>
+                </div>
+              </div>
+              <div class="sp-control-row">
+                <label for="r2n" class="font-semibold text-sm">R2</label>
+                <input
+                  id="r2"
+                  type="range"
+                  min="1"
+                  max="100"
+                  step="1"
+                  value="20"
+                  aria-label="Slider R2"
+                />
+                <div class="input-angka-wrap">
+                  <input
+                    id="r2n"
+                    class="sp-value-input"
+                    type="text"
+                    inputmode="numeric"
+                    value="20"
+                    aria-label="Nilai R2"
+                  />
+                  <span class="satuan">Ω</span>
+                </div>
+              </div>
+              <div id="r3-row" class="sp-control-row" hidden>
+                <label for="r3n" class="font-semibold text-sm">R3</label>
+                <input
+                  id="r3"
+                  type="range"
+                  min="1"
+                  max="100"
+                  step="1"
+                  value="30"
+                  aria-label="Slider R3"
+                />
+                <div class="input-angka-wrap">
+                  <input
+                    id="r3n"
+                    class="sp-value-input"
+                    type="text"
+                    inputmode="numeric"
+                    value="30"
+                    aria-label="Nilai R3"
+                  />
+                  <span class="satuan">Ω</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div>
-          <h2 class="font-bold mb-2">Hasil Pengukuran</h2>
-          <div id="hasil-live" class="sp-results grid grid-cols-2 sm:grid-cols-4 gap-2 text-center" aria-live="off">
-            <div class="box-hasil sp-total"><small>Hambatan Total</small><b id="hRt"></b></div>
-            <div class="box-hasil"><small>Arus</small><b id="hI"></b></div>
-            <div class="box-hasil"><small>Tegangan (R1)</small><b id="hV1"></b></div>
-            <div class="box-hasil"><small>Tegangan (R2)</small><b id="hV2"></b></div>
+          <div>
+            <h2 class="font-bold mb-2">Hasil Pengukuran</h2>
+            <div
+              id="hasil-live"
+              class="sp-results grid grid-cols-2 sm:grid-cols-4 gap-2 text-center"
+              aria-live="off"
+            >
+              <div class="box-hasil sp-total">
+                <small>Hambatan Listrik Total (R<sub>t</sub>)</small><b id="hRt"></b>
+              </div>
+              <div class="box-hasil"><small>Kuat Arus Listrik Total (I)</small><b id="hI"></b></div>
+              <div class="box-hasil">
+                <small>Tegangan Listrik pada R1 (V1)</small><b id="hV1"></b>
+              </div>
+              <div class="box-hasil">
+                <small>Tegangan Listrik pada R2 (V2)</small><b id="hV2"></b>
+              </div>
+              <div id="hasil-v3" class="box-hasil" hidden>
+                <small>Tegangan Listrik pada R3 (V3)</small><b id="hV3"></b>
+              </div>
+            </div>
+            <section class="process-panel mt-4" aria-labelledby="sp-process-title">
+              <h3 id="sp-process-title" class="font-bold text-sm">Proses Perhitungan Otomatis</h3>
+              <dl class="process-steps">
+                <div>
+                  <dt>Rumus</dt>
+                  <dd id="sp-process-formula"></dd>
+                </div>
+                <div>
+                  <dt>Substitusi</dt>
+                  <dd id="sp-process-substitution"></dd>
+                </div>
+                <div>
+                  <dt>Hasil</dt>
+                  <dd id="sp-process-result"></dd>
+                </div>
+              </dl>
+            </section>
+            <p id="hasil-announcer" class="sr-only" role="status" aria-live="polite"></p>
           </div>
-          <p id="hasil-announcer" class="sr-only" role="status" aria-live="polite"></p>
-        </div>
 
-        <div class="sp-actions flex gap-2 justify-end mt-auto pt-2">
-          <button type="button" id="reset" class="btn btn-primary">Reset</button>
-          <button type="button" id="selesai" class="btn btn-primary">Selesai</button>
-        </div>
-      </section>
-    </div>
-  </main>
+          <div class="sp-actions flex gap-2 justify-end mt-auto pt-2">
+            <button type="button" id="reset" class="btn btn-primary">Reset</button>
+            <button type="button" id="selesai" class="btn btn-primary">Selesai</button>
+          </div>
+        </section>
+      </div>
 
-  <script defer src="js/icons.js"></script>
-  <script defer src="js/common.js"></script>
-  <script defer src="js/seripararel.js"></script>
-</body>
+      <nav class="bottom-flow-nav" aria-label="Navigasi Langkah Pembelajaran">
+        <a href="simulasi-ohm.html" class="btn btn-outline inline-flex items-center gap-2">
+          <svg class="ic w-4 h-4" aria-hidden="true" focusable="false">
+            <use href="#i-chevron-left"></use>
+          </svg>
+          <span>Langkah 2: Simulasi Hukum Ohm</span>
+        </a>
+        <span class="bottom-flow-indicator font-semibold text-xs sm:text-sm text-[var(--muted)]">
+          Langkah 3 dari 4: Simulasi Rangkaian Seri dan Paralel
+        </span>
+        <a href="kuis.html" class="btn btn-primary inline-flex items-center gap-2">
+          <span>Langkah 4: Latihan &amp; Evaluasi</span>
+          <svg class="ic w-4 h-4" aria-hidden="true" focusable="false">
+            <use href="#i-arrow-right"></use>
+          </svg>
+        </a>
+      </nav>
+    </main>
+
+    <script defer src="js/icons.js"></script>
+    <script defer src="js/common.js"></script>
+    <script defer src="js/seripararel.js"></script>
+  </body>
 </html>

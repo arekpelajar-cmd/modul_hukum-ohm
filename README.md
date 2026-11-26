@@ -23,8 +23,8 @@ media-ohm/
 ```
 
 ## 3. Menjalankan Lokal
-1. Buka `index.html` langsung di browser, atau
-2. VS Code → pasang ekstensi **Live Server** → klik kanan `index.html` → *Open with Live Server*.
+1. Jalankan `node dev-server.mjs` untuk melayani situs dan endpoint chat di `http://localhost:5173`. Server membaca `.env` dan `.env.local` jika tersedia.
+2. Alternatif untuk halaman statis saja: buka `index.html` langsung di browser atau gunakan ekstensi **Live Server** di VS Code.
 
 Butuh internet saat pertama dibuka (CDN Tailwind, KaTeX, Google Fonts).
 

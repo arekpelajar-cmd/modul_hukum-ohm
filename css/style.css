@@ -9,55 +9,55 @@
    ---------------------------------------------------------- */
 :root {
   /* Warna utama */
-  --navy:       #15497E;
-  --blue:       #0062DD;
-  --blue-dark:  #0355BB;
-  --blue-soft:  #D9E8F9;
-  --green:      #1CB375;
-  --orange:     #FD7D17;
-  --indigo:     #4530C3;
-  --purple:     var(--indigo);   /* alias—dipakai di index nav Evaluasi */
+  --navy: #15497e;
+  --blue: #0062dd;
+  --blue-dark: #0355bb;
+  --blue-soft: #d9e8f9;
+  --green: #1cb375;
+  --orange: #fd7d17;
+  --indigo: #4530c3;
+  --purple: var(--indigo); /* alias—dipakai di index nav Evaluasi */
 
   /* Permukaan & tinta */
-  --bg:         #F3F7FC;
-  --ink:        #0F2440;
-  --muted:      #526174;
-  --line:       #BFDCF6;
-  --card:       #FFFFFF;
-  --box:        #EEF4FF;
-  --track:      #D5DEE9;
+  --bg: #f3f7fc;
+  --ink: #0f2440;
+  --muted: #526174;
+  --line: #bfdcf6;
+  --card: #ffffff;
+  --box: #eef4ff;
+  --track: #d5dee9;
 
   /* Radius */
-  --r-card:     16px;
-  --r-btn:      10px;
-  --r-pill:     999px;
+  --r-card: 16px;
+  --r-btn: 10px;
+  --r-pill: 999px;
 
   /* Bayangan */
-  --shadow:     0 2px 10px rgba(21, 73, 126, .12);
-  --shadow-btn: 0 4px 12px rgba(0, 98, 221, .28);
+  --shadow: 0 2px 10px rgba(21, 73, 126, 0.12);
+  --shadow-btn: 0 4px 12px rgba(0, 98, 221, 0.28);
   --shadow-modal: 0 10px 25px -5px rgba(21, 73, 126, 0.3), 0 8px 10px -6px rgba(21, 73, 126, 0.2);
 
   /* Token status—sinkron dengan kelas .ok dan .no */
-  --ok-bg:      #dcfce7;
-  --ok-ink:     #14532d;
-  --no-bg:      #fee2e2;
-  --no-ink:     #7f1d1d;
-  --orange-soft:#FFF1E6;
+  --ok-bg: #dcfce7;
+  --ok-ink: #14532d;
+  --no-bg: #fee2e2;
+  --no-ink: #7f1d1d;
+  --orange-soft: #fff1e6;
 
   /* Token latar hero & formula */
-  --hero-from:   #FFFFFF;
-  --hero-to:     #EAF3FC;
-  --box-formula: #E4F6FE;
+  --hero-from: #ffffff;
+  --hero-to: #eaf3fc;
+  --box-formula: #e4f6fe;
 
   /* Token komponen visual rangkaian (resistor & emas) */
-  --res-body:    #FDE68A;
-  --res-border:  #D97706;
-  --res-core:    #FEF3C7;
-  --gold:        #D4AF37;
-  --white:       #FFFFFF;
+  --res-body: #fde68a;
+  --res-border: #d97706;
+  --res-core: #fef3c7;
+  --gold: #d4af37;
+  --white: #ffffff;
 
   /* Slider: persentase posisi thumb, diisi JS updateSlider() */
-  --pct:        50%;
+  --pct: 50%;
 }
 
 *,
@@ -70,16 +70,16 @@ html {
   font-size: 100%;
 }
 
-html[data-huruf="besar"] {
+html[data-huruf='besar'] {
   font-size: 112.5%;
 }
 
-html[data-kontras="tinggi"] {
-  --orange: #B94A00;
-  --green: #126B45;
+html[data-kontras='tinggi'] {
+  --orange: #b94a00;
+  --green: #126b45;
   --muted: #364152;
   --line: #718096;
-  --track: #707C8A;
+  --track: #707c8a;
 }
 
 /* ----------------------------------------------------------
@@ -247,7 +247,7 @@ body.modal-open {
 .hdr-btn-pill:hover {
   background: rgba(255, 255, 255, 0.28);
 }
-.hdr-btn-pill[aria-pressed="true"] {
+.hdr-btn-pill[aria-pressed='true'] {
   background: rgba(255, 255, 255, 0.35);
 }
 
@@ -276,7 +276,9 @@ body.modal-open {
   background: #fff;
   color: var(--blue);
   text-decoration: none;
-  transition: filter 0.15s, opacity 0.15s;
+  transition:
+    filter 0.15s,
+    opacity 0.15s;
   line-height: 1;
 }
 
@@ -293,10 +295,20 @@ body.modal-open {
   color: var(--blue);
 }
 
-.btn:hover:not(:disabled)    { filter: brightness(.92); }
-.btn-primary:hover:not(:disabled) { filter: brightness(.9); }
-.btn:disabled                { opacity: .45; cursor: not-allowed; }
-.btn:focus-visible           { outline: 3px solid var(--blue); outline-offset: 2px; }
+.btn:hover:not(:disabled) {
+  filter: brightness(0.92);
+}
+.btn-primary:hover:not(:disabled) {
+  filter: brightness(0.9);
+}
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.btn:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 2px;
+}
 .btn-danger {
   background: var(--no-ink);
   border-color: var(--no-ink);
@@ -360,8 +372,8 @@ body.modal-open {
 .btn-mulai {
   height: 48px;
   border-radius: 12px;
-  background: #F6C445;
-  border-color: #D49B12;
+  background: #f6c445;
+  border-color: #d49b12;
   color: var(--ink);
   box-shadow: var(--shadow-btn);
   display: inline-flex;
@@ -369,7 +381,9 @@ body.modal-open {
   justify-content: space-between;
   padding: 0 16px;
   gap: 12px;
-  transition: transform 0.15s ease, filter 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    filter 0.15s ease;
 }
 
 .btn-mulai > .ic {
@@ -389,7 +403,9 @@ body.modal-open {
   color: #fff;
   text-decoration: none;
   box-shadow: 0 4px 10px rgba(15, 36, 64, 0.08);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .menu-card:hover {
@@ -412,7 +428,7 @@ body.modal-open {
   display: inline-block;
   padding: 4px 12px;
   border-radius: var(--r-pill);
-  background: rgba(255, 255, 255, .18);
+  background: rgba(255, 255, 255, 0.18);
   color: #fff;
   font-size: 0.75rem;
   font-weight: 700;
@@ -431,7 +447,7 @@ body.modal-open {
 }
 .box-hasil small {
   display: block;
-  color: rgba(15, 36, 64, .5); /* --ink 50% — label kecil abu */
+  color: rgba(15, 36, 64, 0.5); /* --ink 50% — label kecil abu */
   font-size: 0.72rem;
   margin-bottom: 2px;
 }
@@ -507,7 +523,9 @@ body.modal-open {
   justify-content: center;
   cursor: pointer;
   box-shadow: var(--shadow-btn);
-  transition: filter 0.15s, transform 0.15s;
+  transition:
+    filter 0.15s,
+    transform 0.15s;
 }
 .btn-play-round:hover {
   filter: brightness(0.9);
@@ -535,20 +553,23 @@ body.modal-open {
   border-left: 4px solid transparent;
   cursor: pointer;
   font-family: inherit;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    border-color 0.15s;
   white-space: nowrap;
 }
 
 .tab.active,
-.tab[aria-selected="true"],
-.tab[aria-current="true"] {
-  background: #F6C445;
-  border-left-color: #D49B12;
+.tab[aria-selected='true'],
+.tab[aria-current='true'] {
+  background: #f6c445;
+  border-left-color: #d49b12;
   color: var(--ink);
   font-weight: 600;
 }
 
-.tab:hover:not(.active):not([aria-selected="true"]):not([aria-current="true"]) {
+.tab:hover:not(.active):not([aria-selected='true']):not([aria-current='true']) {
   background: rgba(255, 255, 255, 0.14);
 }
 
@@ -580,7 +601,7 @@ body.modal-open {
 }
 
 .materi-menu-toggle[hidden],
-.materi-sidebar [role="tablist"][hidden] {
+.materi-sidebar [role='tablist'][hidden] {
   display: none !important;
 }
 
@@ -608,7 +629,7 @@ body.modal-open {
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: var(--r-card);
-  background: #0F2440;
+  background: #0f2440;
   box-shadow: var(--shadow);
 }
 
@@ -663,10 +684,12 @@ body.modal-open {
     height: 2px;
     border-radius: 2px;
     background: currentColor;
-    box-shadow: 0 -6px currentColor, 0 6px currentColor;
+    box-shadow:
+      0 -6px currentColor,
+      0 6px currentColor;
   }
 
-  .materi-sidebar [role="tablist"] {
+  .materi-sidebar [role='tablist'] {
     width: 100%;
     min-width: 0;
     flex-direction: column;
@@ -695,6 +718,54 @@ body.modal-open {
   min-width: 0;
 }
 
+.process-panel {
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--blue);
+  border-radius: var(--r-card);
+  background: var(--box-formula);
+}
+
+.process-steps {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0.65rem 0 0;
+}
+
+.process-steps > div {
+  display: grid;
+  grid-template-columns: 6rem minmax(0, 1fr);
+  gap: 0.5rem;
+  align-items: start;
+}
+
+.process-steps dt {
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.process-steps dd {
+  min-width: 0;
+  margin: 0;
+  color: var(--ink);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+.sp-load-count {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.sp-load-count select {
+  min-height: 40px;
+  padding: 0.35rem 0.65rem;
+}
+
 .sp-diagram {
   min-height: 190px;
 }
@@ -719,13 +790,109 @@ body.modal-open {
   margin-inline: auto;
 }
 
+/* --- Kartu Tujuan Pembelajaran --- */
+.tujuan-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f5f9fe 100%);
+  border: 1.5px solid var(--line);
+  border-left: 5px solid var(--blue);
+  border-radius: var(--r-card);
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+.tujuan-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--r-pill);
+  background: var(--blue-soft);
+  color: var(--navy);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.tujuan-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0.75rem 0.85rem;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(21, 73, 126, 0.04);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.tujuan-item:hover {
+  border-color: var(--blue);
+  box-shadow: 0 2px 6px rgba(0, 98, 221, 0.08);
+}
+
+.tujuan-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: var(--blue-soft);
+  color: var(--blue);
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+/* --- Sistematika Contoh Soal (4 Tahap) --- */
+.soal-card {
+  transition:
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.soal-card:hover {
+  border-color: var(--blue);
+  box-shadow: 0 4px 14px rgba(21, 73, 126, 0.08);
+}
+
+.step-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: var(--navy);
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.subtahap-box {
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.subtahap-box:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(21, 73, 126, 0.06);
+}
+
+.soal-kesimpulan {
+  border-left: 4px solid #059669;
+}
+
 .sp-mode-toggle .btn {
   width: 100%;
   min-height: 40px;
 }
 
 .sp-mode-toggle .btn:not(.btn-primary) {
-  background: #F3F7FC;
+  background: #f3f7fc;
   border-color: var(--line);
   color: var(--ink);
 }
@@ -753,7 +920,7 @@ body.modal-open {
   min-width: 0;
   padding: 10px 6px;
   border: 1px solid var(--line);
-  background: #F8FBFF;
+  background: #f8fbff;
 }
 
 .sp-results .box-hasil b {
@@ -763,7 +930,7 @@ body.modal-open {
 
 .sp-results .sp-total {
   background: var(--box-formula);
-  border-color: #A9DDF1;
+  border-color: #a9ddf1;
 }
 
 .sp-results .sp-total b {
@@ -821,13 +988,32 @@ body.modal-open {
 }
 
 /* --- .ok dan .no : umpan balik benar/salah --- */
-.ok { background: var(--ok-bg); color: var(--ok-ink); border-radius: 6px; }
-.no { background: var(--no-bg); color: var(--no-ink); border-radius: 6px; }
+.ok {
+  background: var(--ok-bg);
+  color: var(--ok-ink);
+  border-radius: 6px;
+}
+.no {
+  background: var(--no-bg);
+  color: var(--no-ink);
+  border-radius: 6px;
+}
 
 /* --- .flow : animasi aliran arus (SVG stroke-dashoffset) --- */
-.flow { stroke-dasharray: 6 8; animation: flow 1s linear infinite; }
-@keyframes flow { to { stroke-dashoffset: -14; } }
-@media (prefers-reduced-motion: reduce) { .flow { animation: none; } }
+.flow {
+  stroke-dasharray: 6 8;
+  animation: flow 1s linear infinite;
+}
+@keyframes flow {
+  to {
+    stroke-dashoffset: -14;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .flow {
+    animation: none;
+  }
+}
 
 /* ----------------------------------------------------------
    4. MODAL GENERIK (<dialog class="modal">)
@@ -992,7 +1178,9 @@ dialog.modal::backdrop {
   background: var(--card);
   color: var(--ink);
   cursor: pointer;
-  transition: background-color 0.15s, border-color 0.15s;
+  transition:
+    background-color 0.15s,
+    border-color 0.15s;
 }
 
 .quiz-radio {
@@ -1029,7 +1217,7 @@ dialog.modal::backdrop {
   height: 9px;
   border-radius: 50%;
   background: var(--blue);
-  content: "";
+  content: '';
 }
 
 .quiz-option:focus-within {
@@ -1072,7 +1260,7 @@ dialog.modal::backdrop {
   height: 9px;
   border-radius: 50%;
   background: var(--green);
-  content: "";
+  content: '';
 }
 
 .quiz-option--incorrect {
@@ -1259,7 +1447,9 @@ dialog.modal::backdrop {
 
   .menu-card:hover,
   .btn-mulai:hover,
-  .btn-play-round:hover { transform: none !important; }
+  .btn-play-round:hover {
+    transform: none !important;
+  }
 }
 
 /* ----------------------------------------------------------
@@ -1275,7 +1465,7 @@ dialog.modal::backdrop {
    Gradient kiri (terisi) = var(--blue), kanan (kosong) = var(--track)
    Posisi diatur oleh JS melalui CSS custom property --pct pada elemen
    ---------------------------------------------------------- */
-input[type=range] {
+input[type='range'] {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
@@ -1284,8 +1474,8 @@ input[type=range] {
   /* Gradient dua zona: kiri terisi biru, kanan abu */
   background: linear-gradient(
     to right,
-    var(--blue)  0%,
-    var(--blue)  var(--pct, 50%),
+    var(--blue) 0%,
+    var(--blue) var(--pct, 50%),
     var(--track) var(--pct, 50%),
     var(--track) 100%
   );
@@ -1294,13 +1484,13 @@ input[type=range] {
 }
 
 /* Track Webkit — sudah ditangani di atas via background */
-input[type=range]::-webkit-slider-runnable-track {
+input[type='range']::-webkit-slider-runnable-track {
   height: 6px;
   border-radius: var(--r-pill);
 }
 
 /* Thumb Webkit */
-input[type=range]::-webkit-slider-thumb {
+input[type='range']::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 16px;
@@ -1308,40 +1498,40 @@ input[type=range]::-webkit-slider-thumb {
   border-radius: 50%;
   background: var(--blue);
   border: 2px solid #fff;
-  box-shadow: 0 1px 4px rgba(0, 98, 221, .35);
-  margin-top: -5px;   /* tengahkan thumb di track 6px */
+  box-shadow: 0 1px 4px rgba(0, 98, 221, 0.35);
+  margin-top: -5px; /* tengahkan thumb di track 6px */
   cursor: pointer;
   transition: background 0.15s;
 }
-input[type=range]::-webkit-slider-thumb:hover {
+input[type='range']::-webkit-slider-thumb:hover {
   background: var(--blue-dark);
 }
 
 /* Track Firefox — tidak mendukung gradient inline, pakai progress */
-input[type=range]::-moz-range-track {
+input[type='range']::-moz-range-track {
   height: 6px;
   border-radius: var(--r-pill);
   background: var(--track);
 }
-input[type=range]::-moz-range-progress {
+input[type='range']::-moz-range-progress {
   height: 6px;
   border-radius: var(--r-pill);
   background: var(--blue);
 }
 
 /* Thumb Firefox */
-input[type=range]::-moz-range-thumb {
+input[type='range']::-moz-range-thumb {
   width: 16px;
   height: 16px;
   border-radius: 50%;
   background: var(--blue);
   border: 2px solid #fff;
-  box-shadow: 0 1px 4px rgba(0, 98, 221, .35);
+  box-shadow: 0 1px 4px rgba(0, 98, 221, 0.35);
   cursor: pointer;
 }
 
 /* Fokus keyboard slider */
-input[type=range]:focus-visible {
+input[type='range']:focus-visible {
   outline: 3px solid var(--blue);
   outline-offset: 4px;
 }
@@ -1370,12 +1560,12 @@ input[type=range]:focus-visible {
   transition: transform 0.15s ease;
 }
 
-.setting-switch[aria-checked="true"] {
+.setting-switch[aria-checked='true'] {
   justify-content: flex-end;
   background: var(--blue);
 }
 
-.setting-switch[aria-checked="false"] {
+.setting-switch[aria-checked='false'] {
   justify-content: flex-start;
 }
 
@@ -1384,15 +1574,15 @@ input[type=range]:focus-visible {
   outline-offset: 3px;
 }
 
-html[data-kontras="tinggi"] :is(.text-gray-400, .text-gray-500, .text-gray-600, .text-gray-700) {
+html[data-kontras='tinggi'] :is(.text-gray-400, .text-gray-500, .text-gray-600, .text-gray-700) {
   color: var(--muted) !important;
 }
 
-html[data-kontras="tinggi"] .box-hasil small {
+html[data-kontras='tinggi'] .box-hasil small {
   color: var(--muted);
 }
 
-html[data-kontras="tinggi"] :is(.border-gray-100, .border-blue-100, .border-gray-200) {
+html[data-kontras='tinggi'] :is(.border-gray-100, .border-blue-100, .border-gray-200) {
   border-color: var(--line) !important;
 }
 
@@ -1415,18 +1605,32 @@ html[data-kontras="tinggi"] :is(.border-gray-100, .border-blue-100, .border-gray
 }
 
 @media (min-width: 768px) {
-  .home-hero-grid { grid-template-columns: 42% 58%; }
-  .materi-layout { grid-template-columns: 22fr 78fr; }
-  .materi-inner-grid { grid-template-columns: 57fr 43fr; }
-  .materi-sidebar { overflow: visible; }
-  .materi-sidebar [role="tablist"] {
+  .home-hero-grid {
+    grid-template-columns: 42% 58%;
+  }
+  .materi-layout {
+    grid-template-columns: 22fr 78fr;
+  }
+  .materi-inner-grid {
+    grid-template-columns: 57fr 43fr;
+  }
+  .materi-sidebar {
+    overflow: visible;
+  }
+  .materi-sidebar [role='tablist'] {
     width: auto;
     min-width: 0;
     flex-direction: column;
   }
-  .ohm-layout { grid-template-columns: 49% 51%; }
-  .quiz-layout { grid-template-columns: 54fr 46fr; }
-  .sp-layout { grid-template-columns: 44fr 56fr; }
+  .ohm-layout {
+    grid-template-columns: 49% 51%;
+  }
+  .quiz-layout {
+    grid-template-columns: 54fr 46fr;
+  }
+  .sp-layout {
+    grid-template-columns: 44fr 56fr;
+  }
 }
 
 @media (max-width: 767px) {
@@ -1500,7 +1704,7 @@ html[data-kontras="tinggi"] :is(.border-gray-100, .border-blue-100, .border-gray
     max-width: 100%;
   }
 
-  .materi-sidebar [role="tablist"] {
+  .materi-sidebar [role='tablist'] {
     width: 100%;
     max-width: 100%;
     min-width: 0;
@@ -1511,7 +1715,7 @@ html[data-kontras="tinggi"] :is(.border-gray-100, .border-blue-100, .border-gray
     min-height: 44px;
   }
 
-  input[type="range"] {
+  input[type='range'] {
     height: 44px;
     background-size: 100% 6px;
     background-repeat: no-repeat;
@@ -1553,5 +1757,401 @@ html[data-kontras="tinggi"] :is(.border-gray-100, .border-blue-100, .border-gray
 @media (hover: none) {
   .menu-card:hover {
     transform: none;
+  }
+}
+
+/* ============================================================
+   Perbaikan Tahap 2: Navigasi Terpadu & Indikator Progres Belajar
+   ============================================================ */
+
+/* --- Badge Status Progres pada Kartu Menu Beranda --- */
+.menu-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.menu-card-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 7px;
+  border-radius: var(--r-pill);
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  background: rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  margin-top: 2px;
+}
+
+.menu-card-badge.selesai {
+  background: #ffffff;
+  color: #15803d; /* green-700 */
+}
+
+.menu-card-badge.proses {
+  background: #fef3c7;
+  color: #b45309; /* amber-700 */
+}
+
+/* --- Bilah Navigasi Alur Belajar Global (Learning Flow Stepper) --- */
+.flow-nav {
+  background: #ffffff;
+  border-bottom: 1px solid var(--line);
+  padding: 0.45rem 0.75rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.flow-steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  min-width: max-content;
+}
+
+.flow-step {
+  display: inline-flex;
+  align-items: center;
+}
+
+.flow-step-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--r-pill);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-decoration: none;
+  transition: all 0.15s ease;
+  border: 1px solid transparent;
+}
+
+.flow-step-link:hover {
+  background: var(--box);
+  color: var(--navy);
+  text-decoration: none;
+}
+
+.flow-step.flow-step-aktif .flow-step-link {
+  background: var(--navy);
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(21, 73, 126, 0.25);
+  font-weight: 700;
+}
+
+.flow-step.flow-step-selesai:not(.flow-step-aktif) .flow-step-link {
+  color: #15803d;
+  background: #dcfce7;
+  border-color: #86efac;
+}
+
+.flow-step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: rgba(15, 36, 64, 0.08);
+  color: inherit;
+}
+
+.flow-step.flow-step-aktif .flow-step-num {
+  background: #ffffff;
+  color: var(--navy);
+}
+
+.flow-step.flow-step-selesai:not(.flow-step-aktif) .flow-step-num {
+  background: #16a34a;
+  color: #ffffff;
+}
+
+.flow-separator {
+  color: var(--line);
+  font-size: 0.75rem;
+  user-select: none;
+  padding: 0 2px;
+}
+
+/* --- Bar Navigasi Langkah Berurutan (Bottom Flow Navigation) --- */
+.bottom-flow-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.85rem 0 0;
+  margin-top: 1rem;
+  border-top: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+
+.bottom-flow-indicator {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* EduBot conversation widget */
+#edubot-root {
+  --edubot-ink: #102b46;
+  --edubot-blue: #075fc7;
+  --edubot-line: #c9d8e8;
+  position: fixed;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  z-index: 90;
+  color: var(--edubot-ink);
+  font-family: inherit;
+}
+
+.edubot-toggle {
+  display: inline-flex;
+  min-height: 3.25rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.7rem 1rem;
+  border: 2px solid #ffffff;
+  border-radius: 999px;
+  background: var(--edubot-blue);
+  box-shadow: 0 4px 16px rgba(16, 43, 70, 0.28);
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.edubot-toggle:hover,
+.edubot-toggle:focus-visible {
+  background: #064b9e;
+}
+
+.edubot-toggle:focus-visible,
+.edubot-icon-button:focus-visible,
+.edubot-send:focus-visible,
+.edubot-quick-prompt:focus-visible {
+  outline: 3px solid #f5b700;
+  outline-offset: 2px;
+}
+
+.edubot-panel[hidden] {
+  display: none;
+}
+
+.edubot-panel {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 0.75rem);
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  width: min(390px, calc(100vw - 2rem));
+  height: min(590px, calc(100dvh - 7rem));
+  min-height: 300px;
+  overflow: hidden;
+  border: 1px solid var(--edubot-line);
+  border-radius: 0.8rem;
+  background: #ffffff;
+  box-shadow: 0 12px 36px rgba(16, 43, 70, 0.24);
+}
+
+.edubot-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  background: var(--edubot-ink);
+  color: #ffffff;
+}
+
+.edubot-header h2,
+.edubot-header p {
+  margin: 0;
+}
+
+.edubot-header h2 {
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.edubot-header p {
+  margin-top: 0.15rem;
+  color: #e4efff;
+  font-size: 0.75rem;
+}
+
+.edubot-icon-button,
+.edubot-send {
+  display: inline-grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 0.45rem;
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.edubot-messages {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+  gap: 0.75rem;
+  overflow-y: auto;
+  padding: 1rem;
+  background: #f4f8fc;
+}
+
+.edubot-welcome,
+.edubot-message > p,
+.edubot-message > div,
+.edubot-loading {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.edubot-welcome,
+.edubot-message > p,
+.edubot-message-model > div {
+  max-width: 90%;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--edubot-line);
+  border-radius: 0.7rem;
+  background: #ffffff;
+}
+
+.edubot-message-model p {
+  margin: 0 0 0.55rem;
+  line-height: 1.55;
+  white-space: normal;
+}
+
+.edubot-message-model p:last-child {
+  margin-bottom: 0;
+}
+
+.edubot-message-model ul,
+.edubot-message-model ol {
+  margin: 0 0 0.55rem;
+  padding-left: 1.25rem;
+  line-height: 1.55;
+}
+
+.edubot-message-model li {
+  margin-bottom: 0.2rem;
+  line-height: 1.55;
+}
+
+.edubot-message-model li:last-child {
+  margin-bottom: 0;
+}
+
+.edubot-message-model strong {
+  font-weight: 700;
+}
+
+.edubot-message-user {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.edubot-message-user > p {
+  border-color: var(--edubot-blue);
+  background: var(--edubot-blue);
+  color: #ffffff;
+}
+
+.edubot-quick-prompts {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.edubot-quick-prompt {
+  padding: 0.6rem 0.7rem;
+  border: 1px solid #8eabc9;
+  border-radius: 0.5rem;
+  background: #ffffff;
+  color: var(--edubot-ink);
+  font: inherit;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  text-align: left;
+  cursor: pointer;
+}
+
+.edubot-quick-prompt:hover {
+  border-color: var(--edubot-blue);
+  background: #eaf3ff;
+}
+
+.edubot-loading {
+  color: #3c526a;
+  font-style: italic;
+}
+
+.edubot-form {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border-top: 1px solid var(--edubot-line);
+  background: #ffffff;
+}
+
+.edubot-form textarea {
+  width: 100%;
+  min-height: 2.6rem;
+  max-height: 7rem;
+  resize: vertical;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid #8eabc9;
+  border-radius: 0.5rem;
+  color: var(--edubot-ink);
+  font: inherit;
+  font-size: 0.9rem;
+}
+
+.edubot-form textarea:focus-visible {
+  outline: 3px solid #9cc9ff;
+  outline-offset: 1px;
+}
+
+.edubot-send {
+  border-color: var(--edubot-blue);
+  background: var(--edubot-blue);
+}
+
+.edubot-send:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+@media (max-width: 480px) {
+  #edubot-root {
+    right: max(0.75rem, env(safe-area-inset-right));
+    bottom: max(0.75rem, env(safe-area-inset-bottom));
+  }
+
+  .edubot-panel {
+    width: calc(100vw - 2.5rem);
+    height: min(560px, calc(100dvh - 6rem));
+  }
+
+  .edubot-toggle {
+    min-height: 3rem;
   }
 }

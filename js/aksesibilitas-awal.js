@@ -6,3 +6,10 @@ try {
   document.documentElement.dataset.kontras = 'normal';
   document.documentElement.dataset.huruf = 'normal';
 }
+
+try {
+  document.documentElement.dataset.audioMuted =
+    localStorage.getItem('mediaOhmAudioMuted') === 'true' ? 'true' : 'false';
+} catch (error) {
+  document.documentElement.dataset.audioMuted = 'false';
+}

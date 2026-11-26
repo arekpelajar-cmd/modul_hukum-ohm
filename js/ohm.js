@@ -13,7 +13,7 @@ const KODE_WARNA = [
   '#2563EB', // 6 Biru
   '#7C3AED', // 7 Ungu
   '#6B7280', // 8 Abu-abu
-  '#FFFFFF'  // 9 Putih
+  '#FFFFFF', // 9 Putih
 ];
 const WARNA_EMAS = '#D4AF37';
 
@@ -45,7 +45,7 @@ let timerDebounce = null;
 const hitungArus = (v, r) => (r > 0 ? v / r : 0);
 
 // Helper DOM
-const $ = id => document.getElementById(id);
+const $ = (id) => document.getElementById(id);
 
 // Perbarui visualisasi hasil & sirkuit
 function perbaruiTampilan() {
@@ -70,6 +70,13 @@ function perbaruiTampilan() {
   const hR = $('hR');
   if (hR) hR.textContent = teksR;
 
+  const formula = $('ohm-process-formula');
+  if (formula) formula.textContent = 'I = V / R';
+  const substitution = $('ohm-process-substitution');
+  if (substitution) substitution.textContent = `I = ${V} V / ${R} Ω`;
+  const result = $('ohm-process-result');
+  if (result) result.textContent = `I = ${fmt(I)} A`;
+
   // Output screen reader
   const vOut = $('vOut');
   if (vOut) vOut.textContent = teksV;
@@ -87,7 +94,8 @@ function perbaruiTampilan() {
   clearTimeout(timerDebounce);
   timerDebounce = setTimeout(() => {
     const live = $('hasil-announcer');
-    if (live) live.textContent = `Hasil saat ini: Tegangan ${V} Volt, Arus ${fmt(I)} Ampere, Hambatan ${R} Ohm.`;
+    if (live)
+      live.textContent = `Hasil saat ini: Tegangan ${V} Volt, Arus ${fmt(I)} Ampere, Hambatan ${R} Ohm.`;
   }, 300);
 }
 
@@ -132,7 +140,7 @@ function letakkanTitik(offset) {
   const jarakAntar = totalPanjang / JUMLAH_TITIK;
 
   titikElements.forEach((c, idx) => {
-    const d = ((offset + idx * jarakAntar) % totalPanjang + totalPanjang) % totalPanjang;
+    const d = (((offset + idx * jarakAntar) % totalPanjang) + totalPanjang) % totalPanjang;
     if (typeof pathLoop.getPointAtLength === 'function') {
       try {
         const pt = pathLoop.getPointAtLength(d);
@@ -150,16 +158,34 @@ function letakkanTitik(offset) {
 
 // Fallback posisi keliling persegi panjang (68,50 ke 308,208)
 function fallbackPosisiTitik(c, d) {
-  const x0 = 68, x1 = 308, y0 = 50, y1 = 208;
-  const w = x1 - x0, h = y1 - y0, p = 2 * (w + h);
+  const x0 = 68,
+    x1 = 308,
+    y0 = 50,
+    y1 = 208;
+  const w = x1 - x0,
+    h = y1 - y0,
+    p = 2 * (w + h);
   let s = ((d % p) + p) % p;
-  if (s < w) { c.setAttribute('cx', x0 + s); c.setAttribute('cy', y0); return; }
+  if (s < w) {
+    c.setAttribute('cx', x0 + s);
+    c.setAttribute('cy', y0);
+    return;
+  }
   s -= w;
-  if (s < h) { c.setAttribute('cx', x1); c.setAttribute('cy', y0 + s); return; }
+  if (s < h) {
+    c.setAttribute('cx', x1);
+    c.setAttribute('cy', y0 + s);
+    return;
+  }
   s -= w;
-  if (s < w) { c.setAttribute('cx', x1 - s); c.setAttribute('cy', y1); return; }
+  if (s < w) {
+    c.setAttribute('cx', x1 - s);
+    c.setAttribute('cy', y1);
+    return;
+  }
   s -= w;
-  c.setAttribute('cx', x0); c.setAttribute('cy', y1 - s);
+  c.setAttribute('cx', x0);
+  c.setAttribute('cy', y1 - s);
 }
 
 // Loop Animasi requestAnimationFrame
@@ -249,9 +275,15 @@ function resetSimulasi() {
   const sliderR = $('r');
   const inputR = $('rn');
 
-  if (sliderV) { sliderV.value = 12; updateSlider(sliderV); }
+  if (sliderV) {
+    sliderV.value = 12;
+    updateSlider(sliderV);
+  }
   if (inputV) inputV.value = 12;
-  if (sliderR) { sliderR.value = 6; updateSlider(sliderR); }
+  if (sliderR) {
+    sliderR.value = 6;
+    updateSlider(sliderR);
+  }
   if (inputR) inputR.value = 6;
 
   setStatusAnimasi(false);
@@ -293,7 +325,7 @@ function bukaLangkahHitung() {
     window.Modal.buka({
       judul: 'Langkah Hitung Hukum Ohm',
       isi: isiModal,
-      tombol: [{ label: 'Tutup', kelas: 'btn-primary', aksi: () => window.Modal.tutup() }]
+      tombol: [{ label: 'Tutup', kelas: 'btn-primary', aksi: () => window.Modal.tutup() }],
     });
   }
 }
@@ -331,8 +363,12 @@ function initSimulasiOhm() {
   const sliderR = $('r');
   const inputR = $('rn');
 
-  pasangSinkronisasi(sliderV, inputV, 1, 24, 12, val => { V = val; });
-  pasangSinkronisasi(sliderR, inputR, 1, 100, 6, val => { R = val; });
+  pasangSinkronisasi(sliderV, inputV, 1, 24, 12, (val) => {
+    V = val;
+  });
+  pasangSinkronisasi(sliderR, inputR, 1, 100, 6, (val) => {
+    R = val;
+  });
 
   const btnPlay = $('play');
   if (btnPlay) {

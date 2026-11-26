@@ -63,26 +63,107 @@ function renderContentHtml(m) {
       </a>
     </aside>
   `;
-  const renderWorkedExample = example => `
-    <section class="p-4 rounded-xl border border-[var(--line)] bg-white space-y-3" aria-label="Contoh penyelesaian">
-      <h3 class="heading-3">${example.judul || 'Contoh hitung bertahap'}</h3>
-      <div class="text-sm space-y-1">
-        <p><strong class="text-[var(--navy)]">Diketahui:</strong> ${example.diketahui}</p>
-        <p><strong class="text-[var(--navy)]">Ditanya:</strong> ${example.ditanya}</p>
-      </div>
-      <ol class="space-y-2">
-        ${example.langkah.map((step, index) => `
-          <li class="p-3 rounded-lg bg-[var(--box)]">
-            <h4 class="font-bold text-sm text-[var(--navy)]">${index + 1}. ${step.label}</h4>
-            <div class="mt-1 text-center font-semibold text-sm sm:text-base">
-              <span data-tex="${step.rumus}" data-fallback="${step.teks}">${step.teks}</span>
+  const renderWorkedExample = example => {
+    const diketahuiHtml = Array.isArray(example.diketahui)
+      ? `<ul class="list-disc pl-4 space-y-1">${example.diketahui.map(d => `<li>${d}</li>`).join('')}</ul>`
+      : `<p>${example.diketahui}</p>`;
+
+    const ditanyaHtml = Array.isArray(example.ditanya)
+      ? `<ul class="list-disc pl-4 space-y-1">${example.ditanya.map(d => `<li>${d}</li>`).join('')}</ul>`
+      : `<p>${example.ditanya}</p>`;
+
+    return `
+      <section class="soal-card p-4 sm:p-5 rounded-xl border border-[var(--line)] bg-white space-y-4 shadow-sm" aria-label="${example.judul || 'Contoh penyelesaian soal'}">
+        <div class="border-b border-gray-100 pb-2.5">
+          <h3 class="heading-3 text-base sm:text-lg font-bold text-[var(--navy)]">${example.judul || 'Contoh Hitung Bertahap'}</h3>
+          ${example.deskripsi ? `<p class="text-sm text-gray-700 mt-1.5 leading-relaxed">${example.deskripsi}</p>` : ''}
+        </div>
+
+        <!-- 1. Diketahui & Ditanya -->
+        <div class="soal-diketahui-ditanya grid grid-cols-1 md:grid-cols-2 gap-3 p-3.5 rounded-xl bg-[var(--box)] border border-blue-100 text-xs sm:text-sm">
+          <div>
+            <div class="flex items-center gap-1.5 font-bold text-[var(--navy)] mb-1.5">
+              <span class="step-badge">1</span>
+              <span>Diketahui:</span>
             </div>
-          </li>
-        `).join('')}
-      </ol>
-      <p class="text-sm font-semibold text-green-700">${example.kesimpulan}</p>
-    </section>
-  `;
+            <div class="text-gray-700 pl-6">
+              ${diketahuiHtml}
+            </div>
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5 font-bold text-[var(--navy)] mb-1.5">
+              <span class="step-badge">2</span>
+              <span>Ditanyakan:</span>
+            </div>
+            <div class="text-gray-700 pl-6">
+              ${ditanyaHtml}
+            </div>
+          </div>
+        </div>
+
+        <!-- 2, 3, & 4. Langkah Penyelesaian: Rumus, Substitusi, Hasil Perhitungan -->
+        <div class="space-y-3">
+          <div class="text-xs font-bold uppercase tracking-wider text-[var(--navy)] flex items-center gap-1.5">
+            <span class="step-badge">3</span>
+            <span>Langkah Penyelesaian Berurutan:</span>
+          </div>
+          <ol class="space-y-3">
+            ${example.langkah.map((step, index) => {
+              const hasSubSteps = step.rumus && step.substitusi && step.hasil;
+              return `
+                <li class="p-3.5 rounded-xl border border-[var(--line)] bg-white shadow-xs">
+                  <h4 class="font-bold text-sm text-[var(--navy)] mb-2 flex items-center gap-2">
+                    <span class="w-5 h-5 rounded-full bg-blue-100 text-[var(--blue)] flex items-center justify-center text-xs font-bold shrink-0">${index + 1}</span>
+                    <span>${step.label}</span>
+                  </h4>
+                  
+                  ${hasSubSteps ? `
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5 mt-2">
+                      <div class="subtahap-box p-3 rounded-lg bg-[var(--box)] border border-blue-100 flex flex-col justify-between">
+                        <span class="text-[0.7rem] font-bold text-[var(--navy)] uppercase tracking-wider mb-1">Tahap 1: Rumus</span>
+                        <div class="text-center py-1 font-semibold text-sm">
+                          <span data-tex="${step.rumus}" data-fallback="${step.rumusTeks || step.rumus}">${step.rumusTeks || step.rumus}</span>
+                        </div>
+                      </div>
+                      <div class="subtahap-box p-3 rounded-lg bg-[var(--box)] border border-blue-100 flex flex-col justify-between">
+                        <span class="text-[0.7rem] font-bold text-[var(--navy)] uppercase tracking-wider mb-1">Tahap 2: Substitusi</span>
+                        <div class="text-center py-1 font-semibold text-sm">
+                          <span data-tex="${step.substitusi}" data-fallback="${step.substitusiTeks || step.substitusi}">${step.substitusiTeks || step.substitusi}</span>
+                        </div>
+                      </div>
+                      <div class="subtahap-box p-3 rounded-lg bg-emerald-50/80 border border-emerald-200 flex flex-col justify-between">
+                        <span class="text-[0.7rem] font-bold text-emerald-800 uppercase tracking-wider mb-1">Tahap 3: Hasil Perhitungan</span>
+                        <div class="text-center py-1 font-bold text-sm text-emerald-800">
+                          <span data-tex="${step.hasil}" data-fallback="${step.hasilTeks || step.hasil}">${step.hasilTeks || step.hasil}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ` : `
+                    <div class="p-3 rounded-lg bg-[var(--box)] text-center font-semibold text-sm sm:text-base">
+                      <span data-tex="${step.rumus}" data-fallback="${step.teks}">${step.teks}</span>
+                    </div>
+                  `}
+                </li>
+              `;
+            }).join('')}
+          </ol>
+        </div>
+
+        <!-- Kesimpulan -->
+        ${example.kesimpulan ? `
+          <div class="soal-kesimpulan p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 flex items-start gap-2.5">
+            <span class="text-emerald-700 mt-0.5 shrink-0">
+              ${typeof ic === 'function' ? ic('check-circle', 'w-5 h-5') : '✓'}
+            </span>
+            <div class="text-xs sm:text-sm text-emerald-900 leading-relaxed">
+              <strong class="font-bold text-emerald-950 block mb-0.5">Kesimpulan:</strong>
+              ${example.kesimpulan}
+            </div>
+          </div>
+        ` : ''}
+      </section>
+    `;
+  };
   const renderCircuitDiagram = (jenis, caption) => `
     <figure class="materi-circuit p-3 rounded-xl border border-[var(--line)] bg-white">
       ${buatDiagramRangkaianMateri(jenis)}
@@ -90,7 +171,46 @@ function renderContentHtml(m) {
     </figure>
   `;
 
-  if (m.id === 'arus-dc') {
+  if (m.id === 'tujuan') {
+    innerHtml = `
+      <div class="space-y-4">
+        <div>
+          <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+            <span class="tujuan-badge">Capaian Pembelajaran</span>
+            <h2 class="heading-2 m-0">${m.judul}</h2>
+          </div>
+          <p class="text-sm sm:text-base text-gray-700 leading-relaxed">${m.paragraf}</p>
+        </div>
+
+        <section aria-labelledby="daftar-tujuan-heading" class="space-y-3 pt-1">
+          <h3 id="daftar-tujuan-heading" class="sr-only">Daftar Poin Capaian Pembelajaran</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            ${m.poinTujuan.map(p => `
+              <div class="tujuan-item">
+                <span class="tujuan-icon">
+                  ${typeof ic === 'function' ? ic('check-circle', 'w-4 h-4') : '✓'}
+                </span>
+                <div class="text-xs sm:text-sm text-gray-700 leading-normal">
+                  <strong class="text-[var(--navy)] font-semibold block mb-0.5">${p.kategori}:</strong>
+                  <div>${p.deskripsi}</div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </section>
+
+        <aside class="p-4 rounded-xl border border-blue-100 bg-blue-50/60 flex items-start gap-3 mt-4">
+          <span class="text-[var(--blue)] shrink-0 mt-0.5">
+            ${typeof ic === 'function' ? ic('lightbulb', 'w-5 h-5') : '💡'}
+          </span>
+          <div class="text-xs sm:text-sm text-gray-700 leading-relaxed">
+            <strong class="font-bold text-[var(--navy)] block mb-0.5">Petunjuk Belajar:</strong>
+            ${m.petunjuk}
+          </div>
+        </aside>
+      </div>
+    `;
+  } else if (m.id === 'arus-dc') {
     innerHtml = `
       <div class="space-y-4">
         <div>
@@ -109,11 +229,11 @@ function renderContentHtml(m) {
           </div>
         </section>
         <aside class="p-3 rounded-xl border border-blue-100 bg-blue-50/60">
-          <h3 class="heading-3 mb-1">Arah arus dan gerak elektron</h3>
+          <h3 class="heading-3 mb-1">Arah Kuat Arus Listrik dan Gerak Elektron</h3>
           <p class="text-sm text-gray-700">${m.arahArus}</p>
         </aside>
         <section aria-labelledby="besaran-heading">
-          <h3 id="besaran-heading" class="heading-3 mb-2">Besaran listrik yang digunakan</h3>
+          <h3 id="besaran-heading" class="heading-3 mb-2">Besaran Listrik Utama (Standar SI)</h3>
           <div class="materi-table-scroll rounded-lg border border-[var(--line)]">
             <table class="w-full text-sm text-left bg-white">
               <tbody>
@@ -234,13 +354,13 @@ function renderContentHtml(m) {
         </div>
 
         ${renderCircuitDiagram(m.id, m.id === 'seri'
-    ? 'Skema seri: R1 2 Ω, R2 3 Ω, dan R3 5 Ω terhubung dalam satu jalur dengan sumber 10 V.'
+    ? 'Skema Rangkaian Seri: R1 2 Ω, R2 3 Ω, dan R3 5 Ω terhubung dalam satu lintasan dengan sumber tegangan listrik 10 V.'
     : m.id === 'paralel'
-      ? 'Skema paralel: tiga cabang resistor terhubung pada sumber 12 V; nilai arus cabang ditunjukkan pada diagram.'
-      : 'Skema gabungan: R1 dan R2 tersusun seri dengan kelompok R3 dan R4 yang tersusun paralel.')}
+      ? 'Skema Rangkaian Paralel: tiga cabang resistor terhubung pada sumber tegangan listrik 12 V; nilai kuat arus cabang ditunjukkan pada diagram.'
+      : 'Skema Rangkaian Gabungan: R1 dan R2 tersusun seri dengan kelompok cabang paralel R3 dan R4.')}
 
         <section class="p-4 rounded-xl border border-[var(--line)] bg-white">
-          <h3 class="heading-3 mb-2">${m.id === 'gabungan' ? 'Langkah analisis' : 'Ciri utama'}</h3>
+          <h3 class="heading-3 mb-2">${m.id === 'gabungan' ? 'Langkah Analisis Rangkaian Gabungan' : 'Karakteristik Utama'}</h3>
           ${m.langkahAnalisis
     ? `<ol class="list-decimal pl-5 space-y-2 text-sm text-gray-700">${m.langkahAnalisis.map(item => `<li>${item}</li>`).join('')}</ol>`
     : `<ul class="list-disc pl-5 space-y-2 text-sm text-gray-700">${m.ciri.map(item => `<li>${item}</li>`).join('')}</ul>`}
@@ -396,6 +516,7 @@ function initTabs() {
   }
 
   const ikonTab = {
+    tujuan: 'clipboard-check',
     'arus-dc': 'zap',
     pengertian: 'lightbulb',
     rumus: 'zap',

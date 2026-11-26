@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id" data-kontras="normal" data-huruf="normal">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -10,6 +11,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body data-title="Media Pembelajaran Hukum Ohm" data-header="beranda" data-width="sempit">
   <a class="skip-link" href="#konten">Lewati ke konten utama</a>
   <header id="hdr"></header>
@@ -19,7 +21,8 @@
       <div class="home-hero-grid grid grid-cols-1 md:grid-cols-[42%_58%] gap-6 md:gap-8 items-center">
         <!-- Kolom Kiri: Ilustrasi Hero -->
         <div class="flex items-center justify-center">
-          <img src="assets/img/hero.png" alt="Ilustrasi bohlam, multimeter, dan resistor" class="home-hero-illustration w-full max-w-[240px] md:max-w-full h-auto object-contain drop-shadow-sm">
+          <img src="assets/img/hero.png" alt="Ilustrasi bohlam, multimeter, dan resistor"
+            class="home-hero-illustration w-full max-w-[240px] md:max-w-full h-auto object-contain drop-shadow-sm">
         </div>
 
         <!-- Kolom Kanan: Teks, Tombol, dan Menu -->
@@ -30,40 +33,58 @@
               Hukum Ohm &amp;<br class="hidden md:block"> Rangkaian Seri-Paralel
             </h1>
             <p class="home-hero-description mt-3">
-              Pelajari konsep tegangan, arus, hambatan, serta simulasi rangkaian secara interaktif.
+              Pelajari konsep tegangan listrik, kuat arus listrik, hambatan listrik, serta simulasi rangkaian secara
+              interaktif.
             </p>
           </div>
 
           <!-- Tombol Mulai Belajar -->
           <div>
-            <a href="materi.html" class="btn btn-primary btn-mulai w-full md:w-3/4">
+            <a href="materi.html" id="btn-mulai-belajar" class="btn btn-primary btn-mulai w-full md:w-3/4">
               <span class="flex items-center gap-3">
-                <span class="w-7 h-7 rounded-full bg-white text-[var(--blue)] flex items-center justify-center shadow-sm">
-                  <svg class="ic w-4 h-4 translate-x-0.5" aria-hidden="true" focusable="false"><use href="#i-play"></use></svg>
+                <span
+                  class="w-7 h-7 rounded-full bg-white text-[var(--blue)] flex items-center justify-center shadow-sm">
+                  <svg class="ic w-4 h-4 translate-x-0.5" aria-hidden="true" focusable="false">
+                    <use href="#i-play"></use>
+                  </svg>
                 </span>
-                <span class="font-bold text-sm sm:text-base">Mulai Belajar</span>
+                <span id="label-mulai-belajar" class="font-bold text-sm sm:text-base">Mulai Belajar</span>
               </span>
-              <svg class="ic w-5 h-5 text-white/90" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg>
+              <svg class="ic w-5 h-5 text-white/90" aria-hidden="true" focusable="false">
+                <use href="#i-arrow-right"></use>
+              </svg>
             </a>
           </div>
 
-          <!-- Menu 4 Kotak -->
-          <nav aria-label="Menu utama" class="grid grid-cols-4 gap-2 sm:gap-3 pt-2">
-            <a href="materi.html" class="menu-card bg-[var(--blue)]">
-              <svg class="ic w-7 h-7" aria-hidden="true" focusable="false"><use href="#i-book-open"></use></svg>
-              <span class="font-bold text-[11px] sm:text-xs tracking-wide">Materi</span>
+          <!-- Menu 4 Kotak Terpadu Berurutan -->
+          <nav aria-label="Menu alur pembelajaran" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 pt-2">
+            <a href="materi.html" id="menu-materi" class="menu-card bg-[var(--blue)]">
+              <svg class="ic w-7 h-7" aria-hidden="true" focusable="false">
+                <use href="#i-book-open"></use>
+              </svg>
+              <span class="font-bold text-[11px] sm:text-xs tracking-wide">1. Materi</span>
+              <span id="badge-materi" class="menu-card-badge">Belum</span>
             </a>
-            <a href="simulasi-ohm.html" class="menu-card bg-[var(--green)]">
-              <svg class="ic w-7 h-7" aria-hidden="true" focusable="false"><use href="#i-activity"></use></svg>
-              <span class="font-bold text-[11px] sm:text-xs tracking-wide">Simulasi</span>
+            <a href="simulasi-ohm.html" id="menu-simulasi-ohm" class="menu-card bg-[var(--green)]">
+              <svg class="ic w-7 h-7" aria-hidden="true" focusable="false">
+                <use href="#i-activity"></use>
+              </svg>
+              <span class="font-bold text-[11px] sm:text-xs tracking-wide">2. Simulasi Ohm</span>
+              <span id="badge-simulasi-ohm" class="menu-card-badge">Belum</span>
             </a>
-            <a href="kuis.html" class="menu-card bg-[var(--orange)]">
-              <svg class="ic w-7 h-7" aria-hidden="true" focusable="false"><use href="#i-clipboard-check"></use></svg>
-              <span class="font-bold text-[11px] sm:text-xs tracking-wide">Latihan</span>
+            <a href="simulasi-sp.html" id="menu-simulasi-sp" class="menu-card bg-[var(--indigo)]">
+              <svg class="ic w-7 h-7" aria-hidden="true" focusable="false">
+                <use href="#i-bar-chart-3"></use>
+              </svg>
+              <span class="font-bold text-[11px] sm:text-xs tracking-wide">3. Seri-Paralel</span>
+              <span id="badge-simulasi-sp" class="menu-card-badge">Belum</span>
             </a>
-            <a href="simulasi-sp.html" class="menu-card bg-[var(--indigo)]">
-              <svg class="ic w-7 h-7" aria-hidden="true" focusable="false"><use href="#i-bar-chart-3"></use></svg>
-              <span class="font-bold text-[11px] sm:text-xs tracking-wide">Evaluasi</span>
+            <a href="kuis.html" id="menu-kuis" class="menu-card bg-[var(--orange)]">
+              <svg class="ic w-7 h-7" aria-hidden="true" focusable="false">
+                <use href="#i-clipboard-check"></use>
+              </svg>
+              <span class="font-bold text-[11px] sm:text-xs tracking-wide">4. Latihan</span>
+              <span id="badge-kuis" class="menu-card-badge">Belum</span>
             </a>
           </nav>
         </div>
@@ -75,4 +96,5 @@
   <script defer src="js/common.js"></script>
   <script defer src="js/beranda.js"></script>
 </body>
+
 </html>
